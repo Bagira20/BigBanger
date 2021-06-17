@@ -2,17 +2,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameStatics : MonoBehaviour
+namespace TheBigBanger.GameStatics
 {
-    protected void UpdateGameTime()
+    public class GameStaticsManager : MonoBehaviour
     {
-        if (GameTime.bGamePaused)
+        protected void UpdateGameTime()
         {
-            GameTime.levelTime = Time.timeSinceLevelLoad;
-            GameTime.deltaTime = Time.deltaTime;
-            GameTime.gameTime = Time.time;
+            if (GameTime.bGamePaused)
+            {
+                GameTime.levelTime = Time.timeSinceLevelLoad;
+                GameTime.deltaTime = Time.deltaTime;
+                GameTime.gameTime = Time.time;
+            }
+            else
+                GameTime.deltaTime = 0.0f;
         }
-        else
-            GameTime.deltaTime = 0.0f;
+    }
+
+    struct GameTime
+    {
+        public static float gameTime = 0.0f, levelTime = 0.0f, deltaTime = 0.0f;
+        public static bool bGamePaused = false;
     }
 }
