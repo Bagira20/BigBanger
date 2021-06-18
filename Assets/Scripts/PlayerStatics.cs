@@ -5,11 +5,14 @@ using TheBigBanger.PlayerInputSystems;
 
 namespace TheBigBanger.PlayerStatics
 {
+    /*Library of functions and values regarding player info (time, input, etc.) that should be accessible from every class. 
+      Parent of GameManager*/
+
     public class PlayerStaticsManager : MonoBehaviour
     {
         protected void UpdateTime()
         {
-            if (!PlayerTime.bGamePaused)
+            if (!PlayerTime.bFreeze)
             {
                 PlayerTime.deltaTime = Time.deltaTime;
                 PlayerTime.gameTime += Time.deltaTime;
@@ -40,7 +43,7 @@ namespace TheBigBanger.PlayerStatics
     struct PlayerTime
     {
         public static float gameTime = 0.0f, deltaTime = 0.0f;
-        public static bool bGamePaused = false;
+        public static bool bFreeze = false;
     }
 
     struct PlayerInputPositions

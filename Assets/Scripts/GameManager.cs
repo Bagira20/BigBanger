@@ -9,7 +9,10 @@ using UnityEngine.UI;
 
 public class GameManager : PlayerStaticsManager
 {
+    /*GameManager which should manage the Session across scenes, host GameModes and UI (plus interaction between GameMode and UI)*/
+
     public GameModeType gameMode = GameModeType.Scenario;
+    public GameObject PlayerGameObject;
     GameModeScenario activeScenario;
     //GameModeFreeRoam activeFreeRoam;
     public Camera ARCamera;
@@ -38,12 +41,11 @@ public class GameManager : PlayerStaticsManager
         UpdateTime();
         UpdatePlayerTouchInput();
         UpdateGameMode();
-        UpdateUICanvas();
     }
 
-    void UpdateUICanvas() 
+    void UpdateUICanvasTime() 
     {
-        TimerText.text = "GameTime: " + PlayerTime.gameTime;
+        TimerText.text = "GameTime: " + (activeScenario.bTimeLimit-Mathf.Round(PlayerTime.gameTime));
     }
 
     void UpdateGameMode() 
@@ -53,6 +55,7 @@ public class GameManager : PlayerStaticsManager
             case GameModeType.Scenario:
             {
                 UpdateScenario();
+                UpdateUICanvasTime();
                 break;
             }
         }
@@ -62,10 +65,23 @@ public class GameManager : PlayerStaticsManager
     {
         if (TouchInput.IsTouching())
         {
-            if (TouchInput.RaycastFromCamera(ARCamera)) {
-                if (!activeScenario.bLaunched && !PlayerTime.bGamePaused && TouchInput.IsPlayerHit())
-                    activeScenario.FreezeTime();
-                activeScenario.UpdateSwipeDirection(); 
+            if (TouchInput.RaycastFromCamera(ARCamera)) 
+            {
+                if (!activeScenario.bLaunched && !PlayerTime.bFreeze && TouchInput.IsPlayerHit())
+                   activeScenario.FreezeTime();
+
+                switch (TouchInput.GetTouch().phase) 
+                {
+                    case TouchPhase.Began:
+                        activeScenario.StartSwipeLine();
+                        break;
+                    case TouchPhase.Moved:
+                        activeScenario.UpdateSwipeLine();
+                        break;
+                    case TouchPhase.Ended:
+                        activeScenario.EndSwipeLine();
+                        break;
+                }
             }
         }
     }
@@ -77,7 +93,7 @@ public class GameManager : PlayerStaticsManager
             //wip
             GameObject.Find("/Canvas/LaunchButton/Text").GetComponent<Text>().text = "launched!";
             activeScenario.bLaunched = true;
-            PlayerTime.bGamePaused = false;
+            PlayerTime.bFreeze = false;
             activeScenario.UnfreezeTime();
         }
     }
