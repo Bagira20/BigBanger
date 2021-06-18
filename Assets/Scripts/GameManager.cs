@@ -9,9 +9,12 @@ using UnityEngine.UI;
 
 public class GameManager : PlayerStaticsManager
 {
+    /*GameManager which should manage the Session across scenes, host GameModes and UI (plus interaction between GameMode and UI)*/
+
     public GameModeType gameMode = GameModeType.Scenario;
-    GameModeScenario activeScenario;
-    //GameModeFreeRoam activeFreeRoam;
+    public GameObject PlayerGameObject, lineCursor;
+    ModeScenario activeScenario;
+    ModeFreeRoam activeFreeRoam;
     public Camera ARCamera;
     public Text TimerText;
 
@@ -25,11 +28,11 @@ public class GameManager : PlayerStaticsManager
         switch (gameMode)
         {
             case GameModeType.Scenario:
-                activeScenario = new GameModeScenario(this);
+                activeScenario = new ModeScenario(this);
                 break;
-            /*case GameModeType.FreeRoam:
-                activeFreeRoam = new GameModeFreeRoam();
-                break;*/
+            case GameModeType.FreeRoam:
+                activeFreeRoam = new ModeFreeRoam(this);
+                break;
         }
     }
 
@@ -38,12 +41,11 @@ public class GameManager : PlayerStaticsManager
         UpdateTime();
         UpdatePlayerTouchInput();
         UpdateGameMode();
-        UpdateUICanvas();
     }
 
-    void UpdateUICanvas() 
+    void UpdateUICanvasTime() 
     {
-        TimerText.text = "GameTime: " + PlayerTime.gameTime;
+        TimerText.text = "GameTime: " + (activeScenario.bTimeLimit-Mathf.Round(PlayerTime.gameTime));
     }
 
     void UpdateGameMode() 
@@ -53,6 +55,7 @@ public class GameManager : PlayerStaticsManager
             case GameModeType.Scenario:
             {
                 UpdateScenario();
+                UpdateUICanvasTime();
                 break;
             }
         }
@@ -62,10 +65,12 @@ public class GameManager : PlayerStaticsManager
     {
         if (TouchInput.IsTouching())
         {
-            if (TouchInput.RaycastFromCamera(ARCamera)) {
-                if (!activeScenario.bLaunched && !PlayerTime.bGamePaused && TouchInput.IsPlayerHit())
-                    activeScenario.FreezeTime();
-                activeScenario.UpdateSwipeDirection(); 
+            if (TouchInput.RaycastFromCamera(ARCamera)) 
+            {
+                if (!activeScenario.bLaunched && !PlayerTime.bFreeze && TouchInput.IsPlayerHit())
+                   activeScenario.FreezeTime();
+
+                activeScenario.Feedback();
             }
         }
     }
@@ -77,7 +82,7 @@ public class GameManager : PlayerStaticsManager
             //wip
             GameObject.Find("/Canvas/LaunchButton/Text").GetComponent<Text>().text = "launched!";
             activeScenario.bLaunched = true;
-            PlayerTime.bGamePaused = false;
+            PlayerTime.bFreeze = false;
             activeScenario.UnfreezeTime();
         }
     }

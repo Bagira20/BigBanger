@@ -6,6 +6,7 @@ using UnityEngine.XR.ARSubsystems;
 
 namespace TheBigBanger.PlayerInputSystems
 {
+    /*Library of functions which are static and should make input on mobile device touch screens more accesbile.*/
     public class TouchInput : MonoBehaviour
     {
         static Vector2 touchPosition;
@@ -67,6 +68,7 @@ namespace TheBigBanger.PlayerInputSystems
 
         public static bool IsPlayerHit()
         {
+            //player layer current at 6
             return GetHitObject().layer == 6;
         }
     }

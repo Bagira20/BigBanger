@@ -6,55 +6,79 @@ using UnityEngine.XR.ARSubsystems;
 using TheBigBanger.PlayerStatics;
 using TheBigBanger.PlayerInputSystems;
 
-namespace TheBigBanger.GameModes {
-    
-    public enum GameModeType 
+namespace TheBigBanger.GameModes
+{
+    /*Functions and variables needed to define the rules and abilities for the two child game modes Scenario and FreeRoam. 
+      Contains functionalities of abilities due to them being executed within a mode.*/
+    public enum GameModeType
     {
         Scenario,
         FreeRoam
     }
-    
-    public class GameModeBase : MonoBehaviour 
+
+    public enum MissionType
     {
-        protected Camera arCamera;
+        SwipeDirection,
+        Rocket,
+        Everything,
+        None
+    }
+
+    public class GameModeBase : GameControlAbilities
+    {
+        public GameObject PlayerPlanet;
+        public MissionType MissionType = MissionType.SwipeDirection;
+        [HideInInspector]
         public bool bLaunched = false;
+
+        protected Camera arCamera;
         //common variables and functions between Scenario and Free Roam
         //Spawn player Planet, EndScene, etc..
+
+        protected GameModeBase(GameManager manager) : base (manager)
+        {
+            arCamera = manager.ARCamera;
+            PlayerPlanet = manager.PlayerGameObject;
+        }
 
         public void SetARCamera()
         {
             if (arCamera == null)
                 arCamera = GameObject.Find("/AR Session Origin/AR Camera").GetComponent<Camera>();
         }
-    }
 
-    public class GameModeScenario : GameModeBase
-    {
-        public GameModeScenario(GameManager manager) 
+        public void Feedback() 
         {
-            arCamera = manager.ARCamera;
+            if (MissionType == MissionType.SwipeDirection)
+            {
+                switch (TouchInput.GetTouch().phase)
+                {
+                    case TouchPhase.Began:
+                        aSwipeMovement.StartSwipeLine();
+                        break;
+                    case TouchPhase.Moved:
+                        aSwipeMovement.UpdateSwipeLine();
+                        break;
+                    case TouchPhase.Ended:
+                        aSwipeMovement.EndSwipeLine();
+                        break;
+                }
+            }
         }
 
-        public void FreezeTime() 
+        public void FreezeTime()
         {
-            PlayerTime.bGamePaused = true;
+            PlayerTime.bFreeze = true;
         }
 
         public void UnfreezeTime()
         {
-            PlayerTime.bGamePaused = false;
+            PlayerTime.bFreeze = false;
         }
 
-        public void UpdateSwipeDirection() 
+        public Vector3 GetCameraDistanceToPlayer() 
         {
-            if (TouchInput.RaycastFromCamera(arCamera))
-            {
-                //WIP size increase only as testing purposes!
-                if (TouchInput.IsPlayerHit()) {
-                    GameObject targetObject = TouchInput.GetHitObject();
-                    targetObject.transform.localScale += Vector3.one;
-                }
-            }
+            return arCamera.transform.position;
         }
     }
 }
