@@ -8,13 +8,19 @@ namespace TheBigBanger.PlayerInputSystems
 {
     public class TouchInput : MonoBehaviour
     {
-        public static Vector2 touchPosition;
-        public static ARRaycastManager arRaycastManager;
+        static Vector2 touchPosition;
+        public static ARRaycastManager arRaycastManager = new ARRaycastManager();
         static List<ARRaycastHit> raycastHits = new List<ARRaycastHit>();
+        static RaycastHit raycastHit;
 
         public static bool IsTouching() 
         {
             return Input.touchCount > 0;
+        }
+
+        public static Touch GetTouch()
+        {
+            return Input.GetTouch(0);
         }
 
         public static Vector2 GetTouchPosition() 
@@ -29,14 +35,39 @@ namespace TheBigBanger.PlayerInputSystems
             touchPosition = GetTouchPosition();
         }
 
-        public static bool DoRaycastAgainstTrackable(TrackableType trackableType)
+        public static bool RaycastAgainstTrackable(TrackableType trackableType)
         {
             return arRaycastManager.Raycast(touchPosition, raycastHits, trackableType);
         }
 
-        public static Pose GetHitPose() 
+        public static ARRaycastHit GetARHit()
+        {
+            return raycastHits[0];
+        }
+
+        public static Pose GetARHitPose() 
         {
             return raycastHits[0].pose;
+        }
+
+        public static bool RaycastFromCamera(Camera cam) 
+        {
+            return Physics.Raycast(cam.ScreenPointToRay(GetTouchPosition()), out raycastHit);
+        }
+
+        public static RaycastHit GetHit()
+        {
+            return raycastHit;
+        }
+
+        public static GameObject GetHitObject()
+        {
+            return GetHit().collider.gameObject;
+        }
+
+        public static bool IsPlayerHit()
+        {
+            return GetHitObject().layer == 6;
         }
     }
 }
