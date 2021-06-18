@@ -12,9 +12,9 @@ public class GameManager : PlayerStaticsManager
     /*GameManager which should manage the Session across scenes, host GameModes and UI (plus interaction between GameMode and UI)*/
 
     public GameModeType gameMode = GameModeType.Scenario;
-    public GameObject PlayerGameObject;
-    GameModeScenario activeScenario;
-    //GameModeFreeRoam activeFreeRoam;
+    public GameObject PlayerGameObject, lineCursor;
+    ModeScenario activeScenario;
+    ModeFreeRoam activeFreeRoam;
     public Camera ARCamera;
     public Text TimerText;
 
@@ -28,11 +28,11 @@ public class GameManager : PlayerStaticsManager
         switch (gameMode)
         {
             case GameModeType.Scenario:
-                activeScenario = new GameModeScenario(this);
+                activeScenario = new ModeScenario(this);
                 break;
-            /*case GameModeType.FreeRoam:
-                activeFreeRoam = new GameModeFreeRoam();
-                break;*/
+            case GameModeType.FreeRoam:
+                activeFreeRoam = new ModeFreeRoam(this);
+                break;
         }
     }
 
@@ -70,18 +70,7 @@ public class GameManager : PlayerStaticsManager
                 if (!activeScenario.bLaunched && !PlayerTime.bFreeze && TouchInput.IsPlayerHit())
                    activeScenario.FreezeTime();
 
-                switch (TouchInput.GetTouch().phase) 
-                {
-                    case TouchPhase.Began:
-                        activeScenario.StartSwipeLine();
-                        break;
-                    case TouchPhase.Moved:
-                        activeScenario.UpdateSwipeLine();
-                        break;
-                    case TouchPhase.Ended:
-                        activeScenario.EndSwipeLine();
-                        break;
-                }
+                activeScenario.Feedback();
             }
         }
     }
