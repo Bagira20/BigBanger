@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class AbilityBase : MonoBehaviour
 {
+    /*Base for single abilities of player control, e.g., swipe movement, rocket mode, etc.*/
     public Camera arCamera;
-    public GameObject PlayerPlanet;
+    public GameObject PlayerPlanet, LineRendererPrefab;
 
     public AbilityBase(GameManager manager) 
     {
-        arCamera = manager.ARCamera;
-        PlayerPlanet = manager.PlayerGameObject;
+        arCamera = manager.arCamera;
+        PlayerPlanet = manager.playerGameObject;
     }
 }

@@ -1,48 +1,70 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using TheBigBanger.PlayerInputSystems;
 
 public class AbilitySwipeMovement : AbilityBase
 {
-    public bool bPredictionInstantiated;
-    public GameObject predictionLineGO, predictionLineCursor;
+    public bool bPredictionInstantiated = false;
+    public GameObject predictionCursor;
     public LineRenderer predictionLineRenderer;
-    public Vector3[] linePositions;
-    public AbilitySwipeMovement(GameManager manager) : base(manager) {}
+    public Vector3 targetPosition, swipeDirection;
+    public float swipeMagnitude;
+
+    public AbilitySwipeMovement(GameManager manager) : base(manager) 
+    {
+        predictionLineRenderer = manager.playerGameObject.GetComponentInChildren<LineRenderer>();
+        predictionLineRenderer.enabled = false;
+    }
 
     /*Ability: Swipe-Direction*/
     public void StartSwipeLine()
     {
         if (TouchInput.RaycastFromCamera(arCamera))
         {
-            if (TouchInput.IsPlayerHit())
+            if (!bPredictionInstantiated && TouchInput.IsPlayerHit())
             {
-                if (!bPredictionInstantiated)
-                {
-                    InitiateLineRenderer();
-                    linePositions = new Vector3[] { PlayerPlanet.transform.position, predictionLineCursor.transform.position };
-                    predictionLineRenderer.SetPositions(linePositions);
-                }
-                else
-                    UpdateSwipeLine();
+                InitiateLineRenderer();
+                SetLineEndToTouchPosition();
             }
+            else if (bPredictionInstantiated && (TouchInput.IsPlayerHit() || TouchInput.IsInputCanvasHit()))
+                UpdateSwipeLine();
         }
     }
 
     void InitiateLineRenderer()
     {
-        predictionLineGO = new GameObject();
-        predictionLineRenderer = predictionLineGO.AddComponent<LineRenderer>();
-        predictionLineRenderer.useWorldSpace = false;
-        predictionLineRenderer.materials[0] = new Material(Shader.Find("Default-Line"));
+        predictionLineRenderer.useWorldSpace = true;
+        predictionLineRenderer.positionCount = 2;
+        predictionLineRenderer.SetPosition(0, PlayerPlanet.transform.position);
+        predictionLineRenderer.enabled = true;
         bPredictionInstantiated = true;
+    }
+
+    void SetLineEndToTouchPosition() 
+    {
+        targetPosition = TouchInput.GetHitWorldPosition();
+        predictionLineRenderer.SetPosition(1, targetPosition);
     }
 
     public void UpdateSwipeLine()
     {
-        //linePositions[1] = predictionLineCursor.transform.position;/*arCamera.ScreenToWorldPoint(PlayerInputPositions.currentTouchPos)+GetCameraDistanceToPlayer();*/
-        predictionLineRenderer.SetPositions(linePositions);
+        if (TouchInput.RaycastFromCamera(arCamera))
+        {
+            if (TouchInput.IsInputCanvasHit() || TouchInput.IsPlayerHit())
+            {
+                SetLineEndToTouchPosition();
+            }
+        }
+        UpdateSwipeData();
+    }
+
+    void UpdateSwipeData() 
+    {
+        Vector3 delta = PlayerPlanet.transform.position - targetPosition;
+        swipeMagnitude = delta.magnitude;
+        swipeDirection = delta / swipeMagnitude;
     }
 
     public void EndSwipeLine()

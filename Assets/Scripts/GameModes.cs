@@ -26,10 +26,11 @@ namespace TheBigBanger.GameModes
 
     public class GameModeBase : GameControlAbilities
     {
-        public GameObject PlayerPlanet;
-        public MissionType MissionType = MissionType.SwipeDirection;
+        public GameObject playerPlanet;
+        public MissionType missionType = MissionType.SwipeDirection;
         [HideInInspector]
         public bool bLaunched = false;
+        Text debugText;
 
         protected Camera arCamera;
         //common variables and functions between Scenario and Free Roam
@@ -37,8 +38,9 @@ namespace TheBigBanger.GameModes
 
         protected GameModeBase(GameManager manager) : base (manager)
         {
-            arCamera = manager.ARCamera;
-            PlayerPlanet = manager.PlayerGameObject;
+            arCamera = manager.arCamera;
+            playerPlanet = manager.playerGameObject;
+            debugText = manager.DebugText;
         }
 
         public void SetARCamera()
@@ -49,7 +51,7 @@ namespace TheBigBanger.GameModes
 
         public void Feedback() 
         {
-            if (MissionType == MissionType.SwipeDirection)
+            if (missionType == MissionType.SwipeDirection)
             {
                 switch (TouchInput.GetTouch().phase)
                 {
@@ -64,6 +66,7 @@ namespace TheBigBanger.GameModes
                         break;
                 }
             }
+            debugText.text = "Magnitude: " + aSwipeMovement.swipeMagnitude + "\n"+"Direction: " + aSwipeMovement.swipeDirection;
         }
 
         public void FreezeTime()
@@ -74,11 +77,6 @@ namespace TheBigBanger.GameModes
         public void UnfreezeTime()
         {
             PlayerTime.bFreeze = false;
-        }
-
-        public Vector3 GetCameraDistanceToPlayer() 
-        {
-            return arCamera.transform.position;
         }
     }
 }
