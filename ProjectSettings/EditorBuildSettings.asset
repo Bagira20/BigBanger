@@ -6,8 +6,8 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/MichaelPrototype.unity
-    guid: c346707472421dd49971dfb9b1613664
+    path: Assets/Scenes/Salma.unity
+    guid: 602638f8912d5bf429f52d1a18f8323a
   m_configObjects:
     Unity.XR.WindowsMR.Settings: {fileID: 11400000, guid: 744b813df90924c169af73489b8325de,
       type: 2}
