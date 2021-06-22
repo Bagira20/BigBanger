@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using TheBigBanger.PlayerStatics;
 using TheBigBanger.GameModes;
-using TheBigBanger.PlayerInputSystems;
 using UnityEngine.XR.ARSubsystems;
 using UnityEngine.UI;
 
@@ -22,7 +21,7 @@ public class GameManager : GameplayStaticsManager
     [Header("DEVELOPMENT Only")]
     public Text DebugText;
 
-    ModeScenario _activeScenario;
+    ModeLevel _activeScenario;
     ModeFreeRoam _activeFreeRoam;
     ARLibrary _arLibrary = new ARLibrary();
 
@@ -36,7 +35,7 @@ public class GameManager : GameplayStaticsManager
         switch (gameMode)
         {
             case GameModeType.Scenario:
-                _activeScenario = new ModeScenario(this);
+                _activeScenario = new ModeLevel(this);
                 break;
             case GameModeType.FreeRoam:
                 _activeFreeRoam = new ModeFreeRoam(this);

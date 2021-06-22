@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.XR.ARSubsystems;
 using TheBigBanger.PlayerStatics;
-using TheBigBanger.PlayerInputSystems;
 
 namespace TheBigBanger.GameModes
 {
@@ -24,9 +23,9 @@ namespace TheBigBanger.GameModes
         None
     }
 
-    public class GameModeBase : GameControlAbilities
+    public class GameModeBase : PlayerAbilityList
     {
-        public GameObject playerPlanet;
+        public GameObject playerPlanet, targetPlanet;
         public MissionType missionType = MissionType.SwipeDirection;
         [HideInInspector]
         public bool bLaunched = false;
@@ -78,5 +77,7 @@ namespace TheBigBanger.GameModes
         {
             GameTime.bFreeze = false;
         }
+
+        //spawn stuff
     }
 }
