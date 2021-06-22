@@ -23,7 +23,6 @@ public class GameManager : GameplayStaticsManager
 
     ModeLevel _activeScenario;
     ModeFreeRoam _activeFreeRoam;
-    ARLibrary _arLibrary = new ARLibrary();
 
     void Awake()
     {
@@ -48,6 +47,7 @@ public class GameManager : GameplayStaticsManager
         UpdateTime();
         UpdatePlayerTouchInput();
         UpdateGameMode();
+        ARLibrary.UpdateARLibrary();
     }
 
     void UpdateUICanvasTime() 

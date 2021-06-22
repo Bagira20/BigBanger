@@ -8,7 +8,7 @@ TagManager:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - InputCanvas
   - Water
   - UI
   - PlayerPlanet

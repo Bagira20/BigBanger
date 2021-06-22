@@ -6,30 +6,29 @@ using UnityEngine.XR.ARFoundation;
 
 public class ARLibrary : MonoBehaviour
 {
-    public GameObject placementIndicator;
-    private ARSessionOrigin _arOrigin;
-    private ARRaycastManager _arRaycastManager;
-    private Pose _placementPose;
-    private bool placementPoseIsValid = false;
+    static GameObject placementIndicator;
+    static ARRaycastManager arRaycastManager;
+    static Pose placementPose;
+    static bool placementPoseIsValid = false;
 
-    private void Start()
+    static void Start()
     {
-        _arOrigin = FindObjectOfType<ARSessionOrigin>();
-        _arRaycastManager = FindObjectOfType<ARRaycastManager>();
+        placementIndicator = GameObject.Find("PlacementIndicator");
+        arRaycastManager = FindObjectOfType<ARRaycastManager>();
     }
     // Update is called once per frame
-    void Update()
+    static public void UpdateARLibrary()
     {
         UpdatePlacementPose();
         UpdatePlacementIndicator();
     }
 
-    private void UpdatePlacementIndicator()
+    static void UpdatePlacementIndicator()
     {
         if (placementPoseIsValid)
         {
             placementIndicator.SetActive(true);
-            placementIndicator.transform.SetPositionAndRotation(_placementPose.position, _placementPose.rotation);
+            placementIndicator.transform.SetPositionAndRotation(placementPose.position, placementPose.rotation);
         }
         else
         {
@@ -37,25 +36,21 @@ public class ARLibrary : MonoBehaviour
         }
     }
 
-    private void UpdatePlacementPose()
+    static void UpdatePlacementPose()
     {
         var screenCenter = Camera.current.ViewportToScreenPoint(new Vector3(0.5f, 0.5f));
         List<ARRaycastHit> hits = new List<ARRaycastHit>();
-        _arRaycastManager.Raycast(screenCenter, hits, TrackableType.PlaneWithinPolygon);
+        arRaycastManager.Raycast(screenCenter, hits, TrackableType.PlaneWithinPolygon);
         placementPoseIsValid = hits.Count > 0;
         if (placementPoseIsValid)
         {
-            _placementPose = hits[0].pose;
+            placementPose = hits[0].pose;
 
             //to rotate indicator to camera
             Vector3 cameraForward = Camera.current.transform.forward;
             Vector3 cameraBearing = new Vector3(cameraForward.x, 0, cameraForward.z);
-            _placementPose.rotation = Quaternion.LookRotation(cameraBearing);
+            placementPose.rotation = Quaternion.LookRotation(cameraBearing);
         }
     }
 
-    public Pose GetIndicatorPose() 
-    {
-        return _placementPose;
-    }
 }
