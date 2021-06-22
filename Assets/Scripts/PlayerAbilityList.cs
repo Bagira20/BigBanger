@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerAbilityList : MonoBehaviour
+public class PlayerAbilityList
 {
     /*non-static library for all abilities*/
     public AbilitySwipeMovement aSwipeMovement;

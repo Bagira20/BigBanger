@@ -6,7 +6,6 @@ using UnityEngine.UI;
 public class AbilitySwipeMovement : AbilityBase
 {
     public bool bPredictionInstantiated = false;
-    public GameObject predictionCursor;
     public LineRenderer predictionLineRenderer;
     public Vector3 targetPosition, swipeDirection;
     public float swipeMagnitude;

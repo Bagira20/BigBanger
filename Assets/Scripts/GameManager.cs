@@ -27,6 +27,7 @@ public class GameManager : GameplayStaticsManager
     void Awake()
     {
         SetGameMode();
+        ARLibrary.Initialize();
     }
 
     public void SetGameMode() 

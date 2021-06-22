@@ -10,8 +10,9 @@ public class ARLibrary : MonoBehaviour
     static ARRaycastManager arRaycastManager;
     static Pose placementPose;
     static bool placementPoseIsValid = false;
+    
 
-    static void Start()
+    static public void Initialize()
     {
         placementIndicator = GameObject.Find("PlacementIndicator");
         arRaycastManager = FindObjectOfType<ARRaycastManager>();
@@ -38,7 +39,7 @@ public class ARLibrary : MonoBehaviour
 
     static void UpdatePlacementPose()
     {
-        var screenCenter = Camera.current.ViewportToScreenPoint(new Vector3(0.5f, 0.5f));
+        var screenCenter = Camera.main.ViewportToScreenPoint(new Vector3(0.5f, 0.5f));
         List<ARRaycastHit> hits = new List<ARRaycastHit>();
         arRaycastManager.Raycast(screenCenter, hits, TrackableType.PlaneWithinPolygon);
         placementPoseIsValid = hits.Count > 0;
