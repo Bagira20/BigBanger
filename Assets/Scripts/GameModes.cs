@@ -71,12 +71,12 @@ namespace TheBigBanger.GameModes
 
         public void FreezeTime()
         {
-            PlayerTime.bFreeze = true;
+            GameTime.bFreeze = true;
         }
 
         public void UnfreezeTime()
         {
-            PlayerTime.bFreeze = false;
+            GameTime.bFreeze = false;
         }
     }
 }

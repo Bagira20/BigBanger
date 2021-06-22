@@ -7,9 +7,9 @@ using TheBigBanger.PlayerInputSystems;
 using UnityEngine.XR.ARSubsystems;
 using UnityEngine.UI;
 
-public class GameManager : PlayerStaticsManager
+public class GameManager : GameplayStaticsManager
 {
-    /*GameManager which should manage the Session across scenes, host GameModes and UI (plus interaction between GameMode and UI)*/
+    /*GameManager which should manage the Session across scenes, hold references to gameobjects within the scene, host GameModes and UI (plus interaction between GameMode and UI)*/
 
     [Header("Scene Settings")]
     public GameModeType gameMode = GameModeType.Scenario;
@@ -24,6 +24,7 @@ public class GameManager : PlayerStaticsManager
 
     ModeScenario _activeScenario;
     ModeFreeRoam _activeFreeRoam;
+    ARLibrary _arLibrary = new ARLibrary();
 
     void Awake()
     {
@@ -52,7 +53,7 @@ public class GameManager : PlayerStaticsManager
 
     void UpdateUICanvasTime() 
     {
-        timerText.text ="GameTime: " + (_activeScenario.bTimeLimit-Mathf.Round(PlayerTime.gameTime));
+        timerText.text ="GameTime: " + (_activeScenario.bTimeLimit-Mathf.Round(GameTime.gameTime));
     }
 
     void UpdateGameMode() 
@@ -74,7 +75,7 @@ public class GameManager : PlayerStaticsManager
         {
             if (TouchInput.RaycastFromCamera(arCamera)) 
             {
-                if (!_activeScenario.bLaunched && !PlayerTime.bFreeze && TouchInput.IsPlayerHit())
+                if (!_activeScenario.bLaunched && !GameTime.bFreeze && TouchInput.IsPlayerHit())
                    _activeScenario.FreezeTime();
 
                 _activeScenario.Feedback();
@@ -89,7 +90,7 @@ public class GameManager : PlayerStaticsManager
             //wip
             GameObject.Find("/Canvas/LaunchButton/Text").GetComponent<Text>().text = "launched!";
             _activeScenario.bLaunched = true;
-            PlayerTime.bFreeze = false;
+            GameTime.bFreeze = false;
             _activeScenario.UnfreezeTime();
         }
     }

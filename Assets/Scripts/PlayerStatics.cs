@@ -8,17 +8,17 @@ namespace TheBigBanger.PlayerStatics
     /*Library of functions and values regarding player info (time, input, etc.) that should be accessible from every class. 
       Parent of GameManager*/
 
-    public class PlayerStaticsManager : MonoBehaviour
+    public class GameplayStaticsManager : MonoBehaviour
     {
         protected void UpdateTime()
         {
-            if (!PlayerTime.bFreeze)
+            if (!GameTime.bFreeze)
             {
-                PlayerTime.deltaTime = Time.deltaTime;
-                PlayerTime.gameTime += Time.deltaTime;
+                GameTime.deltaTime = Time.deltaTime;
+                GameTime.gameTime += Time.deltaTime;
             }
             else
-                PlayerTime.deltaTime = 0.0f;
+                GameTime.deltaTime = 0.0f;
         }
 
         protected void UpdatePlayerTouchInput()
@@ -40,7 +40,7 @@ namespace TheBigBanger.PlayerStatics
         }
     }
 
-    struct PlayerTime
+    struct GameTime
     {
         public static float gameTime = 0.0f, deltaTime = 0.0f;
         public static bool bFreeze = false;

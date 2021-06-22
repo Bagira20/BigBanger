@@ -13,6 +13,6 @@ public class ModeScenario : GameModeBase
 
     public bool IsTimeOver()
     {
-        return PlayerTime.gameTime > bTimeLimit;
+        return GameTime.gameTime > bTimeLimit;
     }
 }
