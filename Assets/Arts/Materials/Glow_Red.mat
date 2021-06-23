@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Shader Graphs_Glow Effect 1
+  m_Name: Glow_Red
   m_Shader: {fileID: -6465566751694194690, guid: 63ae6597895152f48819d7bd33dc1657,
     type: 3}
   m_ShaderKeywords: 
@@ -38,9 +38,9 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - Vector1_0a1da63cd2244c64a109b13e0b5d9530: 1
-    - Vector1_44a6364aa4b74b1da6ce2ff33d31bb4a: 2
+    - Vector1_44a6364aa4b74b1da6ce2ff33d31bb4a: 1
     m_Colors:
     - Color_334f5b14c9d34ce3bbfc4070622057d9: {r: 1.5921569, g: 0.17316072, b: 0.066687234,
         a: 1}
-    - Vector3_a4a0b54aee48427fbf175b8bdd7fa4dd: {r: -0.3, g: 0, b: 0, a: 0}
+    - Vector3_a4a0b54aee48427fbf175b8bdd7fa4dd: {r: -0.1, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
