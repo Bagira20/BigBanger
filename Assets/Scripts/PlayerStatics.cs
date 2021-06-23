@@ -42,7 +42,7 @@ namespace TheBigBanger.PlayerStatics
     struct GameTime
     {
         public static float gameTime = 0.0f, deltaTime = 0.0f;
-        public static bool bFreeze = false;
+        public static bool bFreeze = true;
     }
 
     struct PlayerInputPositions

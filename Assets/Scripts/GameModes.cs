@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.XR.ARSubsystems;
 using TheBigBanger.PlayerStatics;
+using TMPro;
 
 namespace TheBigBanger.GameModes
 {
@@ -11,22 +12,28 @@ namespace TheBigBanger.GameModes
       Contains functionalities of abilities due to them being executed within a mode.*/
     public enum GameModeType
     {
-        Scenario,
+        Lesson,
         FreeRoam
     }
 
-    public enum MissionType
+    public enum GamePhase
     {
+        SelectPlane,
+        SpawnPhase, //planets appear, planet values are give, bonus mission and formula appear and adjust on screen
+        LevelStart,
+
+        /// <summary>
+        /// need to merge swipe and rocket into one phase
+        /// </summary>
         SwipeDirection,
         Rocket,
-        Everything,
-        None
     }
 
     public class GameModeBase : PlayerAbilityList
     {
         public GameObject playerPlanet, targetPlanet;
-        public MissionType missionType = MissionType.SwipeDirection;
+        public GamePhase gamePhase = GamePhase.SwipeDirection;
+        public string actionNeededText;
         [HideInInspector]
         public bool bLaunched = false;
         Text debugText;
@@ -34,6 +41,8 @@ namespace TheBigBanger.GameModes
         protected Camera arCamera;
         //common variables and functions between Scenario and Free Roam
         //Spawn player Planet, EndScene, etc..
+
+        
 
         protected GameModeBase(GameManager manager) : base (manager)
         {
@@ -50,7 +59,7 @@ namespace TheBigBanger.GameModes
 
         public void Feedback() 
         {
-            if (missionType == MissionType.SwipeDirection)
+            if (gamePhase == GamePhase.SwipeDirection)
             {
                 switch (TouchInput.GetTouch().phase)
                 {
@@ -66,6 +75,13 @@ namespace TheBigBanger.GameModes
                 }
             }
             debugText.text = "Magnitude: " + aSwipeMovement.swipeMagnitude + "\n"+"Direction: " + aSwipeMovement.swipeDirection;
+
+            //if mission select plane ( plane mesh appears, set canvas text to "select a playable area") once selected by tapping spawn objects, switch mission to place obstacle
+
+            //if spawn phase
+
+            //if level start, timerfreeze =  false
+
         }
 
         public void FreezeTime()
