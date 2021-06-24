@@ -33,6 +33,7 @@ public class AbilitySwipeMovement : AbilityBase
 
     void InitiateLineRenderer()
     {
+        initialized = true;
         predictionLineRenderer.useWorldSpace = true;
         predictionLineRenderer.positionCount = 2;
         predictionLineRenderer.SetPosition(0, PlayerPlanet.transform.position);
@@ -68,10 +69,5 @@ public class AbilitySwipeMovement : AbilityBase
     public void EndSwipeLine()
     {
 
-    }
-
-    public void LaunchIntoSwipeDirection() 
-    {
-        //PlayerPlanet.
     }
 }

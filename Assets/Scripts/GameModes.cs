@@ -31,7 +31,7 @@ namespace TheBigBanger.GameModes
 
     public class GameModeBase : PlayerAbilityList
     {
-        public GameObject playerPlanet, targetPlanet;
+        protected GameObject playerPlanet, targetPlanet;
         public GamePhase gamePhase = GamePhase.SwipeDirection;
         public string actionNeededText;
         [HideInInspector]
@@ -40,9 +40,7 @@ namespace TheBigBanger.GameModes
 
         protected Camera arCamera;
         //common variables and functions between Scenario and Free Roam
-        //Spawn player Planet, EndScene, etc..
-
-        
+        //Spawn player Planet, EndScene, etc..     
 
         protected GameModeBase(GameManager manager) : base (manager)
         {
@@ -74,10 +72,6 @@ namespace TheBigBanger.GameModes
                         break;
                 }
             }
-            debugText.text = playerPlanet.GetComponent<PAMovement>().GetForceFromAbility(playerAbilities.swipeMovement).ToString();
-               // aSwipeMovement.swipeMagnitude.ToString();//playerPlanet.GetComponent<PAMovement>().GetForceFromAbility(playerAbilities.swipeMovement).ToString();
-            //"Magnitude: " + aSwipeMovement.swipeMagnitude + "\n"+"Direction: " + aSwipeMovement.swipeDirection;
-
             //if mission select plane ( plane mesh appears, set canvas text to "select a playable area") once selected by tapping spawn objects, switch mission to place obstacle
 
             //if spawn phase
@@ -94,12 +88,6 @@ namespace TheBigBanger.GameModes
         public void UnfreezeTime()
         {
             GameTime.bFreeze = false;
-        }
-
-        public void Launch() 
-        {
-            if (aSwipeMovement.initialized)
-                aSwipeMovement.LaunchIntoSwipeDirection();
         }
 
         //spawn stuff

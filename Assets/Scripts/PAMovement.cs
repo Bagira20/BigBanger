@@ -5,6 +5,7 @@ using TheBigBanger.Formulae;
 
 public class PAMovement : PlanetMovementBase
 {
+    [Header("Prefab Objects")]
     public LineRenderer lineRenderer;
 
     /*protected override void UpdateMovePlanet()
@@ -33,11 +34,17 @@ public class PAMovement : PlanetMovementBase
             case PlayerAbilityList.playerAbilities.swipeMovement:
                 abilityMagnitude = manager._activeLesson.aSwipeMovement.swipeMagnitude;
                 break;
-                /*case PlayerAbilityList.playerAbilities.rocketMovement:
-                    abilityMagnitude = manager._activeLesson.aRocketControl.;
-                    break;*/
+            case PlayerAbilityList.playerAbilities.rocketMovement:
+                abilityMagnitude = manager._activeLesson.aRocketControl.rocketMagnitude;
+                break;
         }
 
         return abilityMagnitude * manager.MultiplyMagnitudeWith;
+    }
+
+    public void LaunchPlayerPlanet() 
+    {
+        if (manager._activeLesson.aSwipeMovement.initialized || manager._activeFreeRoam.aSwipeMovement.initialized)
+            manager.DebugText.text = "Launched with " + GetForceFromAbility(PlayerAbilityList.playerAbilities.swipeMovement).ToString();
     }
 }

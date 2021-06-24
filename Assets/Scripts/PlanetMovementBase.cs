@@ -10,7 +10,7 @@ public class PlanetMovementBase : MonoBehaviour
     public GameManager manager;
 
     [Header("Debug")]
-    public Vector3 _currentForce, _currentSpeed;
+    public Vector3 _currentForce;
     public bool bIsMoving = false;
 
     void Start()

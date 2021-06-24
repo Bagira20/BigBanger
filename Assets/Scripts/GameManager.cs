@@ -15,8 +15,8 @@ public class GameManager : GameplayStaticsManager
     [Header("Scene Settings")]
     public GameModeType gameMode = GameModeType.Lesson;
     [Tooltip(FormulaSheets.tooltip)]
-    public string ForceEqualTo = FormulaSheets.ForceIs[0];
-    public InputFactor PlayerInputControlsFactor;
+    public string ForceEqualTo = FormulaSheets.ForceIs[1];
+    public InputFactor PlayerInputControlsFactor = InputFactor.V;
     public float MultiplyMagnitudeWith = 1f;
 
     [Header("Scene Objects")]
@@ -27,6 +27,7 @@ public class GameManager : GameplayStaticsManager
 
     [Header("DEVELOPMENT Only")]
     public Text DebugText;
+    public GamePhase gamePhase = GamePhase.LevelStart; /*PLS CHANGE LATEEEEERRRRRRRRRRRRRRRR!!!!!!!!!!!*/
 
     public ModeLesson _activeLesson;
     public ModeFreeRoam _activeFreeRoam;
@@ -43,6 +44,7 @@ public class GameManager : GameplayStaticsManager
         {
             case GameModeType.Lesson:
                 _activeLesson = new ModeLesson(this);
+                _activeLesson.UnfreezeTime();  /*PLS CHANGE LATEEEEERRRRRRRRRRRRRRRR!!!!!!!!!!!*/
                 break;
             case GameModeType.FreeRoam:
                 _activeFreeRoam = new ModeFreeRoam(this);
@@ -69,7 +71,6 @@ public class GameManager : GameplayStaticsManager
         actionNeededText.text = _activeFreeRoam.actionNeededText;
     }
 
-
     void UpdateGameMode() 
     {
         switch (gameMode)
@@ -86,7 +87,6 @@ public class GameManager : GameplayStaticsManager
                 UpdateFreeRoamUICanvas();
                 break;
             }
-
         }
     }
 
@@ -113,11 +113,10 @@ public class GameManager : GameplayStaticsManager
     {
         if (gameMode == GameModeType.Lesson)
         {
-            //wip
-            GameObject.Find("/Canvas/LaunchButton/Text").GetComponent<Text>().text = "launched!";
+            GameObject.Find("/UICanvas/LaunchButton/Text").GetComponent<Text>().text = "launched!";
             _activeLesson.bLaunched = true;
-            GameTime.bFreeze = false;
             _activeLesson.UnfreezeTime();
+            playerGameObject.GetComponent<PAMovement>().LaunchPlayerPlanet();
         }
     }
 }
