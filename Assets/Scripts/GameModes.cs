@@ -74,7 +74,9 @@ namespace TheBigBanger.GameModes
                         break;
                 }
             }
-            debugText.text = "Magnitude: " + aSwipeMovement.swipeMagnitude + "\n"+"Direction: " + aSwipeMovement.swipeDirection;
+            debugText.text = playerPlanet.GetComponent<PAMovement>().GetForceFromAbility(playerAbilities.swipeMovement).ToString();
+               // aSwipeMovement.swipeMagnitude.ToString();//playerPlanet.GetComponent<PAMovement>().GetForceFromAbility(playerAbilities.swipeMovement).ToString();
+            //"Magnitude: " + aSwipeMovement.swipeMagnitude + "\n"+"Direction: " + aSwipeMovement.swipeDirection;
 
             //if mission select plane ( plane mesh appears, set canvas text to "select a playable area") once selected by tapping spawn objects, switch mission to place obstacle
 
@@ -92,6 +94,12 @@ namespace TheBigBanger.GameModes
         public void UnfreezeTime()
         {
             GameTime.bFreeze = false;
+        }
+
+        public void Launch() 
+        {
+            if (aSwipeMovement.initialized)
+                aSwipeMovement.LaunchIntoSwipeDirection();
         }
 
         //spawn stuff

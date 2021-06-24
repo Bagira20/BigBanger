@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PlayerAbilityList
 {
+    public enum playerAbilities { swipeMovement, rocketMovement};
+
     /*non-static library for all abilities*/
     public AbilitySwipeMovement aSwipeMovement;
     public AbilityRocketControl aRocketControl;

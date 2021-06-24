@@ -7,6 +7,7 @@ public class AbilityBase : MonoBehaviour
     /*Base for single abilities of player control, e.g., swipe movement, rocket mode, etc.*/
     public Camera arCamera;
     public GameObject PlayerPlanet, LineRendererPrefab;
+    public bool initialized = false;
 
     public AbilityBase(GameManager manager) 
     {

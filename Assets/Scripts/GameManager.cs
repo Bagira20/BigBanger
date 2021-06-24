@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using TheBigBanger.PlayerStatics;
 using TheBigBanger.GameModes;
+using TheBigBanger.Formulae;
+using UnityEngine;
 using UnityEngine.XR.ARSubsystems;
 using UnityEngine.UI;
 using TMPro;
@@ -13,6 +14,10 @@ public class GameManager : GameplayStaticsManager
 
     [Header("Scene Settings")]
     public GameModeType gameMode = GameModeType.Lesson;
+    [Tooltip(FormulaSheets.tooltip)]
+    public string ForceEqualTo = FormulaSheets.ForceIs[0];
+    public InputFactor PlayerInputControlsFactor;
+    public float MultiplyMagnitudeWith = 1f;
 
     [Header("Scene Objects")]
     public GameObject playerGameObject;
@@ -23,8 +28,8 @@ public class GameManager : GameplayStaticsManager
     [Header("DEVELOPMENT Only")]
     public Text DebugText;
 
-    ModeLesson _activeLesson;
-    ModeFreeRoam _activeFreeRoam;
+    public ModeLesson _activeLesson;
+    public ModeFreeRoam _activeFreeRoam;
 
     void Awake()
     {
@@ -71,14 +76,15 @@ public class GameManager : GameplayStaticsManager
         {
             case GameModeType.Lesson:
             {
-                    UpdateLesson();
-                    UpdateLessonUICanvas();
-                    break;
+                UpdateLesson();
+                UpdateLessonUICanvas();
+                break;
             }
             case GameModeType.FreeRoam:
             {
-                    UpdateFreeRoamUICanvas();
-                    break;
+                UpdateFreeRoam();
+                UpdateFreeRoamUICanvas();
+                break;
             }
 
         }
@@ -96,6 +102,11 @@ public class GameManager : GameplayStaticsManager
                 _activeLesson.Feedback();
             }
         }
+    }
+
+    void UpdateFreeRoam() 
+    {
+
     }
 
     public void LaunchButton() 
