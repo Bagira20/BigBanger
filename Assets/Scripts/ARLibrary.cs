@@ -17,7 +17,7 @@ public class ARLibrary : MonoBehaviour
         placementIndicator = GameObject.Find("PlacementIndicator");
         arRaycastManager = FindObjectOfType<ARRaycastManager>();
     }
-    // Update is called once per frame
+
     static public void UpdateARLibrary()
     {
         UpdatePlacementPose();

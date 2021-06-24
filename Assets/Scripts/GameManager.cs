@@ -1,28 +1,36 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using TheBigBanger.PlayerStatics;
 using TheBigBanger.GameModes;
+using TheBigBanger.Formulae;
+using UnityEngine;
 using UnityEngine.XR.ARSubsystems;
 using UnityEngine.UI;
+using TMPro;
 
 public class GameManager : GameplayStaticsManager
 {
     /*GameManager which should manage the Session across scenes, hold references to gameobjects within the scene, host GameModes and UI (plus interaction between GameMode and UI)*/
 
     [Header("Scene Settings")]
-    public GameModeType gameMode = GameModeType.Scenario;
+    public GameModeType gameMode = GameModeType.Lesson;
+    [Tooltip(FormulaSheets.tooltip)]
+    public string ForceEqualTo = FormulaSheets.ForceIs[1];
+    public InputFactor PlayerInputControlsFactor = InputFactor.V;
+    public float MultiplyMagnitudeWith = 1f;
 
     [Header("Scene Objects")]
     public GameObject playerGameObject;
     public Camera arCamera;
     public Text timerText;
+    public TMP_Text actionNeededText; 
 
     [Header("DEVELOPMENT Only")]
     public Text DebugText;
+    public GamePhase gamePhase = GamePhase.LevelStart; /*PLS CHANGE LATEEEEERRRRRRRRRRRRRRRR!!!!!!!!!!!*/
 
-    ModeLevel _activeScenario;
-    ModeFreeRoam _activeFreeRoam;
+    public ModeLesson _activeLesson;
+    public ModeFreeRoam _activeFreeRoam;
 
     void Awake()
     {
@@ -34,8 +42,9 @@ public class GameManager : GameplayStaticsManager
     {
         switch (gameMode)
         {
-            case GameModeType.Scenario:
-                _activeScenario = new ModeLevel(this);
+            case GameModeType.Lesson:
+                _activeLesson = new ModeLesson(this);
+                _activeLesson.UnfreezeTime();  /*PLS CHANGE LATEEEEERRRRRRRRRRRRRRRR!!!!!!!!!!!*/
                 break;
             case GameModeType.FreeRoam:
                 _activeFreeRoam = new ModeFreeRoam(this);
@@ -51,47 +60,63 @@ public class GameManager : GameplayStaticsManager
         ARLibrary.UpdateARLibrary();
     }
 
-    void UpdateUICanvasTime() 
+    void UpdateLessonUICanvas() 
     {
-        timerText.text ="GameTime: " + (_activeScenario.bTimeLimit-Mathf.Round(GameTime.gameTime));
+        timerText.text ="GameTime: " + (_activeLesson.bTimeLimit-Mathf.Round(GameTime.gameTime));
+        actionNeededText.text = _activeLesson.actionNeededText;
+    }
+
+    void UpdateFreeRoamUICanvas()
+    {
+        actionNeededText.text = _activeFreeRoam.actionNeededText;
     }
 
     void UpdateGameMode() 
     {
         switch (gameMode)
         {
-            case GameModeType.Scenario:
+            case GameModeType.Lesson:
             {
-                UpdateScenario();
-                UpdateUICanvasTime();
+                UpdateLesson();
+                UpdateLessonUICanvas();
+                break;
+            }
+            case GameModeType.FreeRoam:
+            {
+                UpdateFreeRoam();
+                UpdateFreeRoamUICanvas();
                 break;
             }
         }
     }
 
-    void UpdateScenario() 
+    void UpdateLesson() 
     {
         if (TouchInput.IsTouching())
         {
             if (TouchInput.RaycastFromCamera(arCamera)) 
             {
-                if (!_activeScenario.bLaunched && !GameTime.bFreeze && TouchInput.IsPlayerHit())
-                   _activeScenario.FreezeTime();
+                if (!_activeLesson.bLaunched && !GameTime.bFreeze && TouchInput.IsPlayerHit())
+                   _activeLesson.FreezeTime();
 
-                _activeScenario.Feedback();
+                _activeLesson.Feedback();
             }
         }
     }
 
+    void UpdateFreeRoam() 
+    {
+
+    }
+
     public void LaunchButton() 
     {
-        if (gameMode == GameModeType.Scenario)
+        if (gameMode == GameModeType.Lesson)
         {
-            //wip
-            GameObject.Find("/Canvas/LaunchButton/Text").GetComponent<Text>().text = "launched!";
-            _activeScenario.bLaunched = true;
-            GameTime.bFreeze = false;
-            _activeScenario.UnfreezeTime();
+            GameObject.Find("/UICanvas/LaunchButton/Text").GetComponent<Text>().text = "launched!";
+            _activeLesson.bLaunched = true;
+            _activeLesson.UnfreezeTime();
+            playerGameObject.GetComponent<PAMovement>().LaunchPlayerPlanet();
         }
     }
 }

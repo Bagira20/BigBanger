@@ -12,7 +12,7 @@ public class AbilitySwipeMovement : AbilityBase
 
     public AbilitySwipeMovement(GameManager manager) : base(manager) 
     {
-        predictionLineRenderer = manager.playerGameObject.GetComponentInChildren<LineRenderer>();
+        predictionLineRenderer = Instantiate(manager.playerGameObject.GetComponent<PAMovement>().lineRenderer);
         predictionLineRenderer.enabled = false;
     }
 
@@ -33,6 +33,7 @@ public class AbilitySwipeMovement : AbilityBase
 
     void InitiateLineRenderer()
     {
+        initialized = true;
         predictionLineRenderer.useWorldSpace = true;
         predictionLineRenderer.positionCount = 2;
         predictionLineRenderer.SetPosition(0, PlayerPlanet.transform.position);

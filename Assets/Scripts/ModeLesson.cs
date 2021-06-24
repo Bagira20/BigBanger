@@ -4,12 +4,12 @@ using UnityEngine;
 using TheBigBanger.GameModes;
 using TheBigBanger.PlayerStatics;
 
-public class ModeLevel : GameModeBase
+public class ModeLesson : GameModeBase
 {
     public float bTimeLimit = 200f;
     public bool bTimeOver = false;
 
-    public ModeLevel(GameManager manager) : base(manager) { }
+    public ModeLesson(GameManager manager) : base(manager) { }
 
     public bool IsTimeOver()
     {
