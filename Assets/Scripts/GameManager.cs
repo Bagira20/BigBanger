@@ -1,6 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using TheBigBanger.PlayerStatics;
+using TheBigBanger.GameplayStatics;
 using TheBigBanger.GameModes;
 using TheBigBanger.Formulae;
 using UnityEngine;
@@ -28,7 +28,7 @@ public class GameManager : GameplayStaticsManager
     [Header("DEVELOPMENT Only")]
     public Text DebugText;
     public GamePhase gamePhase = GamePhase.LevelStart; /*PLS CHANGE LATEEEEERRRRRRRRRRRRRRRR!!!!!!!!!!!*/
-
+    public bool bLaunched = false;
     public ModeLesson _activeLesson;
     public ModeFreeRoam _activeFreeRoam;
 

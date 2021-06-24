@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.XR.ARSubsystems;
-using TheBigBanger.PlayerStatics;
+using TheBigBanger.GameplayStatics;
 using TMPro;
 
 namespace TheBigBanger.GameModes

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TheBigBanger.GameModes;
-using TheBigBanger.PlayerStatics;
+using TheBigBanger.GameplayStatics;
 
 public class ModeLesson : GameModeBase
 {
