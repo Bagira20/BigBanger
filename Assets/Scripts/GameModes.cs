@@ -32,7 +32,7 @@ namespace TheBigBanger.GameModes
     public class GameModeBase : PlayerAbilityList
     {
         protected GameObject playerPlanet, targetPlanet;
-        public GamePhase gamePhase = GamePhase.SwipeDirection;
+        public GamePhase gamePhase = GamePhase.SelectPlane;
         public string actionNeededText;
         [HideInInspector]
         public bool bLaunched = false;
@@ -57,6 +57,10 @@ namespace TheBigBanger.GameModes
 
         public void Feedback() 
         {
+            if (gamePhase == GamePhase.SelectPlane)
+            {
+                
+            }
             if (gamePhase == GamePhase.SwipeDirection)
             {
                 switch (TouchInput.GetTouch().phase)

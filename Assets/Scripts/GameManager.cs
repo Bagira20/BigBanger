@@ -54,10 +54,21 @@ public class GameManager : GameplayStaticsManager
 
     void Update()
     {
+        if ((Input.touchCount > 0) && (Input.GetTouch(0).phase == TouchPhase.Began))
+        {
+            Ray raycast = Camera.main.ScreenPointToRay(Input.GetTouch(0).position);
+            RaycastHit raycastHit;
+            if (Physics.Raycast(raycast, out raycastHit))
+            {
+                DebugText.text = raycastHit.collider.name;
+            }
+        }
+
         UpdateTime();
         UpdatePlayerTouchInput();
         UpdateGameMode();
         ARLibrary.UpdateARLibrary();
+
     }
 
     void UpdateLessonUICanvas() 
