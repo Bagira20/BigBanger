@@ -14,22 +14,18 @@ public class ARLibrary : MonoBehaviour
     public Pose placementPose;
     public bool placementPoseIsValid = false;
     public Text debug;
-    int isValidCount, notValidCount;
+
+    GameManager gameManager;
 
     public void Start()
     {
-       // placementIndicator = GameObject.Find("PlacementIndicator");
-       // arRaycastManager = FindObjectOfType<ARRaycastManager>();
-       // arSessionOrigin = FindObjectOfType<ARSessionOrigin>();
-        isValidCount = 0;
-        notValidCount = 0;
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
 
     public void Update()
     {
         UpdatePlacementPose();
         UpdatePlacementIndicator();
-        debug.text = "is valid: " + isValidCount + "\n" + "not valid: " + notValidCount;
     }
 
      void UpdatePlacementIndicator()
@@ -37,9 +33,8 @@ public class ARLibrary : MonoBehaviour
         if (placementPoseIsValid)
         {
             placementIndicator.SetActive(true);
-            
+            gameManager.actionNeededText.text = "Please tap on a flat horizontal surface to initialize playground";
             placementIndicator.transform.SetPositionAndRotation(placementPose.position, placementPose.rotation);
-            notValidCount = 0;
         }
         else
         {
@@ -56,7 +51,6 @@ public class ARLibrary : MonoBehaviour
 
         if (placementPoseIsValid)
         {
-            isValidCount++;
 
             placementPose = hits[0].pose;
 
@@ -65,8 +59,6 @@ public class ARLibrary : MonoBehaviour
             Vector3 cameraBearing = new Vector3(cameraForward.x, 0, cameraForward.z);
             placementPose.rotation = Quaternion.LookRotation(cameraBearing);
         }
-        else
-            notValidCount++;
     }
 
 }

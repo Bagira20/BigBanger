@@ -33,6 +33,7 @@ namespace TheBigBanger.GameModeManager
     {
         GameModeType gameModeType;
         GameObject playerPlanet, targetPlanet;
+        GameObject placementIndicator;
         public GamePhase gamePhase = GamePhase.SelectPlane;
         public string actionNeededText;
         public bool bLaunched = false, bTimeOver = false;
@@ -45,8 +46,11 @@ namespace TheBigBanger.GameModeManager
 
         protected GameMode(GameManager manager) : base (manager)
         {
-            arCamera = manager.arCamera;
+            placementIndicator = GameObject.Find("PlacementIndicator");
             playerPlanet = manager.playerGameObject;
+            targetPlanet = manager.targetGameObject;
+            actionNeededText = "move your device slowly until an indicator appears";
+            arCamera = manager.arCamera;
             gameModeType = manager.gameMode;
             debugText = manager.DebugText;
         }
@@ -59,12 +63,39 @@ namespace TheBigBanger.GameModeManager
 
         public void Feedback() 
         {
+            
             if (gamePhase == GamePhase.SelectPlane)
             {
-                
+                if ((Input.touchCount > 0) && (Input.GetTouch(0).phase == TouchPhase.Began))
+                {
+                    if (placementIndicator.activeSelf)
+                    {
+                        gamePhase = GamePhase.SpawnPhase;
+                    }
+                    else
+                    {
+                        actionNeededText = "Please select a valid surface to play on";
+                    }
+                }
             }
-            /*if (gamePhase == GamePhase.SwipeDirection)
-            {*/
+
+            if (gamePhase == GamePhase.SpawnPhase)
+            {
+                Vector3 spawnPosition = placementIndicator.transform.position;
+                playerPlanet.transform.position = new Vector3(spawnPosition.x - 0.25f, spawnPosition.y, spawnPosition.z);
+                targetPlanet.transform.position = new Vector3(spawnPosition.x + 0.25f, spawnPosition.y, spawnPosition.z);
+                playerPlanet.SetActive(true);
+                targetPlanet.SetActive(true);
+                gamePhase = GamePhase.LevelStart;
+                actionNeededText = "";
+
+            }
+
+            if (gamePhase == GamePhase.LevelStart)
+            {
+
+                /*if (gamePhase == GamePhase.SwipeDirection)
+                {*/
                 switch (TouchInput.GetTouch().phase)
                 {
                     case TouchPhase.Began:
@@ -77,12 +108,8 @@ namespace TheBigBanger.GameModeManager
                         aSwipeMovement.EndSwipeLine();
                         break;
                 }
-            //}
-            //if mission select plane ( plane mesh appears, set canvas text to "select a playable area") once selected by tapping spawn objects, switch mission to place obstacle
-
-            //if spawn phase
-
-            //if level start, timerfreeze =  false
+                //}
+            }
 
         }
 
