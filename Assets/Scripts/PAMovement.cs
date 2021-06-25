@@ -10,8 +10,8 @@ public class PAMovement : PlanetMovementBase
 
     private void Update()
     {
-        if (bIsMoving && manager._activeMode.bLaunched)
-            base.UpdateMovePlanet();
+        if (bIsMoving)
+            UpdateMovePlanet();
     }
 
     protected override void UpdateMovePlanet()
@@ -55,6 +55,7 @@ public class PAMovement : PlanetMovementBase
         {
             manager.DebugText.text = "Launched with " + GetForceFromAbility(PlayerAbilityList.playerAbilities.swipeMovement).ToString();
             bIsMoving = true;
+            manager._activeMode.bLaunched = true;
         }
     }
 }
