@@ -7,7 +7,7 @@ using UnityEditor;
 
 namespace TheBigBanger.Formulae
 {
-    public enum InputFactor
+    public enum FactorElement
     {
         F, M, A, V,
     }
@@ -16,10 +16,10 @@ namespace TheBigBanger.Formulae
     {
         public static string[] ForceIs =
         {
-            "ma",
             "1/2m(v²)",
+            "ma"
         };
 
-        public const string tooltip = "Options are: \n1.) ma\n2.) 1/2m(v²)";
+        public const string tooltip = "Options are: \n0.) 1/2m(v²)\n1.) ma";
     }
 }

@@ -5,6 +5,9 @@ using TheBigBanger.Formulae;
 
 public class PAMovement : PlanetMovementBase
 {
+    [Header("Player Configuration")]
+    public FactorElement PlayerInputFactor = FactorElement.V;
+
     [Header("Prefab Objects")]
     public LineRenderer lineRenderer;
 
@@ -23,12 +26,12 @@ public class PAMovement : PlanetMovementBase
 
     public float GetForceFromAbility(PlayerAbilityList.playerAbilities ability)
     {
-        float abilityMagnitude = GetMagnitudeFromAbility(ability);
+        float velocity = GetMagnitudeFromAbility(ability);
 
-        if (manager.ForceEqualTo == FormulaSheets.ForceIs[0]/*F=ma*/ && manager.PlayerInputControlsFactor == InputFactor.A)
-            return mass * abilityMagnitude;
-        else if (manager.ForceEqualTo == FormulaSheets.ForceIs[1]/*F=1/2mv²*/ && manager.PlayerInputControlsFactor == InputFactor.V)
-            return 0.5f * mass * Mathf.Pow(abilityMagnitude, 2);
+        if (manager.ForceEqualTo == FormulaSheets.ForceIs[0]/*F=ma*/ && PlayerInputFactor == FactorElement.A)
+            return mass * velocity;
+        else if (manager.ForceEqualTo == FormulaSheets.ForceIs[1]/*F=1/2mv²*/ && PlayerInputFactor == FactorElement.V)
+            return 0.5f * mass * Mathf.Pow(velocity, 2);
 
         return 1f;
     }
@@ -47,6 +50,31 @@ public class PAMovement : PlanetMovementBase
         }
 
         return abilityMagnitude * manager.MultiplyMagnitudeWith;
+    }
+
+    public float GetForce() 
+    {
+        return force;
+    }
+
+    public float GetMass()
+    {
+        return mass;
+    }
+
+    public float GetAcceleration() 
+    {
+        return acceleration;
+    }
+
+    public float GetVelocity() 
+    {
+        return velocity;
+    }
+
+    public float GetVelocityFromDirection(Vector3 direction) 
+    {
+        return 0f;
     }
 
     public void LaunchPlayerPlanet()
