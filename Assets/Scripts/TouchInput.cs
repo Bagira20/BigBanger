@@ -70,5 +70,20 @@ public class TouchInput : MonoBehaviour
     {
         return GetRelativeViewportTouchPosition().x < reservedUIArea.x && GetRelativeViewportTouchPosition().y < reservedUIArea.y;
     }
+
+    public static void SetUIAreaToDeviceOrientation(DeviceOrientation deviceOrientation) 
+    {
+        switch (deviceOrientation) 
+        {
+            case DeviceOrientation.LandscapeLeft:
+            case DeviceOrientation.LandscapeRight:
+                reservedUIArea = new Vector2(0.3f, 0.3f);
+                break;
+            case DeviceOrientation.Portrait:
+            case DeviceOrientation.PortraitUpsideDown:
+                reservedUIArea = new Vector2(0.6f, 0.1f);
+                break;
+        }
+    }
 }
 
