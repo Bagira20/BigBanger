@@ -7,9 +7,8 @@ using UnityEngine.XR.ARSubsystems;
 /*Library of functions which are static and should make input on mobile device touch screens more accesbile.*/
 public class TouchInput : MonoBehaviour
 {
-    static Vector2 _touchPosition;
     public static ARRaycastManager arRaycastManager = new ARRaycastManager();
-    static List<ARRaycastHit> _raycastHits = new List<ARRaycastHit>();
+    public static Vector2 reservedUIArea = new Vector2(0.4f, 0.2f);
     static RaycastHit _raycastHit;
 
     public static bool IsTouching()
@@ -29,22 +28,10 @@ public class TouchInput : MonoBehaviour
         return default;
     }
 
-    public static void SetTouchPosition()
-    {
-        _touchPosition = GetTouchPosition();
+    public static Vector2 GetRelativeViewportTouchPosition() 
+    { 
+        return Camera.main.ScreenToViewportPoint(GetTouchPosition()); 
     }
-
-    public static bool RaycastAgainstTrackable(TrackableType trackableType)
-    {
-        return arRaycastManager.Raycast(_touchPosition, _raycastHits, trackableType);
-    }
-
-    public static ARRaycastHit GetARHit()
-    {
-        //RaycastAgainstTrackable needs to be called first
-        return _raycastHits[0];
-    }
-
 
     public static bool RaycastFromCamera(Camera cam)
     {
@@ -77,6 +64,11 @@ public class TouchInput : MonoBehaviour
     {
         //player layer currently at 3
         return GetHitObject().layer == 3;
+    }
+
+    public static bool IsUIHit() 
+    {
+        return GetRelativeViewportTouchPosition().x < reservedUIArea.x && GetRelativeViewportTouchPosition().y < reservedUIArea.y;
     }
 }
 

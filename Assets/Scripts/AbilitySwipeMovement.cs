@@ -19,7 +19,7 @@ public class AbilitySwipeMovement : AbilityBase
     /*Ability: Swipe-Direction*/
     public void StartSwipeLine()
     {
-        if (TouchInput.RaycastFromCamera(arCamera))
+        if (TouchInput.RaycastFromCamera(arCamera) && !TouchInput.IsUIHit())
         {
             if (!bPredictionInstantiated && TouchInput.IsPlayerHit())
             {
@@ -49,7 +49,7 @@ public class AbilitySwipeMovement : AbilityBase
 
     public void UpdateSwipeLine()
     {
-        if (TouchInput.RaycastFromCamera(arCamera))
+        if (TouchInput.RaycastFromCamera(arCamera) && !TouchInput.IsUIHit())
         {
             if (TouchInput.IsInputCanvasHit() || TouchInput.IsPlayerHit())
             {
