@@ -23,7 +23,7 @@ public class GameManager : GameplayStaticsManager
     public GameObject playerGameObject;
     public Camera arCamera;
     public Text timerText;
-    public TMP_Text actionNeededText; 
+    //public TMP_Text actionNeededText; 
 
     [Header("DEVELOPMENT Only")]
     public Text DebugText;
@@ -34,7 +34,7 @@ public class GameManager : GameplayStaticsManager
     void Awake()
     {
         SetGameMode();
-        ARLibrary.Initialize();
+        
     }
 
     public void SetGameMode() 
@@ -58,19 +58,18 @@ public class GameManager : GameplayStaticsManager
         UpdateTime();
         UpdatePlayerTouchInput();
         UpdateGameMode();
-        ARLibrary.UpdateARLibrary();
 
     }
 
     void UpdateLessonUICanvas() 
     {
         timerText.text ="GameTime: " + (_activeMode.bTimeLimit-Mathf.Round(GameTime.gameTime));
-        actionNeededText.text = _activeMode.actionNeededText;
+        //actionNeededText.text = _activeMode.actionNeededText;
     }
 
     void UpdateFreeRoamUICanvas()
     {
-        actionNeededText.text = _activeMode.actionNeededText;
+        //actionNeededText.text = _activeMode.actionNeededText;
     }
 
     void UpdateGameMode() 
