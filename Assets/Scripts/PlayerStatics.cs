@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace TheBigBanger.PlayerStatics
+namespace TheBigBanger.GameplayStatics
 {
     /*Library of functions and values regarding player info (time, input, etc.) that should be accessible from every class. 
       Parent of GameManager*/

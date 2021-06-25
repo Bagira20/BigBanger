@@ -8,11 +8,18 @@ public class PAMovement : PlanetMovementBase
     [Header("Prefab Objects")]
     public LineRenderer lineRenderer;
 
-    /*protected override void UpdateMovePlanet()
+    private void Update()
     {
+        if (bIsMoving && manager._activeMode.bLaunched)
+            base.UpdateMovePlanet();
+    }
+
+    protected override void UpdateMovePlanet()
+    {
+        float tempForce = GetForceFromAbility(PlayerAbilityList.playerAbilities.swipeMovement);
+        _currentForce = manager._activeMode.aSwipeMovement.swipeDirection*tempForce;
         base.UpdateMovePlanet();
-        //gh
-    }*/
+    }
 
     public float GetForceFromAbility(PlayerAbilityList.playerAbilities ability)
     {
@@ -32,19 +39,22 @@ public class PAMovement : PlanetMovementBase
         switch (ability)
         {
             case PlayerAbilityList.playerAbilities.swipeMovement:
-                abilityMagnitude = manager._activeLesson.aSwipeMovement.swipeMagnitude;
+                abilityMagnitude = manager._activeMode.aSwipeMovement.swipeMagnitude;
                 break;
             case PlayerAbilityList.playerAbilities.rocketMovement:
-                abilityMagnitude = manager._activeLesson.aRocketControl.rocketMagnitude;
+                abilityMagnitude = manager._activeMode.aRocketControl.rocketMagnitude;
                 break;
         }
 
         return abilityMagnitude * manager.MultiplyMagnitudeWith;
     }
 
-    public void LaunchPlayerPlanet() 
+    public void LaunchPlayerPlanet()
     {
-        if (manager._activeLesson.aSwipeMovement.initialized || manager._activeFreeRoam.aSwipeMovement.initialized)
+        if (manager._activeMode.aSwipeMovement.initialized)
+        {
             manager.DebugText.text = "Launched with " + GetForceFromAbility(PlayerAbilityList.playerAbilities.swipeMovement).ToString();
+            bIsMoving = true;
+        }
     }
 }

@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
-using TheBigBanger.PlayerStatics;
-using TheBigBanger.GameModes;
+using TheBigBanger.GameplayStatics;
+using TheBigBanger.GameModeManager;
 using TheBigBanger.Formulae;
 using UnityEngine;
 using UnityEngine.XR.ARSubsystems;
@@ -29,8 +29,7 @@ public class GameManager : GameplayStaticsManager
     public Text DebugText;
     public GamePhase gamePhase = GamePhase.LevelStart; /*PLS CHANGE LATEEEEERRRRRRRRRRRRRRRR!!!!!!!!!!!*/
 
-    public ModeLesson _activeLesson;
-    public ModeFreeRoam _activeFreeRoam;
+    public GameMode _activeMode;
 
     void Awake()
     {
@@ -40,16 +39,8 @@ public class GameManager : GameplayStaticsManager
 
     public void SetGameMode() 
     {
-        switch (gameMode)
-        {
-            case GameModeType.Lesson:
-                _activeLesson = new ModeLesson(this);
-                _activeLesson.UnfreezeTime();  /*PLS CHANGE LATEEEEERRRRRRRRRRRRRRRR!!!!!!!!!!!*/
-                break;
-            case GameModeType.FreeRoam:
-                _activeFreeRoam = new ModeFreeRoam(this);
-                break;
-        }
+        _activeMode = new ModeLesson(this);
+        _activeMode.UnfreezeTime();  /*PLS CHANGE LATEEEEERRRRRRRRRRRRRRRR!!!!!!!!!!!*/
     }
 
     void Update()
@@ -73,13 +64,13 @@ public class GameManager : GameplayStaticsManager
 
     void UpdateLessonUICanvas() 
     {
-        timerText.text ="GameTime: " + (_activeLesson.bTimeLimit-Mathf.Round(GameTime.gameTime));
-        actionNeededText.text = _activeLesson.actionNeededText;
+        timerText.text ="GameTime: " + (_activeMode.bTimeLimit-Mathf.Round(GameTime.gameTime));
+        actionNeededText.text = _activeMode.actionNeededText;
     }
 
     void UpdateFreeRoamUICanvas()
     {
-        actionNeededText.text = _activeFreeRoam.actionNeededText;
+        actionNeededText.text = _activeMode.actionNeededText;
     }
 
     void UpdateGameMode() 
@@ -107,10 +98,10 @@ public class GameManager : GameplayStaticsManager
         {
             if (TouchInput.RaycastFromCamera(arCamera)) 
             {
-                if (!_activeLesson.bLaunched && !GameTime.bFreeze && TouchInput.IsPlayerHit())
-                   _activeLesson.FreezeTime();
+                if (!_activeMode.bLaunched && !GameTime.bFreeze && TouchInput.IsPlayerHit())
+                   _activeMode.FreezeTime();
 
-                _activeLesson.Feedback();
+                _activeMode.Feedback();
             }
         }
     }
@@ -125,8 +116,8 @@ public class GameManager : GameplayStaticsManager
         if (gameMode == GameModeType.Lesson)
         {
             GameObject.Find("/UICanvas/LaunchButton/Text").GetComponent<Text>().text = "launched!";
-            _activeLesson.bLaunched = true;
-            _activeLesson.UnfreezeTime();
+            _activeMode.bLaunched = true;
+            _activeMode.UnfreezeTime();
             playerGameObject.GetComponent<PAMovement>().LaunchPlayerPlanet();
         }
     }

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Unity.Collections;
+using TheBigBanger.GameplayStatics;
 
 public class PlanetMovementBase : MonoBehaviour
 {
@@ -18,13 +19,8 @@ public class PlanetMovementBase : MonoBehaviour
         manager = GameObject.Find("/GameManager").GetComponent<GameManager>();
     }
 
-    /*protected virtual void UpdateMovePlanet() 
+    protected virtual void UpdateMovePlanet() 
     {
-
+        transform.position += _currentForce * GameTime.deltaTime;
     }
-
-    Vector3 GetPlayerInputFactor() 
-    {
-        return manager.playerGameObject.
-    }*/
 }

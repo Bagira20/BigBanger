@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.XR.ARSubsystems;
-using TheBigBanger.PlayerStatics;
+using TheBigBanger.GameplayStatics;
 using TMPro;
 
-namespace TheBigBanger.GameModes
+namespace TheBigBanger.GameModeManager
 {
     /*Functions and variables needed to define the rules and abilities for the two child game modes Scenario and FreeRoam. 
       Contains functionalities of abilities due to them being executed within a mode.*/
@@ -29,23 +29,25 @@ namespace TheBigBanger.GameModes
         Rocket,
     }
 
-    public class GameModeBase : PlayerAbilityList
+    public class GameMode : PlayerAbilityList
     {
-        protected GameObject playerPlanet, targetPlanet;
+        GameModeType gameModeType;
+        GameObject playerPlanet, targetPlanet;
         public GamePhase gamePhase = GamePhase.SelectPlane;
         public string actionNeededText;
-        [HideInInspector]
-        public bool bLaunched = false;
+        public bool bLaunched = false, bTimeOver = false;
+        public float bTimeLimit = 200f;
         Text debugText;
 
         protected Camera arCamera;
         //common variables and functions between Scenario and Free Roam
         //Spawn player Planet, EndScene, etc..     
 
-        protected GameModeBase(GameManager manager) : base (manager)
+        protected GameMode(GameManager manager) : base (manager)
         {
             arCamera = manager.arCamera;
             playerPlanet = manager.playerGameObject;
+            gameModeType = manager.gameMode;
             debugText = manager.DebugText;
         }
 
@@ -61,8 +63,8 @@ namespace TheBigBanger.GameModes
             {
                 
             }
-            if (gamePhase == GamePhase.SwipeDirection)
-            {
+            /*if (gamePhase == GamePhase.SwipeDirection)
+            {*/
                 switch (TouchInput.GetTouch().phase)
                 {
                     case TouchPhase.Began:
@@ -75,7 +77,7 @@ namespace TheBigBanger.GameModes
                         aSwipeMovement.EndSwipeLine();
                         break;
                 }
-            }
+            //}
             //if mission select plane ( plane mesh appears, set canvas text to "select a playable area") once selected by tapping spawn objects, switch mission to place obstacle
 
             //if spawn phase
@@ -92,6 +94,11 @@ namespace TheBigBanger.GameModes
         public void UnfreezeTime()
         {
             GameTime.bFreeze = false;
+        }
+
+        public bool IsTimeOver()
+        {
+            return GameTime.gameTime > bTimeLimit;
         }
 
         //spawn stuff
