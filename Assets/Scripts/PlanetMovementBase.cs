@@ -25,7 +25,7 @@ public class PlanetMovementBase : MonoBehaviour
     public string ForceIs = FormulaSheets.ForceIs[0];
 
     [HideInInspector]
-    public Vector3 _currentForce;
+    public Vector3 _currentMovement;
     [HideInInspector]
     public bool bIsMoving = false;
 
@@ -37,7 +37,7 @@ public class PlanetMovementBase : MonoBehaviour
 
     protected virtual void UpdateMovePlanet() 
     {
-        transform.position += _currentForce * GameTime.deltaTime;
+        transform.position += _currentMovement * GameTime.deltaTime;
     }
 
     void ConfigurateMovement() 

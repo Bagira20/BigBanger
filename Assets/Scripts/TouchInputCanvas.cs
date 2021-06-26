@@ -18,7 +18,6 @@ public class TouchInputCanvas : MonoBehaviour
     void Update()
     {
         UpdateTransform();
-        manager.DebugText.text = transform.parent.position + "\n" + _playerObject.transform.position;
     }
 
     void UpdateTransform() 

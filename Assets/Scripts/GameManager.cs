@@ -49,7 +49,11 @@ public class GameManager : GameplayStaticsManager
         UpdateTime();
         UpdatePlayerTouchInput();
         UpdateGameMode();
+    }
 
+    void FixedUpdate()
+    {
+        TouchInput.SetUIAreaToDeviceOrientation(Input.deviceOrientation);
     }
 
     void UpdateLessonUICanvas() 

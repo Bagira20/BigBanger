@@ -108,6 +108,9 @@ namespace TheBigBanger.GameModeManager
                         aSwipeMovement.EndSwipeLine();
                         break;
                 }
+                //DEBUG
+                PAMovement tempMovement = playerPlanet.GetComponent<PAMovement>();
+                debugText.text = "PLAYER: \nVelocity: " + tempMovement.GetVelocityFromAbility(playerAbilities.swipeMovement) + "\nForce: " + tempMovement.GetForceFromAbility(playerAbilities.swipeMovement) + "\nMass: " + tempMovement.GetMass();
                 //}
             }
 

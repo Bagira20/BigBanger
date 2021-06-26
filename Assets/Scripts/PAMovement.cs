@@ -19,8 +19,8 @@ public class PAMovement : PlanetMovementBase
 
     protected override void UpdateMovePlanet()
     {
-        float tempForce = GetForceFromAbility(PlayerAbilityList.playerAbilities.swipeMovement);
-        _currentForce = manager._activeMode.aSwipeMovement.swipeDirection*tempForce;
+        float tempMovement = GetVelocityFromAbility(PlayerAbilityList.playerAbilities.swipeMovement);
+        _currentMovement = manager._activeMode.aSwipeMovement.swipeDirection* tempMovement;
         base.UpdateMovePlanet();
     }
 
@@ -29,18 +29,18 @@ public class PAMovement : PlanetMovementBase
         float abilityVelocity = GetVelocityFromAbility(ability);
 
         if (manager.ForceEqualTo == FormulaSheets.ForceIs[0]/*F=1/2mv²*/ && PlayerInputFactor == FactorElement.V)
-            return 0.5f * mass * Mathf.Pow(abilityVelocity, 2);
+            force = 0.5f * mass * Mathf.Pow(abilityVelocity, 2);
         else if (manager.ForceEqualTo == FormulaSheets.ForceIs[1]/*F=ma*/ && PlayerInputFactor == FactorElement.A)
-            return mass * abilityVelocity;
+            force = mass * abilityVelocity;
 
-        //Otherwise return default
         return force;
     }
 
 
     public float GetVelocityFromAbility(PlayerAbilityList.playerAbilities ability)
     {
-        return GetMagnitudeFromAbility(ability); ;
+        velocity = GetMagnitudeFromAbility(ability);
+        return velocity;
     }
 
     float GetMagnitudeFromAbility(PlayerAbilityList.playerAbilities ability) 
@@ -67,11 +67,6 @@ public class PAMovement : PlanetMovementBase
     public float GetMass()
     {
         return mass;
-    }
-
-    public float GetAcceleration() 
-    {
-        return acceleration;
     }
 
     public float GetVelocity() 

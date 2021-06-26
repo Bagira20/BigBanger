@@ -8,7 +8,7 @@ using UnityEngine.XR.ARSubsystems;
 public class TouchInput : MonoBehaviour
 {
     public static ARRaycastManager arRaycastManager = new ARRaycastManager();
-    public static Vector2 reservedUIArea = new Vector2(0.4f, 0.2f);
+    public static Vector2 reservedUIArea, reservedHorizontalUIArea = new Vector2(0.3f, 0.3f), reservedVerticalUIArea = new Vector2(0.6f, 0.1f);
     static RaycastHit _raycastHit;
 
     public static bool IsTouching()
@@ -77,11 +77,11 @@ public class TouchInput : MonoBehaviour
         {
             case DeviceOrientation.LandscapeLeft:
             case DeviceOrientation.LandscapeRight:
-                reservedUIArea = new Vector2(0.3f, 0.3f);
+                reservedUIArea = reservedHorizontalUIArea;
                 break;
             case DeviceOrientation.Portrait:
             case DeviceOrientation.PortraitUpsideDown:
-                reservedUIArea = new Vector2(0.6f, 0.1f);
+                reservedUIArea = reservedVerticalUIArea;
                 break;
         }
     }
