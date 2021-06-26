@@ -6,17 +6,19 @@ public class TouchInputCanvas : MonoBehaviour
 {
     GameObject _playerObject, _arCamera;
     Vector3 _orientationTarget;
+    GameManager manager;
     void Start()
     {
-        GameManager manager = GameObject.Find("/GameManager").GetComponent<GameManager>();
+        manager = GameObject.Find("/GameManager").GetComponent<GameManager>();
         _playerObject = manager.playerGameObject;
         _arCamera = manager.arCamera.gameObject;
         UpdateTransform();
     }
 
-    void FixedUpdate()
+    void Update()
     {
         UpdateTransform();
+        manager.DebugText.text = transform.parent.position + "\n" + _playerObject.transform.position;
     }
 
     void UpdateTransform() 
