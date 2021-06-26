@@ -41,6 +41,7 @@ namespace TheBigBanger.GameModeManager
         Text debugText;
 
         protected Camera arCamera;
+        Vector3 playerStartPos, targetStartPos;
         //common variables and functions between Scenario and Free Roam
         //Spawn player Planet, EndScene, etc..     
 
@@ -82,13 +83,12 @@ namespace TheBigBanger.GameModeManager
             if (gamePhase == GamePhase.SpawnPhase)
             {
                 Vector3 spawnPosition = placementIndicator.transform.position;
-                playerPlanet.transform.position = new Vector3(spawnPosition.x - 0.25f, spawnPosition.y, spawnPosition.z);
-                targetPlanet.transform.position = new Vector3(spawnPosition.x + 0.25f, spawnPosition.y, spawnPosition.z);
+                playerPlanet.transform.position = playerStartPos = new Vector3(spawnPosition.x - 0.25f, spawnPosition.y, spawnPosition.z);
+                targetPlanet.transform.position = targetStartPos = new Vector3(spawnPosition.x + 0.25f, spawnPosition.y, spawnPosition.z);
                 playerPlanet.SetActive(true);
                 targetPlanet.SetActive(true);
                 gamePhase = GamePhase.LevelStart;
                 actionNeededText = "";
-
             }
 
             if (gamePhase == GamePhase.LevelStart && !bLaunched)
@@ -133,5 +133,14 @@ namespace TheBigBanger.GameModeManager
         }
 
         //spawn stuff
+        public void Reset() 
+        {
+            debugText.text = "RESET"; 
+            playerPlanet.transform.position = playerStartPos;
+            targetPlanet.transform.position = targetStartPos;
+            aSwipeMovement.ResetSwipeLine();
+            playerPlanet.GetComponent<PAMovement>().bIsMoving = false;
+            bLaunched = false;
+        }
     }
 }

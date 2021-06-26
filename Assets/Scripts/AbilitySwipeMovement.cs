@@ -68,4 +68,11 @@ public class AbilitySwipeMovement : AbilityBase
     {
 
     }
+
+    public void ResetSwipeLine() 
+    {
+        initialized = false;
+        predictionLineRenderer.enabled = false;
+        bPredictionInstantiated = false;
+    }
 }

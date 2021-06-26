@@ -99,4 +99,10 @@ public class GameManager : GameplayStaticsManager
             playerGameObject.GetComponent<PAMovement>().LaunchPlayerPlanet();
         }
     }
+
+    public void ResetButton() 
+    {
+        GameObject.Find("/UICanvas/LaunchButton/Text").GetComponent<Text>().text = "LAUNCH!";
+        _activeMode.Reset();
+    }
 }
