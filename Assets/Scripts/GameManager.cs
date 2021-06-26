@@ -16,7 +16,7 @@ public class GameManager : GameplayStaticsManager
     public GameModeType gameMode = GameModeType.Lesson;
     [Tooltip(FormulaSheets.tooltip)]
     public string ForceEqualTo = FormulaSheets.ForceIs[1];
-    public InputFactor PlayerInputControlsFactor = InputFactor.V;
+    public FactorElement PlayerInputControlsFactor = FactorElement.V;
     public float MultiplyMagnitudeWith = 1f;
 
     [Header("Scene Objects")]
