@@ -26,14 +26,21 @@ public class PAMovement : PlanetMovementBase
 
     public float GetForceFromAbility(PlayerAbilityList.playerAbilities ability)
     {
-        float velocity = GetMagnitudeFromAbility(ability);
+        float abilityVelocity = GetVelocityFromAbility(ability);
 
-        if (manager.ForceEqualTo == FormulaSheets.ForceIs[0]/*F=ma*/ && PlayerInputFactor == FactorElement.A)
-            return mass * velocity;
-        else if (manager.ForceEqualTo == FormulaSheets.ForceIs[1]/*F=1/2mv²*/ && PlayerInputFactor == FactorElement.V)
-            return 0.5f * mass * Mathf.Pow(velocity, 2);
+        if (manager.ForceEqualTo == FormulaSheets.ForceIs[0]/*F=1/2mv²*/ && PlayerInputFactor == FactorElement.V)
+            return 0.5f * mass * Mathf.Pow(abilityVelocity, 2);
+        else if (manager.ForceEqualTo == FormulaSheets.ForceIs[1]/*F=ma*/ && PlayerInputFactor == FactorElement.A)
+            return mass * abilityVelocity;
 
-        return 1f;
+        //Otherwise return default
+        return force;
+    }
+
+
+    public float GetVelocityFromAbility(PlayerAbilityList.playerAbilities ability)
+    {
+        return GetMagnitudeFromAbility(ability); ;
     }
 
     float GetMagnitudeFromAbility(PlayerAbilityList.playerAbilities ability) 

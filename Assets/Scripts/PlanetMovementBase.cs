@@ -15,9 +15,10 @@ public struct MovementConfigSet
 public class PlanetMovementBase : MonoBehaviour
 {
     public GameManager manager;
-    protected float mass, velocity, acceleration, force;
+    protected float mass = 1f, velocity, acceleration, force;
 
     [Header("Level Configuration")]
+    public PlayerAbilityList.playerAbilities planetVelocityBy = PlayerAbilityList.playerAbilities.swipeMovement;
     [Tooltip("Defined values which represent fixed context of current scene")]
     public List<MovementConfigSet> MovementConfiguration = new List<MovementConfigSet>();
     [Tooltip(FormulaSheets.tooltip)]
