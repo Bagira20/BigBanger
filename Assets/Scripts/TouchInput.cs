@@ -9,7 +9,7 @@ public class TouchInput : MonoBehaviour
 {
     public static ARRaycastManager arRaycastManager = new ARRaycastManager();
     public static Vector2 reservedUIArea, reservedHorizontalUIArea = new Vector2(0.3f, 0.3f), reservedVerticalUIArea = new Vector2(0.6f, 0.1f);
-    static RaycastHit _raycastHit;
+    static RaycastHit[] raycastHits;
 
     public static bool IsTouching()
     {
@@ -35,36 +35,40 @@ public class TouchInput : MonoBehaviour
 
     public static bool RaycastFromCamera(Camera cam)
     {
-        return Physics.Raycast(cam.ScreenPointToRay(GetTouchPosition()), out _raycastHit);
+        raycastHits = Physics.RaycastAll(cam.ScreenPointToRay(GetTouchPosition()));
+        return raycastHits.Length > 0;
     }
 
-    public static RaycastHit GetHit()
+    public static Vector3 GetHitWorldPositionAtLayer(int targetLayer)
     {
-        //RaycastFromCamera needs to be called first
-        return _raycastHit;
-    }
-
-    public static Vector3 GetHitWorldPosition()
-    {
-        return GetHit().point;
-    }
-
-    public static GameObject GetHitObject()
-    {
-        return GetHit().collider.gameObject;
+        foreach(RaycastHit hit in raycastHits) 
+        {
+            if (hit.collider.gameObject.layer == targetLayer)
+                return hit.point;
+        } return default;
     }
 
     public static bool IsPlayerHit()
     {
         //player layer currently at 6
-        return GetHitObject().layer == 6;
+        return IsTargetLayerHit(6);
     }
 
     public static bool IsInputCanvasHit()
     {
         //player layer currently at 3
-        return GetHitObject().layer == 3;
+        return IsTargetLayerHit(3);
     }
+
+    static bool IsTargetLayerHit(int targetLayer) 
+    {
+        foreach (RaycastHit hit in raycastHits)
+        {
+            if (hit.collider.gameObject.layer == targetLayer)
+                return true;
+        } return false;
+    }
+
 
     public static bool IsUIHit() 
     {

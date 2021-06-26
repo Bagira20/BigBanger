@@ -91,7 +91,7 @@ namespace TheBigBanger.GameModeManager
 
             }
 
-            if (gamePhase == GamePhase.LevelStart)
+            if (gamePhase == GamePhase.LevelStart && !bLaunched)
             {
 
                 /*if (gamePhase == GamePhase.SwipeDirection)
@@ -126,6 +126,7 @@ namespace TheBigBanger.GameModeManager
             GameTime.bFreeze = false;
         }
 
+        //only for lesson units, not free roam
         public bool IsTimeOver()
         {
             return GameTime.gameTime > bTimeLimit;

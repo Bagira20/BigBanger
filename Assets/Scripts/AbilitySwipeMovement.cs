@@ -22,10 +22,7 @@ public class AbilitySwipeMovement : AbilityBase
         if (TouchInput.RaycastFromCamera(arCamera) && !TouchInput.IsUIHit())
         {
             if (!bPredictionInstantiated && TouchInput.IsPlayerHit())
-            {
                 InitiateLineRenderer();
-                SetLineEndToTouchPosition();
-            }
             else if (bPredictionInstantiated && (TouchInput.IsPlayerHit() || TouchInput.IsInputCanvasHit()))
                 UpdateSwipeLine();
         }
@@ -36,14 +33,15 @@ public class AbilitySwipeMovement : AbilityBase
         initialized = true;
         predictionLineRenderer.useWorldSpace = true;
         predictionLineRenderer.positionCount = 2;
-        predictionLineRenderer.SetPosition(0, PlayerPlanet.transform.position);
         predictionLineRenderer.enabled = true;
         bPredictionInstantiated = true;
+        SetLinePositions();
     }
 
-    void SetLineEndToTouchPosition() 
+    void SetLinePositions() 
     {
-        targetPosition = TouchInput.GetHitWorldPosition();
+        targetPosition = TouchInput.GetHitWorldPositionAtLayer(3);
+        predictionLineRenderer.SetPosition(0, PlayerPlanet.transform.position);
         predictionLineRenderer.SetPosition(1, targetPosition);
     }
 
@@ -53,7 +51,7 @@ public class AbilitySwipeMovement : AbilityBase
         {
             if (TouchInput.IsInputCanvasHit() || TouchInput.IsPlayerHit())
             {
-                SetLineEndToTouchPosition();
+                SetLinePositions();
             }
         }
         UpdateSwipeData();

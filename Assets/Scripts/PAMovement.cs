@@ -74,10 +74,6 @@ public class PAMovement : PlanetMovementBase
         return velocity;
     }
 
-    public float GetVelocityFromDirection(Vector3 direction) 
-    {
-        return 0f;
-    }
 
     public void LaunchPlayerPlanet()
     {
