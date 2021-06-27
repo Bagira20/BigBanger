@@ -95,7 +95,7 @@ namespace TheBigBanger.GameModeManager
                 {
                     if (placementIndicator.activeSelf)
                     {
-                        GameObject.Instantiate(obstacle, placementIndicator.transform.position, Quaternion.identity);
+                        //GameObject.Instantiate(obstacle, placementIndicator.transform.position, Quaternion.identity);
                         gamePhase = GamePhase.PlayPhase;
                     }
                 }
@@ -168,7 +168,6 @@ namespace TheBigBanger.GameModeManager
             bLaunched = false;
             levelEnd = false;
             gamePhase = GamePhase.PlayPhase;
-
         }
     }
 }
