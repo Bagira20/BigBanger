@@ -108,9 +108,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8fd3c7fa2191e54e95f8c7e2ab676b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mass: 1
   manager: {fileID: 0}
-  _currentForce: {x: 0, y: 0, z: 0}
+  planetVelocityBy: 0
+  MovementConfiguration:
+  - configuredFactor: 1
+    value: 1
+  currentMovement: {x: 0, y: 0, z: 0}
+  startPos: {x: 0, y: 0, z: 0}
   bIsMoving: 0
+  PlayerInputFactor: 3
+  ForceIs: "1/2m(v\xB2)"
   lineRenderer: {fileID: 7670807112776463251, guid: 218c524f8e28afc45892650317ad26a6,
     type: 3}

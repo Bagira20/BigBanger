@@ -41,7 +41,6 @@ namespace TheBigBanger.GameModeManager
         Text debugText;
 
         protected Camera arCamera;
-        Vector3 playerStartPos, targetStartPos;
         //common variables and functions between Scenario and Free Roam
         //Spawn player Planet, EndScene, etc..     
 
@@ -84,9 +83,10 @@ namespace TheBigBanger.GameModeManager
             if (gamePhase == GamePhase.SpawnPhase)
             {
                 Vector3 spawnPosition = placementIndicator.transform.position;
-                playerPlanet.transform.position = playerStartPos = new Vector3(spawnPosition.x - 0.25f, spawnPosition.y, spawnPosition.z);
-                targetPlanet.transform.position = targetStartPos = new Vector3(spawnPosition.x + 0.25f, spawnPosition.y, spawnPosition.z);
+                playerPlanet.transform.position = new Vector3(spawnPosition.x - 0.25f, spawnPosition.y, spawnPosition.z);
+                targetPlanet.transform.position = new Vector3(spawnPosition.x + 0.25f, spawnPosition.y, spawnPosition.z);
                 SetPlanets(true);
+                UnfreezeTime();
                 gamePhase = GamePhase.LevelStart;
                 actionNeededText = "";
             }
@@ -120,6 +120,11 @@ namespace TheBigBanger.GameModeManager
         {
             playerPlanet.SetActive(active);
             targetPlanet.SetActive(active);
+            if (active) 
+            {
+                playerPlanet.GetComponent<PAMovement>().startPos = playerPlanet.transform.position;
+                targetPlanet.GetComponent<PBMovement>().startPos = targetPlanet.transform.position;
+            }
         }
 
         public void FreezeTime()
@@ -142,8 +147,8 @@ namespace TheBigBanger.GameModeManager
         public void Reset() 
         {
             debugText.text = "RESET"; 
-            playerPlanet.transform.position = playerStartPos;
-            targetPlanet.transform.position = targetStartPos;
+            playerPlanet.transform.position = playerPlanet.GetComponent<PAMovement>().startPos;
+            targetPlanet.transform.position = targetPlanet.GetComponent<PBMovement>().startPos;
             aSwipeMovement.ResetSwipeLine();
             playerPlanet.GetComponent<PAMovement>().bIsMoving = false;
             bLaunched = false;

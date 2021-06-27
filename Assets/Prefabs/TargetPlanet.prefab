@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3686639376288518242}
   - component: {fileID: 3686639376288518241}
   - component: {fileID: 3686639376288518240}
+  - component: {fileID: 4368435751383594493}
   m_Layer: 7
   m_Name: TargetPlanet
   m_TagString: Untagged
@@ -95,3 +96,29 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &4368435751383594493
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3686639376288518247}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55042882bb1bb004cbe8d4de86dd80bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  manager: {fileID: 0}
+  MovementConfiguration:
+  - configuredFactor: 1
+    value: 1
+  - configuredFactor: 3
+    value: 0.01
+  currentMovement: {x: 0, y: 0, z: 0}
+  startPos: {x: 0, y: 0, z: 0}
+  bIsMoving: 0
+  movementType: 0
+  targetPos: {x: 0, y: 0, z: 0}
+  centerRadiusPos: {x: 0, y: 0, z: 0}
+  radiusSize: 0
+  bMoveAtStart: 1

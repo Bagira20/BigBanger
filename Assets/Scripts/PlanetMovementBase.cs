@@ -9,7 +9,7 @@ using TheBigBanger.Formulae;
 public struct MovementConfigSet
 {
     public FactorElement configuredFactor;
-    public int value;
+    public float value;
 }
 
 public class PlanetMovementBase : MonoBehaviour
@@ -18,14 +18,11 @@ public class PlanetMovementBase : MonoBehaviour
     protected float mass = 1f, velocity, acceleration, force;
 
     [Header("Level Configuration")]
-    public PlayerAbilityList.playerAbilities planetVelocityBy = PlayerAbilityList.playerAbilities.swipeMovement;
     [Tooltip("Defined values which represent fixed context of current scene")]
     public List<MovementConfigSet> MovementConfiguration = new List<MovementConfigSet>();
-    [Tooltip(FormulaSheets.tooltip)]
-    public string ForceIs = FormulaSheets.ForceIs[0];
 
     [HideInInspector]
-    public Vector3 _currentMovement;
+    public Vector3 currentMovement, startPos;
     [HideInInspector]
     public bool bIsMoving = false;
 
@@ -37,7 +34,7 @@ public class PlanetMovementBase : MonoBehaviour
 
     protected virtual void UpdateMovePlanet() 
     {
-        transform.position += _currentMovement * GameTime.deltaTime;
+        transform.position += currentMovement * GameTime.deltaTime;
     }
 
     void ConfigurateMovement() 

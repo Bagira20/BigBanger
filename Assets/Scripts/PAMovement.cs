@@ -6,7 +6,10 @@ using TheBigBanger.Formulae;
 public class PAMovement : PlanetMovementBase
 {
     [Header("Player Configuration")]
+    public PlayerAbilityList.playerAbilities planetVelocityBy = PlayerAbilityList.playerAbilities.swipeMovement;
     public FactorElement PlayerInputFactor = FactorElement.V;
+    [Tooltip(FormulaSheets.tooltip)]
+    public string ForceIs = FormulaSheets.ForceIs[0];
 
     [Header("Prefab Objects")]
     public LineRenderer lineRenderer;
@@ -20,7 +23,7 @@ public class PAMovement : PlanetMovementBase
     protected override void UpdateMovePlanet()
     {
         float tempMovement = GetVelocityFromAbility(PlayerAbilityList.playerAbilities.swipeMovement);
-        _currentMovement = manager._activeMode.aSwipeMovement.swipeDirection* tempMovement;
+        currentMovement = manager.activeMode.aSwipeMovement.swipeDirection* tempMovement;
         base.UpdateMovePlanet();
     }
 
@@ -49,10 +52,10 @@ public class PAMovement : PlanetMovementBase
         switch (ability)
         {
             case PlayerAbilityList.playerAbilities.swipeMovement:
-                abilityMagnitude = manager._activeMode.aSwipeMovement.swipeMagnitude;
+                abilityMagnitude = manager.activeMode.aSwipeMovement.swipeMagnitude;
                 break;
             case PlayerAbilityList.playerAbilities.rocketMovement:
-                abilityMagnitude = manager._activeMode.aRocketControl.rocketMagnitude;
+                abilityMagnitude = manager.activeMode.aRocketControl.rocketMagnitude;
                 break;
         }
 
@@ -77,11 +80,11 @@ public class PAMovement : PlanetMovementBase
 
     public void LaunchPlayerPlanet()
     {
-        if (manager._activeMode.aSwipeMovement.initialized)
+        if (manager.activeMode.aSwipeMovement.initialized)
         {
             manager.DebugText.text = "Launched with " + GetForceFromAbility(PlayerAbilityList.playerAbilities.swipeMovement).ToString();
             bIsMoving = true;
-            manager._activeMode.bLaunched = true;
+            manager.activeMode.bLaunched = true;
         }
     }
 }

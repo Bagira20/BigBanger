@@ -193,7 +193,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: New Text
+  m_Text: 
 --- !u!222 &383368271
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -694,6 +694,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 685832104, guid: a0d54f12fdb6edb4b80ffb5d7d0b9c5e, type: 3}
+      propertyPath: manager
+      value: 
+      objectReference: {fileID: 1771451191}
     - target: {fileID: 510013348521472384, guid: a0d54f12fdb6edb4b80ffb5d7d0b9c5e,
         type: 3}
       propertyPath: m_Name
@@ -702,7 +706,7 @@ PrefabInstance:
     - target: {fileID: 510013348521472384, guid: a0d54f12fdb6edb4b80ffb5d7d0b9c5e,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 510013348521472388, guid: a0d54f12fdb6edb4b80ffb5d7d0b9c5e,
         type: 3}
@@ -831,7 +835,17 @@ PrefabInstance:
     - target: {fileID: 3686639376288518247, guid: 21fb2a4051145b94f9ff014518d6374e,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4368435751383594493, guid: 21fb2a4051145b94f9ff014518d6374e,
+        type: 3}
+      propertyPath: manager
+      value: 
+      objectReference: {fileID: 1771451191}
+    - target: {fileID: 4368435751383594493, guid: 21fb2a4051145b94f9ff014518d6374e,
+        type: 3}
+      propertyPath: MovementConfiguration.Array.data[1].value
+      value: 0.01
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 21fb2a4051145b94f9ff014518d6374e, type: 3}
@@ -1346,12 +1360,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameMode: 0
-  ForceEqualTo: "1/2m(v\xB2)"
-  PlayerInputControlsFactor: 3
   MultiplyMagnitudeWith: 1
+  arCamera: {fileID: 651431359}
   playerGameObject: {fileID: 1966316349}
   targetGameObject: {fileID: 1324339585}
-  arCamera: {fileID: 651431359}
   timerText: {fileID: 383368270}
   actionNeededText: {fileID: 1721454174}
   DebugText: {fileID: 417584333}

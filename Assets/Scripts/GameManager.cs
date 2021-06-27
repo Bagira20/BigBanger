@@ -26,7 +26,7 @@ public class GameManager : GameplayStaticsManager
     public Text DebugText;
     public GamePhase gamePhase = GamePhase.SelectPlane; /*PLS CHANGE LATEEEEERRRRRRRRRRRRRRRR!!!!!!!!!!!*/
 
-    public GameMode _activeMode;
+    public GameMode activeMode;
 
     void Awake()
     {
@@ -37,8 +37,8 @@ public class GameManager : GameplayStaticsManager
 
     public void SetGameMode() 
     {
-        _activeMode = new ModeLesson(this);
-        _activeMode.FreezeTime();  /*PLS CHANGE LATEEEEERRRRRRRRRRRRRRRR!!!!!!!!!!!*/
+        activeMode = new ModeLesson(this);
+        activeMode.FreezeTime();  /*PLS CHANGE LATEEEEERRRRRRRRRRRRRRRR!!!!!!!!!!!*/
     }
 
     void Update()
@@ -57,30 +57,28 @@ public class GameManager : GameplayStaticsManager
 
     void UpdateLessonUICanvas() 
     {
-        timerText.text ="GameTime: " + (_activeMode.bTimeLimit-Mathf.Round(GameTime.gameTime));
-        actionNeededText.text = _activeMode.actionNeededText;
+        timerText.text ="GameTime: " + (activeMode.bTimeLimit-Mathf.Round(GameTime.gameTime));
+        actionNeededText.text = activeMode.actionNeededText;
     }
 
     void UpdateFreeRoamUICanvas()
     {
-        actionNeededText.text = _activeMode.actionNeededText;
+        actionNeededText.text = activeMode.actionNeededText;
     }
 
     void UpdateGameMode() 
     {
-        _activeMode.Feedback();
+        activeMode.Feedback();
 
         switch (gameMode)
         {
             case GameModeType.Lesson:
             {
-                
                 UpdateLessonUICanvas();
                 break;
             }
             case GameModeType.FreeRoam:
-            {
-                
+            {   
                 UpdateFreeRoamUICanvas();
                 break;
             }
@@ -93,8 +91,8 @@ public class GameManager : GameplayStaticsManager
         if (gameMode == GameModeType.Lesson)
         {
             GameObject.Find("/UICanvas/LaunchButton/Text").GetComponent<Text>().text = "launched!";
-            _activeMode.bLaunched = true;
-            _activeMode.UnfreezeTime();
+            activeMode.bLaunched = true;
+            activeMode.UnfreezeTime();
             playerGameObject.GetComponent<PAMovement>().LaunchPlayerPlanet();
         }
     }
@@ -102,6 +100,6 @@ public class GameManager : GameplayStaticsManager
     public void ResetButton() 
     {
         GameObject.Find("/UICanvas/LaunchButton/Text").GetComponent<Text>().text = "LAUNCH!";
-        _activeMode.Reset();
+        activeMode.Reset();
     }
 }

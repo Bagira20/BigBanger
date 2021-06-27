@@ -30,6 +30,7 @@ public class AbilitySwipeMovement : AbilityBase
 
     void InitiateLineRenderer()
     {
+        gameManager.activeMode.FreezeTime();
         initialized = true;
         predictionLineRenderer.useWorldSpace = true;
         predictionLineRenderer.positionCount = 2;
