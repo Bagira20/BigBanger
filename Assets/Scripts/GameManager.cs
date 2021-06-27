@@ -14,14 +14,11 @@ public class GameManager : GameplayStaticsManager
 
     [Header("Scene Settings")]
     public GameModeType gameMode = GameModeType.Lesson;
-    [Tooltip(FormulaSheets.tooltip)]
-    public string ForceEqualTo = FormulaSheets.ForceIs[1];
-    public FactorElement PlayerInputControlsFactor = FactorElement.V;
     public float MultiplyMagnitudeWith = 1f;
 
     [Header("Scene Objects")]
-    public GameObject playerGameObject, targetGameObject;
     public Camera arCamera;
+    public GameObject playerGameObject, targetGameObject;
     public Text timerText;
     public TMP_Text actionNeededText; 
 
@@ -54,6 +51,8 @@ public class GameManager : GameplayStaticsManager
     void FixedUpdate()
     {
         TouchInput.SetUIAreaToDeviceOrientation(Input.deviceOrientation);
+        if (Input.GetKey(KeyCode.Escape))
+            ResetButton();
     }
 
     void UpdateLessonUICanvas() 

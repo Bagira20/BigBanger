@@ -54,6 +54,7 @@ namespace TheBigBanger.GameModeManager
             arCamera = manager.arCamera;
             gameModeType = manager.gameMode;
             debugText = manager.DebugText;
+            SetPlanets(false);
         }
 
         public void SetARCamera()
@@ -85,15 +86,14 @@ namespace TheBigBanger.GameModeManager
                 Vector3 spawnPosition = placementIndicator.transform.position;
                 playerPlanet.transform.position = playerStartPos = new Vector3(spawnPosition.x - 0.25f, spawnPosition.y, spawnPosition.z);
                 targetPlanet.transform.position = targetStartPos = new Vector3(spawnPosition.x + 0.25f, spawnPosition.y, spawnPosition.z);
-                playerPlanet.SetActive(true);
-                targetPlanet.SetActive(true);
+                SetPlanets(true);
                 gamePhase = GamePhase.LevelStart;
                 actionNeededText = "";
             }
 
             if (gamePhase == GamePhase.LevelStart && !bLaunched)
             {
-
+                actionNeededText = "";
                 /*if (gamePhase == GamePhase.SwipeDirection)
                 {*/
                 switch (TouchInput.GetTouch().phase)
@@ -114,6 +114,12 @@ namespace TheBigBanger.GameModeManager
                 //}
             }
 
+        }
+
+        void SetPlanets(bool active) 
+        {
+            playerPlanet.SetActive(active);
+            targetPlanet.SetActive(active);
         }
 
         public void FreezeTime()

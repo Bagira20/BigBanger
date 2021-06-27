@@ -28,9 +28,9 @@ public class PAMovement : PlanetMovementBase
     {
         float abilityVelocity = GetVelocityFromAbility(ability);
 
-        if (manager.ForceEqualTo == FormulaSheets.ForceIs[0]/*F=1/2mv²*/ && PlayerInputFactor == FactorElement.V)
+        if (ForceIs == FormulaSheets.ForceIs[0]/*F=1/2mv²*/ && PlayerInputFactor == FactorElement.V)
             force = 0.5f * mass * Mathf.Pow(abilityVelocity, 2);
-        else if (manager.ForceEqualTo == FormulaSheets.ForceIs[1]/*F=ma*/ && PlayerInputFactor == FactorElement.A)
+        else if (ForceIs == FormulaSheets.ForceIs[1]/*F=ma*/ && PlayerInputFactor == FactorElement.A)
             force = mass * abilityVelocity;
 
         return force;
