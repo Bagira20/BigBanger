@@ -19,7 +19,7 @@ namespace TheBigBanger.GameModeManager
     public enum GamePhase
     {
         SelectPlane,
-        SpawnPhase, 
+        SpawnPhase,
         LevelStart,
         PlayPhase,
         LevelEnd,
@@ -30,12 +30,13 @@ namespace TheBigBanger.GameModeManager
         
         GameModeType gameModeType;
         GameObject playerPlanet, targetPlanet;
-        GameObject placementIndicator;
+        GameObject placementIndicator, obstacle;
         public GamePhase gamePhase = GamePhase.SelectPlane;
         public string actionNeededText;
         public bool bLaunched = false, bTimeOver = false;
         public float bTimeLimit = 200f;
         Text debugText;
+        public bool levelEnd = false;
 
         protected Camera arCamera;
         //common variables and functions between Scenario and Free Roam
@@ -45,6 +46,7 @@ namespace TheBigBanger.GameModeManager
             placementIndicator = GameObject.Find("PlacementIndicator");
             playerPlanet = manager.playerGameObject;
             targetPlanet = manager.targetGameObject;
+            obstacle = manager.obstaclePrefab;
             actionNeededText = "move your device slowly until an indicator appears";
             arCamera = manager.arCamera;
             gameModeType = manager.gameMode;
@@ -61,7 +63,7 @@ namespace TheBigBanger.GameModeManager
             
             if (gamePhase == GamePhase.SelectPlane)
             {
-                if ((Input.touchCount > 0) && (Input.GetTouch(0).phase == TouchPhase.Began))
+                if ((Input.touchCount > 0) && (Input.GetTouch(0).phase == TouchPhase.Ended))
                 {
                     if (placementIndicator.activeSelf)
                     {
@@ -74,7 +76,7 @@ namespace TheBigBanger.GameModeManager
                 }
             }
 
-            if (gamePhase == GamePhase.SpawnPhase)
+            else if (gamePhase == GamePhase.SpawnPhase)
             {
                 Vector3 spawnPosition = placementIndicator.transform.position;
                 playerPlanet.transform.position = new Vector3(spawnPosition.x - 0.25f, spawnPosition.y, spawnPosition.z);
@@ -85,7 +87,21 @@ namespace TheBigBanger.GameModeManager
                 actionNeededText = "";
             }
 
-            if (gamePhase == GamePhase.LevelStart && !bLaunched)
+            else if (gamePhase == GamePhase.LevelStart)
+            {
+                actionNeededText = "place your obstacle on the play area";
+
+                if ((Input.touchCount > 0) && (Input.GetTouch(0).phase == TouchPhase.Ended))
+                {
+                    if (placementIndicator.activeSelf)
+                    {
+                        GameObject.Instantiate(obstacle, placementIndicator.transform.position, Quaternion.identity);
+                        gamePhase = GamePhase.PlayPhase;
+                    }
+                }
+            }
+
+            else if (gamePhase == GamePhase.PlayPhase && !bLaunched)
             {
                 actionNeededText = "";
                 /*if (gamePhase == GamePhase.SwipeDirection)
@@ -108,6 +124,10 @@ namespace TheBigBanger.GameModeManager
                 //}
             }
 
+            else if (gamePhase == GamePhase.LevelEnd)
+            {
+                levelEnd = true;
+            }
         }
 
         void SetPlanets(bool active) 
@@ -146,6 +166,9 @@ namespace TheBigBanger.GameModeManager
             aSwipeMovement.ResetSwipeLine();
             playerPlanet.GetComponent<PAMovement>().bIsMoving = false;
             bLaunched = false;
+            levelEnd = false;
+            gamePhase = GamePhase.PlayPhase;
+
         }
     }
 }

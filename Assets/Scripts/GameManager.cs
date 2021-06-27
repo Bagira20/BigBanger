@@ -18,9 +18,10 @@ public class GameManager : GameplayStaticsManager
 
     [Header("Scene Objects")]
     public Camera arCamera;
-    public GameObject playerGameObject, targetGameObject;
-    public Text timerText;
-    public TMP_Text actionNeededText; 
+    public GameObject playerGameObject, targetGameObject, obstaclePrefab;
+    public Text timerText, launchText;
+    public TMP_Text actionNeededText;
+    public GameObject levelEndCanvas, levelActiveCanvas;
 
     [Header("DEVELOPMENT Only")]
     public Text DebugText;
@@ -59,6 +60,11 @@ public class GameManager : GameplayStaticsManager
     {
         timerText.text ="GameTime: " + (activeMode.bTimeLimit-Mathf.Round(GameTime.gameTime));
         actionNeededText.text = activeMode.actionNeededText;
+        if (activeMode.levelEnd)
+        {
+            levelActiveCanvas.SetActive(false);
+            levelEndCanvas.SetActive(true);
+        }
     }
 
     void UpdateFreeRoamUICanvas()
@@ -90,7 +96,7 @@ public class GameManager : GameplayStaticsManager
     {
         if (gameMode == GameModeType.Lesson)
         {
-            GameObject.Find("/UICanvas/LaunchButton/Text").GetComponent<Text>().text = "launched!";
+            launchText.text = "launched!";
             activeMode.bLaunched = true;
             activeMode.UnfreezeTime();
             playerGameObject.GetComponent<PAMovement>().LaunchPlayerPlanet();
@@ -99,7 +105,9 @@ public class GameManager : GameplayStaticsManager
 
     public void ResetButton() 
     {
-        GameObject.Find("/UICanvas/LaunchButton/Text").GetComponent<Text>().text = "LAUNCH!";
+        launchText.text = "LAUNCH!";
+        levelActiveCanvas.SetActive(true);
+        levelEndCanvas.SetActive(false);
         activeMode.Reset();
     }
 }

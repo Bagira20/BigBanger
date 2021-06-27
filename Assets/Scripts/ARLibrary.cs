@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR.ARSubsystems;
 using UnityEngine.XR.ARFoundation;
+using TheBigBanger.GameModeManager;
 using UnityEngine.Experimental.XR;
 using UnityEngine.UI;
 
@@ -13,6 +14,7 @@ public class ARLibrary : MonoBehaviour
     public ARSessionOrigin arSessionOrigin;
     public Pose placementPose;
     public bool placementPoseIsValid = false;
+    public bool stopIndicator = false;
     public Text debug;
 
     GameManager gameManager;
@@ -26,14 +28,25 @@ public class ARLibrary : MonoBehaviour
     {
         UpdatePlacementPose();
         UpdatePlacementIndicator();
+        if (gameManager.activeMode.gamePhase == GamePhase.LevelStart)
+        {
+            arSessionOrigin.GetComponent<ARPlaneManager>().planePrefab = null;
+        }
+        if (gameManager.activeMode.gamePhase == GamePhase.PlayPhase)
+        {
+            stopIndicator = true;
+        }
     }
 
      void UpdatePlacementIndicator()
     {
-        if (placementPoseIsValid)
+        if (placementPoseIsValid && !stopIndicator)
         {
             placementIndicator.SetActive(true);
-            gameManager.actionNeededText.text = "Please tap on a flat horizontal surface to initialize playground";
+            if (gameManager.activeMode.gamePhase == GamePhase.SelectPlane)
+                gameManager.actionNeededText.text = "Please tap on a flat horizontal surface to initialize playground";
+            else
+                gameManager.actionNeededText.text = "";
             placementIndicator.transform.SetPositionAndRotation(placementPose.position, placementPose.rotation);
         }
         else
