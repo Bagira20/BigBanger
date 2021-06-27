@@ -19,18 +19,15 @@ namespace TheBigBanger.GameModeManager
     public enum GamePhase
     {
         SelectPlane,
-        SpawnPhase, //planets appear, planet values are give, bonus mission and formula appear and adjust on screen
+        SpawnPhase, 
         LevelStart,
-
-        /// <summary>
-        /// need to merge swipe and rocket into one phase
-        /// </summary>
-        SwipeDirection,
-        Rocket,
+        PlayPhase,
+        LevelEnd,
     }
 
     public class GameMode : PlayerAbilityList
     {
+        
         GameModeType gameModeType;
         GameObject playerPlanet, targetPlanet;
         GameObject placementIndicator;
@@ -43,7 +40,6 @@ namespace TheBigBanger.GameModeManager
         protected Camera arCamera;
         //common variables and functions between Scenario and Free Roam
         //Spawn player Planet, EndScene, etc..     
-
         protected GameMode(GameManager manager) : base (manager)
         {
             placementIndicator = GameObject.Find("PlacementIndicator");
@@ -55,13 +51,11 @@ namespace TheBigBanger.GameModeManager
             debugText = manager.DebugText;
             SetPlanets(false);
         }
-
         public void SetARCamera()
         {
             if (arCamera == null)
                 arCamera = GameObject.Find("/AR Session Origin/AR Camera").GetComponent<Camera>();
         }
-
         public void Feedback() 
         {
             
