@@ -63,4 +63,18 @@ public class PlanetMovementBase : MonoBehaviour
                 return true;
         } return false;
     }
+
+
+    public void DestroyPlanet() 
+    {
+        bIsMoving = false;
+        GetComponent<MeshRenderer>().enabled = false;
+    }
+
+    public void ResetPlanet()
+    {
+        transform.position = startPos;
+        bIsMoving = false;
+        GetComponent<MeshRenderer>().enabled = true;
+    }
 }

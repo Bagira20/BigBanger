@@ -18,94 +18,147 @@ namespace TheBigBanger.GameModeManager
 
     public enum GamePhase
     {
+        Intro,
         SelectPlane,
         SpawnPhase,
-        LevelStart,
+        PlaceObstacles,
         PlayPhase,
         LevelEnd,
     }
 
     public class GameMode : PlayerAbilityList
     {
-        
         GameModeType gameModeType;
+        GameManager gameManager;
         GameObject playerPlanet, targetPlanet;
         GameObject placementIndicator, obstacle;
-        public GamePhase gamePhase = GamePhase.SelectPlane;
+        public GamePhase gamePhase = GamePhase.Intro, previousGamePhase;
         public string actionNeededText;
-        public bool bLaunched = false, bTimeOver = false;
+        public bool bLaunched = false, bTimeOver = false, levelEnd = false;
         public float bTimeLimit = 200f;
         Text debugText;
-        public bool levelEnd = false;
 
         protected Camera arCamera;
         //common variables and functions between Scenario and Free Roam
         //Spawn player Planet, EndScene, etc..     
         protected GameMode(GameManager manager) : base (manager)
         {
+            gameManager = manager;
             placementIndicator = GameObject.Find("PlacementIndicator");
-            playerPlanet = manager.playerGameObject;
-            targetPlanet = manager.targetGameObject;
-            obstacle = manager.obstaclePrefab;
-            actionNeededText = "move your device slowly until an indicator appears";
-            arCamera = manager.arCamera;
-            gameModeType = manager.gameMode;
-            debugText = manager.DebugText;
+            playerPlanet = gameManager.playerGameObject;
+            targetPlanet = gameManager.targetGameObject;
+            obstacle = gameManager.obstaclePrefab;
+            arCamera = gameManager.arCamera;
+            gameModeType = gameManager.gameMode;
+            debugText = gameManager.DebugText;
             SetPlanets(false);
         }
+
         public void SetARCamera()
         {
             if (arCamera == null)
                 arCamera = GameObject.Find("/AR Session Origin/AR Camera").GetComponent<Camera>();
         }
-        public void Feedback() 
+        
+        public void UpdateGameMode() 
         {
-            
-            if (gamePhase == GamePhase.SelectPlane)
+            switch (gamePhase) 
             {
-                if ((Input.touchCount > 0) && (Input.GetTouch(0).phase == TouchPhase.Ended))
+                case GamePhase.Intro:
+                    UpdateIntro(); break;
+
+                case GamePhase.SelectPlane:
+                    UpdateSelectPlane(); break;
+
+                case GamePhase.SpawnPhase:
+                    UpdateSpawnPhase(); break;
+
+                case GamePhase.PlaceObstacles:
+                    UpdatePlaceObstacles(); break;
+
+                case GamePhase.PlayPhase:
+                    UpdatePlayPhase(); break;
+
+                case GamePhase.LevelEnd:
+                    UpdateLevelEnd(); break;
+            };
+        }
+
+        bool bIntroAnimationInitialized = false;
+        void UpdateIntro()
+        {
+            if (!bIntroAnimationInitialized)
+            {
+                gameManager.levelIntroCanvas.GetComponentInChildren<Text>().text = LevelIntroDisplays.LevelIntroText[1];
+                //StartAnimation
+                bIntroAnimationInitialized = true;
+            }
+            if (TouchInput.IsTouching() && (Input.GetTouch(0).phase == TouchPhase.Ended))
+            {
+                gameManager.levelIntroCanvas.SetActive(false);
+                actionNeededText = "move your device slowly until an indicator appears";
+                SetGamePhase(GamePhase.SelectPlane);
+            }
+        }
+
+        void UpdateSelectPlane() 
+        {
+            if (TouchInput.IsTouching() && (Input.GetTouch(0).phase == TouchPhase.Ended))
+            {
+                if (placementIndicator.activeSelf)
                 {
-                    if (placementIndicator.activeSelf)
-                    {
-                        gamePhase = GamePhase.SpawnPhase;
-                    }
-                    else
-                    {
-                        actionNeededText = "Please select a valid surface to play on";
-                    }
+                    SetGamePhase(GamePhase.SpawnPhase);
+                }
+                else
+                {
+                    actionNeededText = "Please select a valid surface to play on";
                 }
             }
+        }
 
-            else if (gamePhase == GamePhase.SpawnPhase)
+        void UpdateSpawnPhase() 
+        {
+            Vector3 spawnPosition = placementIndicator.transform.position;
+            playerPlanet.transform.position = new Vector3(spawnPosition.x - 0.25f, spawnPosition.y, spawnPosition.z);
+            targetPlanet.transform.position = new Vector3(spawnPosition.x + 0.25f, spawnPosition.y, spawnPosition.z);
+            SetPlanets(true);
+            UnfreezeTime();
+            if (gameManager.ObstacleCreationAtStart)
             {
-                Vector3 spawnPosition = placementIndicator.transform.position;
-                playerPlanet.transform.position = new Vector3(spawnPosition.x - 0.25f, spawnPosition.y, spawnPosition.z);
-                targetPlanet.transform.position = new Vector3(spawnPosition.x + 0.25f, spawnPosition.y, spawnPosition.z);
-                SetPlanets(true);
-                UnfreezeTime();
-                gamePhase = GamePhase.LevelStart;
-                actionNeededText = "";
-            }
-
-            else if (gamePhase == GamePhase.LevelStart)
-            {
+                SetGamePhase(GamePhase.PlaceObstacles);
                 actionNeededText = "place your obstacle on the play area";
+            }
+            else
+                SetGamePhase(GamePhase.PlayPhase);
+        }
 
-                if ((Input.touchCount > 0) && (Input.GetTouch(0).phase == TouchPhase.Ended))
+        void UpdatePlaceObstacles()
+        {  
+            if ((Input.touchCount > 0) && (Input.GetTouch(0).phase == TouchPhase.Ended))
+            {
+                if (placementIndicator.activeSelf)
                 {
-                    if (placementIndicator.activeSelf)
-                    {
-                        //GameObject.Instantiate(obstacle, placementIndicator.transform.position, Quaternion.identity);
-                        gamePhase = GamePhase.PlayPhase;
-                    }
+                    GameObject.Instantiate(obstacle, placementIndicator.transform.position, Quaternion.identity);
+                    SetGamePhase(GamePhase.PlayPhase);
                 }
             }
+        }
 
-            else if (gamePhase == GamePhase.PlayPhase && !bLaunched)
+        void UpdatePlayPhase()
+        {
+            if (!bLaunched)
             {
-                actionNeededText = "";
-                /*if (gamePhase == GamePhase.SwipeDirection)
-                {*/
+                if (IsTimeFrozen())
+                {
+                    actionNeededText = "";
+                    UnfreezeTime();
+                }
+                //Game Over
+                else if (IsTimeOver())
+                {
+                    gameManager.levelEndCanvas.GetComponentInChildren<Text>().text = "Time ran out!";
+                    SetGamePhase(GamePhase.LevelEnd);
+                }
                 switch (TouchInput.GetTouch().phase)
                 {
                     case TouchPhase.Began:
@@ -118,16 +171,22 @@ namespace TheBigBanger.GameModeManager
                         aSwipeMovement.EndSwipeLine();
                         break;
                 }
-                //DEBUG
+
                 PAMovement tempMovement = playerPlanet.GetComponent<PAMovement>();
                 debugText.text = "PLAYER: \nVelocity: " + tempMovement.GetVelocityFromAbility(playerAbilities.swipeMovement) + "\nForce: " + tempMovement.GetForceFromAbility(playerAbilities.swipeMovement) + "\nMass: " + tempMovement.GetMass();
-                //}
             }
+        }
 
-            else if (gamePhase == GamePhase.LevelEnd)
-            {
-                levelEnd = true;
-            }
+        //called by collision between player and targetPlanet
+        void UpdateLevelEnd() 
+        {
+            levelEnd = true;
+        }
+
+        void SetGamePhase(GamePhase newPhase) 
+        {
+            previousGamePhase = gamePhase;
+            gamePhase = newPhase;
         }
 
         void SetPlanets(bool active) 
@@ -151,6 +210,11 @@ namespace TheBigBanger.GameModeManager
             GameTime.bFreeze = false;
         }
 
+        public bool IsTimeFrozen() 
+        {
+            return GameTime.bFreeze;
+        }
+
         //only for lesson units, not free roam
         public bool IsTimeOver()
         {
@@ -160,11 +224,11 @@ namespace TheBigBanger.GameModeManager
         //spawn stuff
         public void Reset() 
         {
-            debugText.text = "RESET"; 
-            playerPlanet.transform.position = playerPlanet.GetComponent<PAMovement>().startPos;
-            targetPlanet.transform.position = targetPlanet.GetComponent<PBMovement>().startPos;
+            debugText.text = "RESET";
+            playerPlanet.GetComponent<PAMovement>().ResetPlanet();
+            if (levelEnd)
+                targetPlanet.GetComponent<PBMovement>().ResetPlanet();
             aSwipeMovement.ResetSwipeLine();
-            playerPlanet.GetComponent<PAMovement>().bIsMoving = false;
             bLaunched = false;
             levelEnd = false;
             gamePhase = GamePhase.PlayPhase;
