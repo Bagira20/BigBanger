@@ -18,7 +18,6 @@ namespace TheBigBanger.GameModeManager
 
     public enum GamePhase
     {
-        Intro,
         SelectPlane,
         SpawnPhase,
         PlaceObstacles,
@@ -32,7 +31,7 @@ namespace TheBigBanger.GameModeManager
         GameManager gameManager;
         GameObject playerPlanet, targetPlanet;
         GameObject placementIndicator, obstacle;
-        public GamePhase gamePhase = GamePhase.Intro, previousGamePhase;
+        public GamePhase gamePhase = GamePhase.SelectPlane, previousGamePhase;
         public string actionNeededText;
         public bool bLaunched = false, bTimeOver = false, levelEnd = false;
         public float bTimeLimit = 200f;
@@ -51,6 +50,7 @@ namespace TheBigBanger.GameModeManager
             arCamera = gameManager.arCamera;
             gameModeType = gameManager.gameMode;
             debugText = gameManager.DebugText;
+            gameManager.levelMissionCanvas.GetComponentInChildren<Text>().text = LevelIntroDisplays.LevelIntroText[1];
             SetPlanets(false);
         }
 
@@ -64,9 +64,6 @@ namespace TheBigBanger.GameModeManager
         {
             switch (gamePhase) 
             {
-                case GamePhase.Intro:
-                    UpdateIntro(); break;
-
                 case GamePhase.SelectPlane:
                     UpdateSelectPlane(); break;
 
@@ -84,25 +81,9 @@ namespace TheBigBanger.GameModeManager
             };
         }
 
-        bool bIntroAnimationInitialized = false;
-        void UpdateIntro()
-        {
-            if (!bIntroAnimationInitialized)
-            {
-                gameManager.levelIntroCanvas.GetComponentInChildren<Text>().text = LevelIntroDisplays.LevelIntroText[1];
-                //StartAnimation
-                bIntroAnimationInitialized = true;
-            }
-            if (TouchInput.IsTouching() && (Input.GetTouch(0).phase == TouchPhase.Ended))
-            {
-                gameManager.levelIntroCanvas.SetActive(false);
-                actionNeededText = "move your device slowly until an indicator appears";
-                SetGamePhase(GamePhase.SelectPlane);
-            }
-        }
-
         void UpdateSelectPlane() 
         {
+            actionNeededText = "move your device slowly until an indicator appears";
             if (TouchInput.IsTouching() && (Input.GetTouch(0).phase == TouchPhase.Ended))
             {
                 if (placementIndicator.activeSelf)
@@ -122,14 +103,16 @@ namespace TheBigBanger.GameModeManager
             playerPlanet.transform.position = new Vector3(spawnPosition.x - 0.25f, spawnPosition.y, spawnPosition.z);
             targetPlanet.transform.position = new Vector3(spawnPosition.x + 0.25f, spawnPosition.y, spawnPosition.z);
             SetPlanets(true);
-            UnfreezeTime();
             if (gameManager.ObstacleCreationAtStart)
             {
                 SetGamePhase(GamePhase.PlaceObstacles);
                 actionNeededText = "place your obstacle on the play area";
             }
             else
+            {
                 SetGamePhase(GamePhase.PlayPhase);
+                UnfreezeTime();
+            }
         }
 
         void UpdatePlaceObstacles()
@@ -140,29 +123,29 @@ namespace TheBigBanger.GameModeManager
                 {
                     GameObject.Instantiate(obstacle, placementIndicator.transform.position, Quaternion.identity);
                     SetGamePhase(GamePhase.PlayPhase);
+                    UnfreezeTime();
                 }
             }
         }
 
         void UpdatePlayPhase()
         {
+            //Check Time for else if = GAMEOVER
+            if (IsTimeOver())
+            {
+                gameManager.levelEndCanvas.GetComponentInChildren<Text>().text = "Time ran out!";
+                SetGamePhase(GamePhase.LevelEnd);
+            }
+
+            //Check Input
             if (!bLaunched)
             {
-                if (IsTimeFrozen())
-                {
-                    actionNeededText = "";
-                    UnfreezeTime();
-                }
-                //Game Over
-                else if (IsTimeOver())
-                {
-                    gameManager.levelEndCanvas.GetComponentInChildren<Text>().text = "Time ran out!";
-                    SetGamePhase(GamePhase.LevelEnd);
-                }
                 switch (TouchInput.GetTouch().phase)
                 {
                     case TouchPhase.Began:
                         aSwipeMovement.StartSwipeLine();
+                        if (!IsTimeFrozen())
+                            FreezeTime();
                         break;
                     case TouchPhase.Moved:
                         aSwipeMovement.UpdateSwipeLine();

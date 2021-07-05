@@ -87,4 +87,17 @@ public class PAMovement : PlanetMovementBase
             manager.activeMode.bLaunched = true;
         }
     }
+
+    public override void DestroyPlanet()
+    {
+        base.DestroyPlanet();
+        transform.GetChild(0).gameObject.SetActive(false);
+    }
+
+    public override void ResetPlanet() 
+    {
+        base.ResetPlanet();
+        //rotation
+        transform.GetChild(0).gameObject.SetActive(true);
+    }
 }

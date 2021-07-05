@@ -22,7 +22,7 @@ public class GameManager : GameplayStaticsManager
     public GameObject playerGameObject, targetGameObject, obstaclePrefab;
     public Text timerText, launchText;
     public TMP_Text actionNeededText;
-    public GameObject levelIntroCanvas, levelActiveCanvas, levelEndCanvas;
+    public GameObject levelMissionCanvas, levelActiveCanvas, levelEndCanvas;
 
     [Header("DEVELOPMENT Only")]
     public Text DebugText;
@@ -75,8 +75,7 @@ public class GameManager : GameplayStaticsManager
 
     void UpdateGameMode() 
     {
-        activeMode.UpdateGameMode();
-
+        //mode specifics
         switch (gameMode)
         {
             case GameModeType.Lesson:
@@ -90,7 +89,7 @@ public class GameManager : GameplayStaticsManager
                 break;
             }
         }
-
+        activeMode.UpdateGameMode();
     }
 
     public void LaunchButton() 

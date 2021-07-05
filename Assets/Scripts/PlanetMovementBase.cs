@@ -65,13 +65,13 @@ public class PlanetMovementBase : MonoBehaviour
     }
 
 
-    public void DestroyPlanet() 
+    public virtual void DestroyPlanet() 
     {
         bIsMoving = false;
         GetComponent<MeshRenderer>().enabled = false;
     }
 
-    public void ResetPlanet()
+    public virtual void ResetPlanet()
     {
         transform.position = startPos;
         bIsMoving = false;
