@@ -30,6 +30,8 @@ namespace TheBigBanger.GameModeManager
         GameModeType gameModeType;
         GameManager gameManager;
         GameObject playerPlanet, targetPlanet;
+        PAMovement playerMovement;
+        PBMovement targetMovement;
         GameObject placementIndicator, obstacle;
         public GamePhase gamePhase = GamePhase.SelectPlane, previousGamePhase;
         public string actionNeededText;
@@ -45,7 +47,9 @@ namespace TheBigBanger.GameModeManager
             gameManager = manager;
             placementIndicator = GameObject.Find("PlacementIndicator");
             playerPlanet = gameManager.playerGameObject;
+            playerMovement = playerPlanet.GetComponent<PAMovement>();
             targetPlanet = gameManager.targetGameObject;
+            targetMovement = targetPlanet.GetComponent<PBMovement>();
             obstacle = gameManager.obstaclePrefab;
             arCamera = gameManager.arCamera;
             gameModeType = gameManager.gameMode;
@@ -140,23 +144,52 @@ namespace TheBigBanger.GameModeManager
             //Check Input
             if (!bLaunched)
             {
-                switch (TouchInput.GetTouch().phase)
+                if (TouchInput.IsTouching() && TouchInput.RaycastFromCamera(arCamera))
                 {
-                    case TouchPhase.Began:
-                        aSwipeMovement.StartSwipeLine();
-                        if (!IsTimeFrozen())
-                            FreezeTime();
-                        break;
-                    case TouchPhase.Moved:
-                        aSwipeMovement.UpdateSwipeLine();
-                        break;
-                    case TouchPhase.Ended:
-                        aSwipeMovement.EndSwipeLine();
-                        break;
+                    if (playerMovement.movementInputType == PAMovementTypes.Swipe) 
+                    {
+                        if (TouchInput.IsRotationSocketHit())
+                            UpdateRotationSocketInput();
+                        else
+                            UpdateSwipeInput();
+                    }
+                    else if (playerMovement.movementInputType == PAMovementTypes.Rocket) { /*ROCKET STUFF*/}
                 }
+                debugText.text = "PLAYER: \nVelocity: " + playerMovement.GetVelocityFromAbility(playerAbilities.swipeMovement) + "\nForce: " + playerMovement.GetForceFromAbility(playerAbilities.swipeMovement) + "\nMass: " + playerMovement.GetMass();
+            }
+        }
 
-                PAMovement tempMovement = playerPlanet.GetComponent<PAMovement>();
-                debugText.text = "PLAYER: \nVelocity: " + tempMovement.GetVelocityFromAbility(playerAbilities.swipeMovement) + "\nForce: " + tempMovement.GetForceFromAbility(playerAbilities.swipeMovement) + "\nMass: " + tempMovement.GetMass();
+        void UpdateRotationSocketInput() 
+        {
+            switch (TouchInput.GetTouch().phase)
+            {
+                case TouchPhase.Began:
+                    aRotation.StartRotation();
+                    break;
+                case TouchPhase.Moved:
+                    aRotation.UpdateRotation();
+                    break;
+                case TouchPhase.Ended:
+                    aRotation.EndRotation();
+                    break;
+            }
+        }
+
+        void UpdateSwipeInput() 
+        {
+            switch (TouchInput.GetTouch().phase)
+            {
+                case TouchPhase.Began:
+                    aSwipeMovement.StartSwipeLine();
+                    if (!IsTimeFrozen())
+                        FreezeTime();
+                    break;
+                case TouchPhase.Moved:
+                    aSwipeMovement.UpdateSwipeLine();
+                    break;
+                case TouchPhase.Ended:
+                    aSwipeMovement.EndSwipeLine();
+                    break;
             }
         }
 

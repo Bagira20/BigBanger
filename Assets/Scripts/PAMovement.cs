@@ -3,13 +3,24 @@ using System.Collections.Generic;
 using UnityEngine;
 using TheBigBanger.Formulae;
 
+public enum PAMovementTypes 
+{
+    Swipe,
+    Rocket,
+    Everything,
+    None
+}
+
 public class PAMovement : PlanetMovementBase
 {
     [Header("Player Configuration")]
+    public PAMovementTypes movementInputType = PAMovementTypes.Swipe;
     public PlayerAbilityList.playerAbilities planetVelocityBy = PlayerAbilityList.playerAbilities.swipeMovement;
     public FactorElement PlayerInputFactor = FactorElement.V;
+    public float rotationUnitPerTouchDelta = 1f;
     [Tooltip(FormulaSheets.tooltip)]
     public string ForceIs = FormulaSheets.ForceIs[0];
+
 
     [Header("Prefab Objects")]
     public LineRenderer lineRenderer;
@@ -76,7 +87,6 @@ public class PAMovement : PlanetMovementBase
     {
         return velocity;
     }
-
 
     public void LaunchPlayerPlanet()
     {

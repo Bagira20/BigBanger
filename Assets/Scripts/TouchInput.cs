@@ -60,6 +60,12 @@ public class TouchInput : MonoBehaviour
         return IsTargetLayerHit(3);
     }
 
+    public static bool IsRotationSocketHit()
+    {
+        //player layer currently at 8
+        return IsTargetLayerHit(8);
+    }
+
     static bool IsTargetLayerHit(int targetLayer) 
     {
         foreach (RaycastHit hit in raycastHits)
