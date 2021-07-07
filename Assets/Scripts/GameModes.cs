@@ -146,14 +146,14 @@ namespace TheBigBanger.GameModeManager
             {
                 if (TouchInput.IsTouching() && TouchInput.RaycastFromCamera(arCamera))
                 {
-                    if (playerMovement.movementInputType == EPAMovementTypes.Swipe) 
+                    if (playerMovement.planetVelocityBy == EPlayerAbilities.swipeMovement) 
                     {
                         if (TouchInput.IsRotationSocketHit() || aRotation.bInputLocked)
                             UpdateRotationInputForAbility(aSwipeMovement);
                         else if (TouchInput.IsPlayerHit() || TouchInput.IsInputCanvasHit())
                             UpdateSwipeInput();
                     }
-                    else if (playerMovement.movementInputType == EPAMovementTypes.Rocket) { /*ROCKET STUFF*/}
+                    else if (playerMovement.planetVelocityBy == EPlayerAbilities.rocketMovement) { /*ROCKET STUFF*/}
                 }
                 debugText.text = "PLAYER: \nVelocity: " + playerMovement.GetVelocityFromAbility(EPlayerAbilities.swipeMovement) + "\nForce: " + playerMovement.GetForceFromAbility(EPlayerAbilities.swipeMovement) + "\nMass: " + playerMovement.GetMass();
             }

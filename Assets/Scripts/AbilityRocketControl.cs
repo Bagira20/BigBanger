@@ -7,4 +7,9 @@ public class AbilityRocketControl : AbilityBase
     public float rocketMagnitude;
 
     public AbilityRocketControl(GameManager manager) : base(manager) { }
+
+
+    //rocket icon tap and place
+
+    //movement magnitude calc
 }

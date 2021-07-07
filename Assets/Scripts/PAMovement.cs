@@ -14,7 +14,6 @@ public enum EPAMovementTypes
 public class PAMovement : PlanetMovementBase
 {
     [Header("Player Configuration")]
-    public EPAMovementTypes movementInputType = EPAMovementTypes.Swipe;
     public EPlayerAbilities planetVelocityBy = EPlayerAbilities.swipeMovement;
     public EFactorElement PlayerInputFactor = EFactorElement.V;
     public float rotationSensitivity = 1f;
