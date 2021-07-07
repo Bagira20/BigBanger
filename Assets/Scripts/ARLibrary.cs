@@ -28,11 +28,11 @@ public class ARLibrary : MonoBehaviour
     {
         UpdatePlacementPose();
         UpdatePlacementIndicator();
-        if (gameManager.activeMode.gamePhase == GamePhase.PlaceObstacles)
+        if (gameManager.activeMode.gamePhase == EGamePhase.PlaceObstacles)
         {
             arSessionOrigin.GetComponent<ARPlaneManager>().planePrefab = null;
         }
-        if (gameManager.activeMode.gamePhase == GamePhase.PlayPhase)
+        if (gameManager.activeMode.gamePhase == EGamePhase.PlayPhase)
         {
             stopIndicator = true;
         }
@@ -43,7 +43,7 @@ public class ARLibrary : MonoBehaviour
         if (placementPoseIsValid && !stopIndicator)
         {
             placementIndicator.SetActive(true);
-            if (gameManager.activeMode.gamePhase == GamePhase.SelectPlane)
+            if (gameManager.activeMode.gamePhase == EGamePhase.SelectPlane)
                 gameManager.actionNeededText.text = "Please tap on a flat horizontal surface to initialize playground";
             else
                 gameManager.actionNeededText.text = "";

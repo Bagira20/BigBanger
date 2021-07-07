@@ -10,13 +10,13 @@ namespace TheBigBanger.GameModeManager
 {
     /*Functions and variables needed to define the rules and abilities for the two child game modes Scenario and FreeRoam. 
       Contains functionalities of abilities due to them being executed within a mode.*/
-    public enum GameModeType
+    public enum EGameModeType
     {
         Lesson,
         FreeRoam
     }
 
-    public enum GamePhase
+    public enum EGamePhase
     {
         SelectPlane,
         SpawnPhase,
@@ -27,13 +27,13 @@ namespace TheBigBanger.GameModeManager
 
     public class GameMode : PlayerAbilityList
     {
-        GameModeType gameModeType;
+        EGameModeType gameModeType;
         GameManager gameManager;
         GameObject playerPlanet, targetPlanet;
         PAMovement playerMovement;
         PBMovement targetMovement;
         GameObject placementIndicator, obstacle;
-        public GamePhase gamePhase = GamePhase.SelectPlane, previousGamePhase;
+        public EGamePhase gamePhase = EGamePhase.SelectPlane, previousGamePhase;
         public string actionNeededText;
         public bool bLaunched = false, bTimeOver = false, levelEnd = false;
         public float bTimeLimit = 200f;
@@ -52,7 +52,7 @@ namespace TheBigBanger.GameModeManager
             targetMovement = targetPlanet.GetComponent<PBMovement>();
             obstacle = gameManager.obstaclePrefab;
             arCamera = gameManager.arCamera;
-            gameModeType = gameManager.gameMode;
+            gameModeType = gameManager.gameModeType;
             debugText = gameManager.DebugText;
             gameManager.levelMissionCanvas.GetComponentInChildren<Text>().text = LevelIntroDisplays.LevelIntroText[1];
             SetPlanets(false);
@@ -68,19 +68,19 @@ namespace TheBigBanger.GameModeManager
         {
             switch (gamePhase) 
             {
-                case GamePhase.SelectPlane:
+                case EGamePhase.SelectPlane:
                     UpdateSelectPlane(); break;
 
-                case GamePhase.SpawnPhase:
+                case EGamePhase.SpawnPhase:
                     UpdateSpawnPhase(); break;
 
-                case GamePhase.PlaceObstacles:
+                case EGamePhase.PlaceObstacles:
                     UpdatePlaceObstacles(); break;
 
-                case GamePhase.PlayPhase:
+                case EGamePhase.PlayPhase:
                     UpdatePlayPhase(); break;
 
-                case GamePhase.LevelEnd:
+                case EGamePhase.LevelEnd:
                     UpdateLevelEnd(); break;
             };
         }
@@ -92,7 +92,7 @@ namespace TheBigBanger.GameModeManager
             {
                 if (placementIndicator.activeSelf)
                 {
-                    SetGamePhase(GamePhase.SpawnPhase);
+                    SetGamePhase(EGamePhase.SpawnPhase);
                 }
                 else
                 {
@@ -109,12 +109,12 @@ namespace TheBigBanger.GameModeManager
             SetPlanets(true);
             if (gameManager.ObstacleCreationAtStart)
             {
-                SetGamePhase(GamePhase.PlaceObstacles);
+                SetGamePhase(EGamePhase.PlaceObstacles);
                 actionNeededText = "place your obstacle on the play area";
             }
             else
             {
-                SetGamePhase(GamePhase.PlayPhase);
+                SetGamePhase(EGamePhase.PlayPhase);
                 UnfreezeTime();
             }
         }
@@ -126,7 +126,7 @@ namespace TheBigBanger.GameModeManager
                 if (placementIndicator.activeSelf)
                 {
                     GameObject.Instantiate(obstacle, placementIndicator.transform.position, Quaternion.identity);
-                    SetGamePhase(GamePhase.PlayPhase);
+                    SetGamePhase(EGamePhase.PlayPhase);
                     UnfreezeTime();
                 }
             }
@@ -138,7 +138,7 @@ namespace TheBigBanger.GameModeManager
             if (IsTimeOver())
             {
                 gameManager.levelEndCanvas.GetComponentInChildren<Text>().text = "Time ran out!";
-                SetGamePhase(GamePhase.LevelEnd);
+                SetGamePhase(EGamePhase.LevelEnd);
             }
 
             //Check Input
@@ -146,31 +146,32 @@ namespace TheBigBanger.GameModeManager
             {
                 if (TouchInput.IsTouching() && TouchInput.RaycastFromCamera(arCamera))
                 {
-                    if (playerMovement.movementInputType == PAMovementTypes.Swipe) 
+                    if (playerMovement.movementInputType == EPAMovementTypes.Swipe) 
                     {
-                        if (TouchInput.IsRotationSocketHit())
-                            UpdateRotationSocketInput();
-                        else
+                        if (TouchInput.IsRotationSocketHit() || aRotation.bInputLocked)
+                            UpdateRotationInputForAbility(aSwipeMovement);
+                        else if (TouchInput.IsPlayerHit() || TouchInput.IsInputCanvasHit())
                             UpdateSwipeInput();
                     }
-                    else if (playerMovement.movementInputType == PAMovementTypes.Rocket) { /*ROCKET STUFF*/}
+                    else if (playerMovement.movementInputType == EPAMovementTypes.Rocket) { /*ROCKET STUFF*/}
                 }
-                debugText.text = "PLAYER: \nVelocity: " + playerMovement.GetVelocityFromAbility(playerAbilities.swipeMovement) + "\nForce: " + playerMovement.GetForceFromAbility(playerAbilities.swipeMovement) + "\nMass: " + playerMovement.GetMass();
+                debugText.text = "PLAYER: \nVelocity: " + playerMovement.GetVelocityFromAbility(EPlayerAbilities.swipeMovement) + "\nForce: " + playerMovement.GetForceFromAbility(EPlayerAbilities.swipeMovement) + "\nMass: " + playerMovement.GetMass();
             }
         }
 
-        void UpdateRotationSocketInput() 
+        void UpdateRotationInputForAbility(AbilityBase ability) 
         {
+            //case condition yet to do
             switch (TouchInput.GetTouch().phase)
             {
                 case TouchPhase.Began:
-                    aRotation.StartRotation();
+                    aRotation.StartRotation(ability);
                     break;
                 case TouchPhase.Moved:
-                    aRotation.UpdateRotation();
+                    aRotation.UpdateRotation(ability);
                     break;
                 case TouchPhase.Ended:
-                    aRotation.EndRotation();
+                    aRotation.EndRotation(ability);
                     break;
             }
         }
@@ -199,7 +200,7 @@ namespace TheBigBanger.GameModeManager
             levelEnd = true;
         }
 
-        void SetGamePhase(GamePhase newPhase) 
+        void SetGamePhase(EGamePhase newPhase) 
         {
             previousGamePhase = gamePhase;
             gamePhase = newPhase;
@@ -247,7 +248,7 @@ namespace TheBigBanger.GameModeManager
             aSwipeMovement.ResetSwipeLine();
             bLaunched = false;
             levelEnd = false;
-            gamePhase = GamePhase.PlayPhase;
+            gamePhase = EGamePhase.PlayPhase;
         }
     }
 }

@@ -37,13 +37,13 @@ public class AbilitySwipeMovement : AbilityBase
         predictionLineRenderer.positionCount = 2;
         predictionLineRenderer.enabled = true;
         bPredictionInstantiated = true;
-        SetLinePositions();
+        SetLinePositions(TouchInput.GetHitWorldPositionAtLayer(3));
     }
 
-    void SetLinePositions() 
+    void SetLinePositions(Vector3 newEndPosition) 
     {
-        targetPosition = TouchInput.GetHitWorldPositionAtLayer(3);
         predictionLineRenderer.SetPosition(0, PlayerPlanet.transform.position);
+        targetPosition = newEndPosition;
         predictionLineRenderer.SetPosition(1, targetPosition);
     }
 
@@ -53,7 +53,7 @@ public class AbilitySwipeMovement : AbilityBase
         {
             if (TouchInput.IsInputCanvasHit() || TouchInput.IsPlayerHit())
             {
-                SetLinePositions();
+                SetLinePositions(TouchInput.GetHitWorldPositionAtLayer(3));
             }
         }
         UpdateSwipeData();

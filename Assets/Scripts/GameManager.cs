@@ -13,7 +13,7 @@ public class GameManager : GameplayStaticsManager
     /*GameManager which should manage the Session across scenes, hold references to gameobjects within the scene, host GameModes and UI (plus interaction between GameMode and UI)*/
 
     [Header("Scene Settings")]
-    public GameModeType gameMode = GameModeType.Lesson;
+    public EGameModeType gameModeType = EGameModeType.Lesson;
     public float MultiplyMagnitudeWith = 1f;
     public bool ObstacleCreationAtStart = false;
 
@@ -26,7 +26,7 @@ public class GameManager : GameplayStaticsManager
 
     [Header("DEVELOPMENT Only")]
     public Text DebugText;
-    public GamePhase gamePhase = GamePhase.SelectPlane;
+    public EGamePhase gamePhase = EGamePhase.SelectPlane;
 
     public GameMode activeMode;
 
@@ -76,14 +76,14 @@ public class GameManager : GameplayStaticsManager
     void UpdateGameMode() 
     {
         //mode specifics
-        switch (gameMode)
+        switch (gameModeType)
         {
-            case GameModeType.Lesson:
+            case EGameModeType.Lesson:
             {
                 UpdateLessonUICanvas();
                 break;
             }
-            case GameModeType.FreeRoam:
+            case EGameModeType.FreeRoam:
             {   
                 UpdateFreeRoamUICanvas();
                 break;
@@ -94,7 +94,7 @@ public class GameManager : GameplayStaticsManager
 
     public void LaunchButton() 
     {
-        if (gameMode == GameModeType.Lesson)
+        if (gameModeType == EGameModeType.Lesson)
         {
             launchText.text = "launched!";
             activeMode.bLaunched = true;

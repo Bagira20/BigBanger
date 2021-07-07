@@ -8,7 +8,7 @@ using TheBigBanger.Formulae;
 [System.Serializable]
 public struct MovementConfigSet
 {
-    public FactorElement configuredFactor;
+    public EFactorElement configuredFactor;
     public float value;
 }
 
@@ -43,19 +43,19 @@ public class PlanetMovementBase : MonoBehaviour
         {
             switch (moveSet.configuredFactor) 
             {
-                case FactorElement.M:
+                case EFactorElement.M:
                     mass = moveSet.value; break;
-                case FactorElement.A:
+                case EFactorElement.A:
                     acceleration = moveSet.value; break;
-                case FactorElement.V:
+                case EFactorElement.V:
                     velocity = moveSet.value; break;
-                case FactorElement.F:
+                case EFactorElement.F:
                     force = moveSet.value; break;
             }
         }
     }
 
-    protected bool IsPreConfigured(FactorElement factor) 
+    protected bool IsPreConfigured(EFactorElement factor) 
     {
         foreach (MovementConfigSet moveSet in MovementConfiguration)
         {

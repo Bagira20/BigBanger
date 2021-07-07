@@ -7,7 +7,7 @@ using UnityEditor;
 
 namespace TheBigBanger.Formulae
 {
-    public enum FactorElement
+    public enum EFactorElement
     {
         F, M, A, V,
     }

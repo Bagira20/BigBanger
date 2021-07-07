@@ -2,10 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum EPlayerAbilities { swipeMovement, rocketMovement, everything, none };
+
+
 public class PlayerAbilityList
 {
-    public enum playerAbilities { swipeMovement, rocketMovement, everything, none};
-
     /*non-static library for all abilities*/
     public AbilitySwipeMovement aSwipeMovement;
     public AbilityRocketControl aRocketControl;

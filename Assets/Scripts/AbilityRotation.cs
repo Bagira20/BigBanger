@@ -4,29 +4,43 @@ using UnityEngine;
 
 public class AbilityRotation : AbilityBase
 {
-    float radius;
-    Vector2 startPos, tempPos, newPos;
-    LineRenderer playerLine;
+    public bool bInputLocked;
+    float _sensitivity, _distanceToPlanet, _touchDistance;
+    Vector3 _rotateAxis = Vector3.up, _center;
+    Vector2 _startTouchPos, _currentTouchPos;
+    LineRenderer _playerLine;
+    PAMovement _playerMovement;
 
     public AbilityRotation(GameManager manager) : base(manager)
     {
-        playerLine = manager.playerGameObject.GetComponent<PAMovement>().lineRenderer;
+        _playerMovement = manager.playerGameObject.GetComponent<PAMovement>();
+        _playerLine = _playerMovement.lineRenderer;
     }
 
-    public void StartRotation()
+    public void StartRotation(AbilityBase ability)
     {
-        Vector2 lineEndPos = new Vector2(playerLine.GetPosition(1).x, playerLine.GetPosition(1).z);
-        Vector2 lineOriginpos = new Vector2(playerLine.GetPosition(0).x, playerLine.GetPosition(0).z);
-        radius = Mathf.Abs(Vector2.Distance(lineEndPos, lineOriginpos));
+        bInputLocked = true;
+        _distanceToPlanet = Mathf.Abs(Vector2.Distance(_playerMovement.transform.position, ability.inputCursor.transform.position));
+        _sensitivity = _playerMovement.rotationSensitivity / _distanceToPlanet;
+        _center = new Vector3(_playerMovement.transform.position.x, ability.inputCursor.transform.position.y, _playerMovement.transform.position.z);
+        _startTouchPos = TouchInput.GetTouchPosition();
     }
 
-    public void UpdateRotation()
+    public void UpdateRotation(AbilityBase ability)
     {
-
+        ability.inputCursor.transform.RotateAround(_center, _rotateAxis, _sensitivity * GetTouchDistance());
+        _playerLine.SetPosition(1, ability.inputCursor.transform.position);
     }
 
-    public void EndRotation()
+    float GetTouchDistance()
     {
-        playerLine.SetPosition(1, newPos = tempPos);
+        _currentTouchPos = TouchInput.GetTouchPosition();
+        _touchDistance = _startTouchPos.x - _currentTouchPos.x;
+        return _touchDistance;
+    }
+
+    public void EndRotation(AbilityBase ability)
+    {
+        bInputLocked = false;
     }
 }

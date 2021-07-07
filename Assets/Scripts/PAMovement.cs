@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TheBigBanger.Formulae;
 
-public enum PAMovementTypes 
+public enum EPAMovementTypes 
 {
     Swipe,
     Rocket,
@@ -14,10 +14,10 @@ public enum PAMovementTypes
 public class PAMovement : PlanetMovementBase
 {
     [Header("Player Configuration")]
-    public PAMovementTypes movementInputType = PAMovementTypes.Swipe;
-    public PlayerAbilityList.playerAbilities planetVelocityBy = PlayerAbilityList.playerAbilities.swipeMovement;
-    public FactorElement PlayerInputFactor = FactorElement.V;
-    public float rotationUnitPerTouchDelta = 1f;
+    public EPAMovementTypes movementInputType = EPAMovementTypes.Swipe;
+    public EPlayerAbilities planetVelocityBy = EPlayerAbilities.swipeMovement;
+    public EFactorElement PlayerInputFactor = EFactorElement.V;
+    public float rotationSensitivity = 1f;
     [Tooltip(FormulaSheets.tooltip)]
     public string ForceIs = FormulaSheets.ForceIs[0];
 
@@ -33,39 +33,39 @@ public class PAMovement : PlanetMovementBase
 
     protected override void UpdateMovePlanet()
     {
-        float tempMovement = GetVelocityFromAbility(PlayerAbilityList.playerAbilities.swipeMovement);
+        float tempMovement = GetVelocityFromAbility(EPlayerAbilities.swipeMovement);
         currentMovement = manager.activeMode.aSwipeMovement.swipeDirection* tempMovement;
         base.UpdateMovePlanet();
     }
 
-    public float GetForceFromAbility(PlayerAbilityList.playerAbilities ability)
+    public float GetForceFromAbility(EPlayerAbilities ability)
     {
         float abilityVelocity = GetVelocityFromAbility(ability);
 
-        if (ForceIs == FormulaSheets.ForceIs[0]/*F=1/2mv²*/ && PlayerInputFactor == FactorElement.V)
+        if (ForceIs == FormulaSheets.ForceIs[0]/*F=1/2mv²*/ && PlayerInputFactor == EFactorElement.V)
             force = 0.5f * mass * Mathf.Pow(abilityVelocity, 2);
-        else if (ForceIs == FormulaSheets.ForceIs[1]/*F=ma*/ && PlayerInputFactor == FactorElement.A)
+        else if (ForceIs == FormulaSheets.ForceIs[1]/*F=ma*/ && PlayerInputFactor == EFactorElement.A)
             force = mass * abilityVelocity;
 
         return force;
     }
 
 
-    public float GetVelocityFromAbility(PlayerAbilityList.playerAbilities ability)
+    public float GetVelocityFromAbility(EPlayerAbilities ability)
     {
         velocity = GetMagnitudeFromAbility(ability);
         return velocity;
     }
 
-    float GetMagnitudeFromAbility(PlayerAbilityList.playerAbilities ability) 
+    float GetMagnitudeFromAbility(EPlayerAbilities ability) 
     {
         float abilityMagnitude = 1f;
         switch (ability)
         {
-            case PlayerAbilityList.playerAbilities.swipeMovement:
+            case EPlayerAbilities.swipeMovement:
                 abilityMagnitude = manager.activeMode.aSwipeMovement.swipeMagnitude;
                 break;
-            case PlayerAbilityList.playerAbilities.rocketMovement:
+            case EPlayerAbilities.rocketMovement:
                 abilityMagnitude = manager.activeMode.aRocketControl.rocketMagnitude;
                 break;
         }
@@ -92,7 +92,7 @@ public class PAMovement : PlanetMovementBase
     {
         if (manager.activeMode.aSwipeMovement.initialized)
         {
-            manager.DebugText.text = "Launched with " + GetForceFromAbility(PlayerAbilityList.playerAbilities.swipeMovement).ToString();
+            manager.DebugText.text = "Launched with " + GetForceFromAbility(EPlayerAbilities.swipeMovement).ToString();
             bIsMoving = true;
             manager.activeMode.bLaunched = true;
         }
