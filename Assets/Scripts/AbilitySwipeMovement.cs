@@ -10,6 +10,7 @@ public class AbilitySwipeMovement : AbilityBase
     public Vector3 targetPosition, swipeDirection;
     public float swipeMagnitude;
 
+
     public AbilitySwipeMovement(GameManager manager) : base(manager) 
     {
         predictionLineRenderer = Instantiate(manager.playerGameObject.GetComponent<PAMovement>().lineRenderer);
@@ -19,7 +20,7 @@ public class AbilitySwipeMovement : AbilityBase
     /*Ability: Swipe-Direction*/
     public void StartSwipeLine()
     {
-        if (TouchInput.RaycastFromCamera(arCamera) && !TouchInput.IsUIHit())
+        if (!TouchInput.IsUIHit())
         {
             if (!bPredictionInstantiated && TouchInput.IsPlayerHit())
                 InitiateLineRenderer();
@@ -48,7 +49,7 @@ public class AbilitySwipeMovement : AbilityBase
 
     public void UpdateSwipeLine()
     {
-        if (TouchInput.RaycastFromCamera(arCamera) && !TouchInput.IsUIHit())
+        if (!TouchInput.IsUIHit())
         {
             if (TouchInput.IsInputCanvasHit() || TouchInput.IsPlayerHit())
             {

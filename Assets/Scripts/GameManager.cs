@@ -15,17 +15,18 @@ public class GameManager : GameplayStaticsManager
     [Header("Scene Settings")]
     public GameModeType gameMode = GameModeType.Lesson;
     public float MultiplyMagnitudeWith = 1f;
+    public bool ObstacleCreationAtStart = false;
 
     [Header("Scene Objects")]
     public Camera arCamera;
     public GameObject playerGameObject, targetGameObject, obstaclePrefab;
     public Text timerText, launchText;
     public TMP_Text actionNeededText;
-    public GameObject levelEndCanvas, levelActiveCanvas;
+    public GameObject levelMissionCanvas, levelActiveCanvas, levelEndCanvas;
 
     [Header("DEVELOPMENT Only")]
     public Text DebugText;
-    public GamePhase gamePhase = GamePhase.SelectPlane; /*PLS CHANGE LATEEEEERRRRRRRRRRRRRRRR!!!!!!!!!!!*/
+    public GamePhase gamePhase = GamePhase.SelectPlane;
 
     public GameMode activeMode;
 
@@ -39,7 +40,7 @@ public class GameManager : GameplayStaticsManager
     public void SetGameMode() 
     {
         activeMode = new ModeLesson(this);
-        activeMode.FreezeTime();  /*PLS CHANGE LATEEEEERRRRRRRRRRRRRRRR!!!!!!!!!!!*/
+        activeMode.FreezeTime();
     }
 
     void Update()
@@ -74,8 +75,7 @@ public class GameManager : GameplayStaticsManager
 
     void UpdateGameMode() 
     {
-        activeMode.Feedback();
-
+        //mode specifics
         switch (gameMode)
         {
             case GameModeType.Lesson:
@@ -89,7 +89,7 @@ public class GameManager : GameplayStaticsManager
                 break;
             }
         }
-
+        activeMode.UpdateGameMode();
     }
 
     public void LaunchButton() 

@@ -11,8 +11,9 @@ public enum PBMovementTypes
 public class PBMovement : PlanetMovementBase
 {
     public PBMovementTypes movementType = PBMovementTypes.linear;
-    public Vector3 targetPos, centerRadiusPos;
-    public float radiusSize;
+    public Vector3 linearDirection = Vector3.up;
+    //public Vector3 targetPos, centerRadiusPos;
+    //public float radiusSize;
     public bool bMoveAtStart = true;
 
     private void Update()
@@ -25,11 +26,10 @@ public class PBMovement : PlanetMovementBase
 
     protected override void UpdateMovePlanet()
     {
-        targetPos = transform.position+new Vector3(0,100f,0);
         float speed = acceleration != default ? acceleration : velocity;
         switch (movementType) {
             case PBMovementTypes.linear:
-                transform.position = Vector3.MoveTowards(transform.position, targetPos, speed * GameTime.deltaTime); break;
+                transform.position += (linearDirection * speed) * GameTime.deltaTime; break;
             case PBMovementTypes.lerp:
             case PBMovementTypes.radiant:
                 //not yet implemented

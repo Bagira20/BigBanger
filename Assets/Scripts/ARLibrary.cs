@@ -28,7 +28,7 @@ public class ARLibrary : MonoBehaviour
     {
         UpdatePlacementPose();
         UpdatePlacementIndicator();
-        if (gameManager.activeMode.gamePhase == GamePhase.LevelStart)
+        if (gameManager.activeMode.gamePhase == GamePhase.PlaceObstacles)
         {
             arSessionOrigin.GetComponent<ARPlaneManager>().planePrefab = null;
         }
