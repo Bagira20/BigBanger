@@ -8,28 +8,25 @@ public class AbilityRotation : AbilityBase
     float _sensitivity, _distanceToPlanet, _touchDistance;
     Vector3 _rotateAxis = Vector3.up, _center;
     Vector2 _startTouchPos, _currentTouchPos;
-    LineRenderer _playerLine;
-    PAMovement _playerMovement;
 
     public AbilityRotation(GameManager manager) : base(manager)
     {
-        _playerMovement = manager.playerGameObject.GetComponent<PAMovement>();
-        _playerLine = _playerMovement.lineRenderer;
     }
 
     public void StartRotation(AbilityBase ability)
     {
         bInputLocked = true;
-        _distanceToPlanet = Mathf.Abs(Vector2.Distance(_playerMovement.transform.position, ability.inputCursor.transform.position));
-        _sensitivity = _playerMovement.rotationSensitivity / _distanceToPlanet;
-        _center = new Vector3(_playerMovement.transform.position.x, ability.inputCursor.transform.position.y, _playerMovement.transform.position.z);
+        _distanceToPlanet = Mathf.Abs(Vector2.Distance(playerMovement.transform.position, ability.inputCursor.transform.position));
+        _sensitivity = playerMovement.rotationSensitivity / _distanceToPlanet;
+        _center = playerMovement.transform.position;
         _startTouchPos = TouchInput.GetTouchPosition();
     }
 
     public void UpdateRotation(AbilityBase ability)
     {
         ability.inputCursor.transform.RotateAround(_center, _rotateAxis, _sensitivity * GetTouchDistance());
-        _playerLine.SetPosition(1, ability.inputCursor.transform.position);
+        gameManager.activeMode.aSwipeMovement.SetLinePositions(ability.inputCursor.transform.position);
+        gameManager.activeMode.aSwipeMovement.UpdateSwipeData();
     }
 
     float GetTouchDistance()
