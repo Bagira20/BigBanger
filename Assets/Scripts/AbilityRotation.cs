@@ -7,7 +7,8 @@ public class AbilityRotation : AbilityBase
     public bool bInputLocked;
     float _sensitivity, _distanceToPlanet, _touchDistance;
     Vector3 _rotateAxis = Vector3.up, _center;
-    Vector2 _startTouchPos, _currentTouchPos;
+    Vector2 _startTouchPos, _currentTouchPos, _previousTouchPos;
+    int _touchDirection = 1;
 
     public AbilityRotation(GameManager manager) : base(manager)
     {
@@ -24,16 +25,19 @@ public class AbilityRotation : AbilityBase
 
     public void UpdateRotation(AbilityBase ability)
     {
-        ability.inputCursor.transform.RotateAround(_center, _rotateAxis, _sensitivity * GetTouchDistance());
+        UpdateTouchDistance();
+        ability.inputCursor.transform.RotateAround(_center, _rotateAxis, _touchDistance * _sensitivity);
         gameManager.activeMode.aSwipeMovement.SetLinePositions(ability.inputCursor.transform.position);
         gameManager.activeMode.aSwipeMovement.UpdateSwipeData();
     }
 
-    float GetTouchDistance()
+    void UpdateTouchDistance() 
     {
+        _previousTouchPos = _currentTouchPos;
         _currentTouchPos = TouchInput.GetTouchPosition();
-        _touchDistance = _startTouchPos.x - _currentTouchPos.x;
-        return _touchDistance;
+
+        _touchDirection = _previousTouchPos.x < _currentTouchPos.x ? 1 : -1;
+        _touchDistance = _touchDirection * Mathf.Abs(_previousTouchPos.x -_currentTouchPos.x);
     }
 
     public void EndRotation(AbilityBase ability)

@@ -155,7 +155,7 @@ namespace TheBigBanger.GameModeManager
                     }
                     else if (playerMovement.planetVelocityBy == EPlayerAbilities.rocketMovement) { /*ROCKET STUFF*/}
                 }
-                debugText.text = "PLAYER: \nVelocity: " + playerMovement.GetVelocityFromAbility(EPlayerAbilities.swipeMovement) + "\nForce: " + playerMovement.GetForceFromAbility(EPlayerAbilities.swipeMovement) + "\nMass: " + playerMovement.GetMass();
+                //debugText.text = "PLAYER: \nVelocity: " + playerMovement.GetVelocityFromAbility(EPlayerAbilities.swipeMovement) + "\nForce: " + playerMovement.GetForceFromAbility(EPlayerAbilities.swipeMovement) + "\nMass: " + playerMovement.GetMass();
             }
         }
 
