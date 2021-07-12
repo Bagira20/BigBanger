@@ -62,9 +62,11 @@ public class PAMovement : PlanetMovementBase
         switch (ability)
         {
             case EPlayerAbilities.swipeMovement:
+                ForceIs = FormulaSheets.ForceIs[0];
                 abilityMagnitude = manager.activeMode.aSwipeMovement.swipeMagnitude;
                 break;
             case EPlayerAbilities.rocketMovement:
+                ForceIs = FormulaSheets.ForceIs[1];
                 abilityMagnitude = manager.activeMode.aRocketControl.rocketMagnitude;
                 break;
         }

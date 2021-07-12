@@ -34,10 +34,10 @@ public class GameManager : GameplayStaticsManager
     {
         actionNeededText.text = "move device slowly until indicator appears";
         SetGameMode();
-        
+
     }
 
-    public void SetGameMode() 
+    public void SetGameMode()
     {
         activeMode = new ModeLesson(this);
         activeMode.FreezeTime();
@@ -57,9 +57,9 @@ public class GameManager : GameplayStaticsManager
             ResetButton();
     }
 
-    void UpdateLessonUICanvas() 
+    void UpdateLessonUICanvas()
     {
-        timerText.text ="GameTime: " + (activeMode.bTimeLimit-Mathf.Round(GameTime.gameTime));
+        timerText.text = "GameTime: " + (activeMode.bTimeLimit - Mathf.Round(GameTime.gameTime));
         actionNeededText.text = activeMode.actionNeededText;
         if (activeMode.levelEnd)
         {
@@ -73,26 +73,26 @@ public class GameManager : GameplayStaticsManager
         actionNeededText.text = activeMode.actionNeededText;
     }
 
-    void UpdateGameMode() 
+    void UpdateGameMode()
     {
         //mode specifics
         switch (gameModeType)
         {
             case EGameModeType.Lesson:
-            {
-                UpdateLessonUICanvas();
-                break;
-            }
+                {
+                    UpdateLessonUICanvas();
+                    break;
+                }
             case EGameModeType.FreeRoam:
-            {   
-                UpdateFreeRoamUICanvas();
-                break;
-            }
+                {
+                    UpdateFreeRoamUICanvas();
+                    break;
+                }
         }
         activeMode.UpdateGameMode();
     }
 
-    public void LaunchButton() 
+    public void LaunchButton()
     {
         if (gameModeType == EGameModeType.Lesson)
         {
@@ -103,11 +103,23 @@ public class GameManager : GameplayStaticsManager
         }
     }
 
-    public void ResetButton() 
+    public void ResetButton()
     {
         launchText.text = "LAUNCH!";
         levelActiveCanvas.SetActive(true);
         levelEndCanvas.SetActive(false);
         activeMode.Reset();
     }
+
+    public void RocketButton()
+    { 
+        if (activeMode.aRocketControl.rocketCount <5)
+        {
+            activeMode.aRocketControl.rocketCount++;
+            activeMode.aRocketControl.UpdateRocketMagnitude();
+
+            DebugText.text = activeMode.aRocketControl.rocketCount.ToString() + " -- " + activeMode.aRocketControl.rocketMagnitude.ToString();
+        }
+        
+    }    
 }
