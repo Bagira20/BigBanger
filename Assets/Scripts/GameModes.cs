@@ -249,6 +249,7 @@ namespace TheBigBanger.GameModeManager
             bLaunched = false;
             levelEnd = false;
             gamePhase = EGamePhase.PlayPhase;
+            aRocketControl.ResetRocket();
         }
     }
 }

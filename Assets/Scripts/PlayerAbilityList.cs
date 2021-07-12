@@ -16,7 +16,7 @@ public class PlayerAbilityList
     {
         aSwipeMovement = new AbilitySwipeMovement(manager);
         aRotation = new AbilityRotation(manager);
-        //aRocketControl = new AbilityRocketControl();
+        aRocketControl = new AbilityRocketControl(manager);
         //placeObstacle = abilityObjectPlacement();
     }
 }

@@ -4,12 +4,41 @@ using UnityEngine;
 
 public class AbilityRocketControl : AbilityBase
 {
+    public float rocketAcceleration = 0.2f;
     public float rocketMagnitude;
+    public float rocketCount = 0;
+    public GameObject playerGameObject;
+    public Transform rocketsGameObject;
 
-    public AbilityRocketControl(GameManager manager) : base(manager) { }
+    public AbilityRocketControl(GameManager manager) : base(manager) 
+    {
 
+        rocketCount = 0;
+        rocketMagnitude = 0;
+        playerGameObject = manager.playerGameObject;
+        rocketsGameObject = playerGameObject.transform.Find("Rockets");
 
-    //rocket icon tap and place
+    }
 
-    //movement magnitude calc
+    public void ResetRocket()
+    {
+        rocketCount = 0;
+        rocketMagnitude = 0;
+
+        foreach (Transform child in rocketsGameObject)
+        {
+            child.gameObject.SetActive(false);
+        }    
+
+    }
+
+    public void UpdateRocketMagnitude()
+    {
+        rocketMagnitude = rocketAcceleration * rocketCount;
+        for (int i=0; i<rocketCount; i++)
+        {
+            rocketsGameObject.GetChild(i).gameObject.SetActive(true);
+        }
+    }
+
 }
