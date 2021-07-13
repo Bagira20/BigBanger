@@ -6,15 +6,11 @@ using UnityEngine.UI;
 public class AbilitySwipeMovement : AbilityBase
 {
     public bool bPredictionInstantiated = false;
-    public LineRenderer predictionLineRenderer;
     public Vector3 targetPosition, swipeDirection;
     public float swipeMagnitude;
 
-
     public AbilitySwipeMovement(GameManager manager) : base(manager) 
     {
-        predictionLineRenderer = Instantiate(manager.playerGameObject.GetComponent<PAMovement>().lineRenderer);
-        predictionLineRenderer.enabled = false;
     }
 
     /*Ability: Swipe-Direction*/
@@ -33,18 +29,18 @@ public class AbilitySwipeMovement : AbilityBase
     {
         gameManager.activeMode.FreezeTime();
         initialized = true;
-        predictionLineRenderer.useWorldSpace = true;
-        predictionLineRenderer.positionCount = 2;
-        predictionLineRenderer.enabled = true;
+        predictionLine.useWorldSpace = true;
+        predictionLine.positionCount = 2;
+        predictionLine.enabled = true;
         bPredictionInstantiated = true;
         SetLinePositions(TouchInput.GetHitWorldPositionAtLayer(3));
     }
 
-    void SetLinePositions(Vector3 newEndPosition) 
+    public void SetLinePositions(Vector3 newEndPosition) 
     {
-        predictionLineRenderer.SetPosition(0, PlayerPlanet.transform.position);
+        predictionLine.SetPosition(0, playerPlanet.transform.position);
         targetPosition = newEndPosition;
-        predictionLineRenderer.SetPosition(1, targetPosition);
+        predictionLine.SetPosition(1, targetPosition);
     }
 
     public void UpdateSwipeLine()
@@ -59,11 +55,12 @@ public class AbilitySwipeMovement : AbilityBase
         UpdateSwipeData();
     }
 
-    void UpdateSwipeData() 
+    public void UpdateSwipeData() 
     {
-        Vector3 delta = targetPosition - PlayerPlanet.transform.position;
+        Vector3 delta = targetPosition - playerPlanet.transform.position;
         swipeMagnitude = delta.magnitude;
         swipeDirection = delta / swipeMagnitude;
+        inputCursor.transform.position = targetPosition;
     }
 
     public void EndSwipeLine()
@@ -74,7 +71,7 @@ public class AbilitySwipeMovement : AbilityBase
     public void ResetSwipeLine() 
     {
         initialized = false;
-        predictionLineRenderer.enabled = false;
+        predictionLine.enabled = false;
         bPredictionInstantiated = false;
     }
 }

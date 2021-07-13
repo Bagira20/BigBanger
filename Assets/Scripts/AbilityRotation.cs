@@ -7,36 +7,36 @@ public class AbilityRotation : AbilityBase
     public bool bInputLocked;
     float _sensitivity, _distanceToPlanet, _touchDistance;
     Vector3 _rotateAxis = Vector3.up, _center;
-    Vector2 _startTouchPos, _currentTouchPos;
-    LineRenderer _playerLine;
-    PAMovement _playerMovement;
+    Vector2 _startTouchPos, _currentTouchPos, _previousTouchPos;
+    int _touchDirection = 1;
 
     public AbilityRotation(GameManager manager) : base(manager)
     {
-        _playerMovement = manager.playerGameObject.GetComponent<PAMovement>();
-        _playerLine = _playerMovement.lineRenderer;
     }
 
     public void StartRotation(AbilityBase ability)
     {
         bInputLocked = true;
-        _distanceToPlanet = Mathf.Abs(Vector2.Distance(_playerMovement.transform.position, ability.inputCursor.transform.position));
-        _sensitivity = _playerMovement.rotationSensitivity / _distanceToPlanet;
-        _center = new Vector3(_playerMovement.transform.position.x, ability.inputCursor.transform.position.y, _playerMovement.transform.position.z);
+        _distanceToPlanet = Mathf.Abs(Vector2.Distance(playerMovement.transform.position, ability.inputCursor.transform.position));
+        _sensitivity = playerMovement.rotationSensitivity / _distanceToPlanet;
+        _center = playerMovement.transform.position;
         _startTouchPos = TouchInput.GetTouchPosition();
     }
 
     public void UpdateRotation(AbilityBase ability)
     {
-        ability.inputCursor.transform.RotateAround(_center, _rotateAxis, _sensitivity * GetTouchDistance());
-        _playerLine.SetPosition(1, ability.inputCursor.transform.position);
+        UpdateTouchDistance();
+        ability.inputCursor.transform.RotateAround(_center, _rotateAxis, _sensitivity * _touchDistance);
+        gameManager.activeMode.aSwipeMovement.SetLinePositions(ability.inputCursor.transform.position);
+        gameManager.activeMode.aSwipeMovement.UpdateSwipeData();
     }
 
-    float GetTouchDistance()
+    void UpdateTouchDistance()
     {
+        _previousTouchPos = _currentTouchPos;
         _currentTouchPos = TouchInput.GetTouchPosition();
-        _touchDistance = _startTouchPos.x - _currentTouchPos.x;
-        return _touchDistance;
+        _touchDirection = _previousTouchPos.x < _currentTouchPos.x ? 1 : -1;
+        _touchDistance = _touchDirection * Mathf.Abs(_previousTouchPos.x - _currentTouchPos.x);
     }
 
     public void EndRotation(AbilityBase ability)
