@@ -32,7 +32,7 @@ public class PAMovement : PlanetMovementBase
 
     protected override void UpdateMovePlanet()
     {
-        float tempMovement = GetVelocityFromAbility(EPlayerAbilities.swipeMovement);
+        float tempMovement = GetVelocityFromAbility(planetVelocityBy);
         currentMovement = manager.activeMode.aSwipeMovement.swipeDirection* tempMovement;
         base.UpdateMovePlanet();
     }
