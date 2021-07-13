@@ -27,14 +27,15 @@ public class GameManager : GameplayStaticsManager
     [Header("DEVELOPMENT Only")]
     public Text DebugText;
     public EGamePhase gamePhase = EGamePhase.SelectPlane;
+    public int levelIntroNr = 0;
 
     public GameMode activeMode;
 
     void Awake()
     {
+        ResetStatics();
         actionNeededText.text = "move device slowly until indicator appears";
         SetGameMode();
-
     }
 
     public void SetGameMode()

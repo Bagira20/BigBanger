@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARSubsystems;
 
@@ -10,6 +11,13 @@ public class TouchInput : MonoBehaviour
     public static ARRaycastManager arRaycastManager = new ARRaycastManager();
     public static Vector2 reservedUIArea, reservedHorizontalUIArea = new Vector2(0.3f, 0.3f), reservedVerticalUIArea = new Vector2(0.6f, 0.1f);
     static RaycastHit[] raycastHits;
+
+    public static void ResetInput() 
+    {
+        raycastHits = new RaycastHit[] { };
+        reservedUIArea = Vector2.zero;
+        arRaycastManager = new ARRaycastManager();
+    }
 
     public static bool IsTouching()
     {
@@ -75,6 +83,15 @@ public class TouchInput : MonoBehaviour
         } return false;
     }
 
+    public static void TitleScreenIfBackButton() 
+    {
+        //if (Application.platform == RuntimePlatform.Android) return;
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            SceneManager.LoadScene(0);
+        }
+    }
 
     public static bool IsUIHit() 
     {

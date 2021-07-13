@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.XR.ARFoundation;
 
 namespace TheBigBanger.GameplayStatics
 {
@@ -9,6 +10,15 @@ namespace TheBigBanger.GameplayStatics
 
     public class GameplayStaticsManager : MonoBehaviour
     {
+        public void ResetStatics() 
+        {
+            GameTime.unfrozenTime = GameTime.gameTime = GameTime.deltaTime = 0.0f;
+            GameTime.bFreeze = false; 
+            GameTime.bTimeStarted = false;
+            PlayerInputPositions.startTouchPos = PlayerInputPositions.currentTouchPos = PlayerInputPositions.endTouchPos = Vector2.zero;
+            TouchInput.ResetInput();
+        }
+
         public int MultiplyValueWith = 100;
 
         protected void UpdateTime()
@@ -43,6 +53,7 @@ namespace TheBigBanger.GameplayStatics
 
         protected void UpdatePlayerTouchInput()
         {
+            TouchInput.TitleScreenIfBackButton();
             if (TouchInput.IsTouching())
             {
                 switch (TouchInput.GetTouch().phase) 

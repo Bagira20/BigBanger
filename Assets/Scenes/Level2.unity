@@ -1787,6 +1787,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53c699e096c15c74cbee046a26dcb763, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MultiplyValueWith: 100
   gameModeType: 0
   MultiplyMagnitudeWith: 1.5
   ObstacleCreationAtStart: 0
@@ -1803,6 +1804,7 @@ MonoBehaviour:
   levelEndCanvas: {fileID: 1614641105}
   DebugText: {fileID: 417584333}
   gamePhase: 0
+  levelIntroNr: 1
 --- !u!4 &1771451192
 Transform:
   m_ObjectHideFlags: 0
