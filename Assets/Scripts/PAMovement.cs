@@ -26,10 +26,15 @@ public class PAMovement : PlanetMovementBase
     public AnimationCurve lineWidthCurve;
     public float lineWidthMultiplier = 2f;
 
+    public float timer = 0;
+
     private void Update()
     {
         if (bIsMoving)
+        {
             UpdateMovePlanet();
+            timer += Time.deltaTime;
+        }
     }
 
     protected override void UpdateMovePlanet()
@@ -69,7 +74,7 @@ public class PAMovement : PlanetMovementBase
                 break;
             case EPlayerAbilities.rocketMovement:
                 ForceIs = FormulaSheets.ForceIs[1];
-                abilityMagnitude = manager.activeMode.aRocketControl.rocketMagnitude;
+                abilityMagnitude = manager.activeMode.aRocketControl.rocketMagnitude * timer; ;
                 break;
         }
 
@@ -112,5 +117,6 @@ public class PAMovement : PlanetMovementBase
         base.ResetPlanet();
         //rotation
         transform.GetChild(0).gameObject.SetActive(true);
+        timer = 0;
     }
 }

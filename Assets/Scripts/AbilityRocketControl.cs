@@ -34,7 +34,8 @@ public class AbilityRocketControl : AbilityBase
 
     public void UpdateRocketMagnitude()
     {
-        rocketMagnitude = rocketAcceleration * rocketCount;
+        //magnitude is the velocity
+        rocketMagnitude = (rocketAcceleration * rocketCount);
         for (int i=0; i<rocketCount; i++)
         {
             rocketsGameObject.GetChild(i).gameObject.SetActive(true);
