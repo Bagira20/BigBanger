@@ -11,13 +11,27 @@ namespace TheBigBanger.GameplayStatics
     {
         protected void UpdateTime()
         {
-            if (!GameTime.bFreeze)
+            if (GameTime.bTimeStarted)
             {
-                GameTime.deltaTime = Time.deltaTime;
                 GameTime.gameTime += Time.deltaTime;
+                if (!GameTime.bFreeze)
+                {
+                    GameTime.deltaTime = Time.deltaTime;
+                    GameTime.unfrozenTime += Time.deltaTime;
+                }
+                else
+                    GameTime.deltaTime = 0.0f;
             }
-            else
-                GameTime.deltaTime = 0.0f;
+        }
+
+        public void StartTime() 
+        {
+            GameTime.bTimeStarted = true;
+        }
+
+        public void StopTime() 
+        {
+            GameTime.bTimeStarted = false;
         }
 
         protected void UpdatePlayerTouchInput()
@@ -41,8 +55,8 @@ namespace TheBigBanger.GameplayStatics
 
     struct GameTime
     {
-        public static float gameTime = 0.0f, deltaTime = 0.0f;
-        public static bool bFreeze = true;
+        public static float unfrozenTime = 0.0f, gameTime = 0.0f, deltaTime = 0.0f;
+        public static bool bFreeze = true, bTimeStarted = false;
     }
 
     struct PlayerInputPositions

@@ -113,13 +113,12 @@ public class GameManager : GameplayStaticsManager
 
     public void RocketButton()
     { 
-        if (activeMode.aRocketControl.rocketCount <5)
+        if (activeMode.aRocketControl.rocketCount <5 && !activeMode.bLaunched)
         {
             activeMode.aRocketControl.rocketCount++;
             activeMode.aRocketControl.UpdateRocketMagnitude();
 
             DebugText.text = activeMode.aRocketControl.rocketCount.ToString() + " -- " + activeMode.aRocketControl.rocketMagnitude.ToString();
         }
-        
     }    
 }

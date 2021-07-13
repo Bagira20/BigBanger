@@ -92,6 +92,7 @@ namespace TheBigBanger.GameModeManager
             {
                 if (placementIndicator.activeSelf)
                 {
+                    gameManager.StartTime();
                     SetGamePhase(EGamePhase.SpawnPhase);
                 }
                 else
@@ -116,6 +117,7 @@ namespace TheBigBanger.GameModeManager
             {
                 SetGamePhase(EGamePhase.PlayPhase);
                 UnfreezeTime();
+                gameManager.StartTime();
             }
         }
 
@@ -193,6 +195,7 @@ namespace TheBigBanger.GameModeManager
         //called by collision between player and targetPlanet
         void UpdateLevelEnd() 
         {
+            gameManager.StopTime();
             levelEnd = true;
         }
 
@@ -231,7 +234,7 @@ namespace TheBigBanger.GameModeManager
         //only for lesson units, not free roam
         public bool IsTimeOver()
         {
-            return GameTime.gameTime > bTimeLimit;
+            return GameTime.unfrozenTime > bTimeLimit;
         }
 
         //spawn stuff
