@@ -23,6 +23,8 @@ public class PAMovement : PlanetMovementBase
 
     [Header("Prefab Objects")]
     public LineRenderer lineRenderer;
+    public AnimationCurve lineWidthCurve;
+    public float lineWidthMultiplier = 2f;
 
     private void Update()
     {

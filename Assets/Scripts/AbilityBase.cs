@@ -29,6 +29,8 @@ public class AbilityBase : MonoBehaviour
             predictionLine = Instantiate(playerMovement.lineRenderer);
             predictionLine.name = predictionLineName;
             predictionLine.enabled = false;
+            predictionLine.widthCurve = playerMovement.lineWidthCurve;
+            predictionLine.widthMultiplier = playerMovement.lineWidthMultiplier;
         }
         else
         {
