@@ -20,7 +20,7 @@ public class AbilityRotation : AbilityBase
         _distanceToPlanet = Mathf.Abs(Vector2.Distance(playerMovement.transform.position, ability.inputCursor.transform.position));
         _sensitivity = playerMovement.rotationSensitivity / _distanceToPlanet;
         _center = playerMovement.transform.position;
-        _startTouchPos = TouchInput.GetTouchPosition();
+        _startTouchPos = _currentTouchPos = TouchInput.GetTouchPosition();
     }
 
     public void UpdateRotation(AbilityBase ability)

@@ -850,7 +850,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 685832104, guid: a0d54f12fdb6edb4b80ffb5d7d0b9c5e, type: 3}
       propertyPath: ForceIs
-      value: "1/2m(v\xB2)"
+      value: ma
       objectReference: {fileID: 0}
     - target: {fileID: 685832104, guid: a0d54f12fdb6edb4b80ffb5d7d0b9c5e, type: 3}
       propertyPath: manager
@@ -858,11 +858,11 @@ PrefabInstance:
       objectReference: {fileID: 1771451191}
     - target: {fileID: 685832104, guid: a0d54f12fdb6edb4b80ffb5d7d0b9c5e, type: 3}
       propertyPath: planetVelocityBy
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 685832104, guid: a0d54f12fdb6edb4b80ffb5d7d0b9c5e, type: 3}
       propertyPath: PlayerInputFactor
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 685832104, guid: a0d54f12fdb6edb4b80ffb5d7d0b9c5e, type: 3}
       propertyPath: rotationSensitivity
