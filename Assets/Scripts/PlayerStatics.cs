@@ -9,6 +9,8 @@ namespace TheBigBanger.GameplayStatics
 
     public class GameplayStaticsManager : MonoBehaviour
     {
+        public int MultiplyValueWith = 100;
+
         protected void UpdateTime()
         {
             if (GameTime.bTimeStarted)
@@ -32,6 +34,11 @@ namespace TheBigBanger.GameplayStatics
         public void StopTime() 
         {
             GameTime.bTimeStarted = false;
+        }
+
+        public int GetTransformedValue(float decimalNr) 
+        {
+            return Mathf.FloorToInt(decimalNr * MultiplyValueWith);
         }
 
         protected void UpdatePlayerTouchInput()

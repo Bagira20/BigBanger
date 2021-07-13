@@ -99,7 +99,8 @@ public class GameManager : GameplayStaticsManager
             launchText.text = "launched!";
             activeMode.bLaunched = true;
             activeMode.UnfreezeTime();
-            playerGameObject.GetComponent<PAMovement>().LaunchPlayerPlanet();
+            playerGameObject.GetComponent<PAMovement>().LaunchPlanet();
+            targetGameObject.GetComponent<PBMovement>().LaunchPlanet();
         }
     }
 

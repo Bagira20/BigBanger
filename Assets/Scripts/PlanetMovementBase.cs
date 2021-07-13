@@ -64,6 +64,10 @@ public class PlanetMovementBase : MonoBehaviour
         } return false;
     }
 
+    public virtual void LaunchPlanet() 
+    {
+        bIsMoving = true;
+    }
 
     public virtual void DestroyPlanet() 
     {

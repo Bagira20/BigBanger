@@ -19,7 +19,10 @@ public class PBMovement : PlanetMovementBase
     private void Update()
     {
         if (bMoveAtStart)
+        {
             bIsMoving = true;
+            bMoveAtStart = false;
+        }
         if (bIsMoving)
             UpdateMovePlanet();
     }
@@ -34,6 +37,16 @@ public class PBMovement : PlanetMovementBase
             case PBMovementTypes.radiant:
                 //not yet implemented
                 break;
+        }
+    }
+
+    public override void LaunchPlanet()
+    {
+        base.LaunchPlanet();
+        if (!manager.activeMode.bFirstLaunch)
+        {
+            manager.activeMode.bFirstLaunch = true;
+            startPos = transform.position;
         }
     }
 

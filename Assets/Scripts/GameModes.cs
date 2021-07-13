@@ -35,7 +35,7 @@ namespace TheBigBanger.GameModeManager
         GameObject placementIndicator, obstacle;
         public EGamePhase gamePhase = EGamePhase.SelectPlane, previousGamePhase;
         public string actionNeededText;
-        public bool bLaunched = false, bTimeOver = false, levelEnd = false;
+        public bool bLaunched = false, bFirstLaunch = false, bTimeOver = false, levelEnd = false;
         public float bTimeLimit = 200f;
         Text debugText;
 
@@ -148,12 +148,15 @@ namespace TheBigBanger.GameModeManager
             {
                 if (TouchInput.IsTouching() && TouchInput.RaycastFromCamera(arCamera))
                 {
-                    if (TouchInput.IsRotationSocketHit() || aRotation.bInputLocked)
+                    if (!TouchInput.IsPlayerHit() && (TouchInput.IsRotationSocketHit() || aRotation.bInputLocked))
                         UpdateRotationInputForAbility(aSwipeMovement);
                     else if (TouchInput.IsPlayerHit() || TouchInput.IsInputCanvasHit())
                         UpdateSwipeInput();
                 }
-                //debugText.text = "PLAYER: \nVelocity: " + playerMovement.GetVelocityFromAbility(EPlayerAbilities.swipeMovement) + "\nForce: " + playerMovement.GetForceFromAbility(EPlayerAbilities.swipeMovement) + "\nMass: " + playerMovement.GetMass();
+                // debugText.text = "PLAYER: \nVelocity: " + gameManager.GetTransformedValue(playerMovement.GetVelocityFromAbility(EPlayerAbilities.swipeMovement)) 
+                //   + "\nForce: " + gameManager.GetTransformedValue(playerMovement.GetForceFromAbility(EPlayerAbilities.swipeMovement)) 
+                // + "\nMass: " + gameManager.GetTransformedValue(playerMovement.GetMass());
+                //target planet: define pos on first freeze as reset pos
             }
         }
 
@@ -240,11 +243,10 @@ namespace TheBigBanger.GameModeManager
         //spawn stuff
         public void Reset() 
         {
-            debugText.text = "RESET";
             playerPlanet.GetComponent<PAMovement>().ResetPlanet();
-            if (levelEnd)
-                targetPlanet.GetComponent<PBMovement>().ResetPlanet();
+            targetPlanet.GetComponent<PBMovement>().ResetPlanet();
             aSwipeMovement.ResetSwipeLine();
+            bFirstLaunch = false;
             bLaunched = false;
             levelEnd = false;
             gamePhase = EGamePhase.PlayPhase;

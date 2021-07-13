@@ -96,12 +96,12 @@ public class PAMovement : PlanetMovementBase
         return velocity;
     }
 
-    public void LaunchPlayerPlanet()
+    public override void LaunchPlanet()
     {
         if (manager.activeMode.aSwipeMovement.initialized)
         {
+            base.LaunchPlanet();
             manager.DebugText.text = "Launched with " + GetForceFromAbility(EPlayerAbilities.swipeMovement).ToString();
-            bIsMoving = true;
             manager.activeMode.bLaunched = true;
         }
     }
