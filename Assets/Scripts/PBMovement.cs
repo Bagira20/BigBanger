@@ -40,6 +40,11 @@ public class PBMovement : PlanetMovementBase
         }
     }
 
+    private void FixedUpdate()
+    {
+        canvas.AttachTextToObject(EUIElements.TargetText, this.gameObject);
+    }
+
     public override void LaunchPlanet()
     {
         base.LaunchPlanet();

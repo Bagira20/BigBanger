@@ -35,7 +35,6 @@ public class PAMovement : PlanetMovementBase
             UpdateMovePlanet();
             timer += Time.deltaTime;
         }
-        GameObject.Find("UICanvas").GetComponent<CanvasManager>().AttachTextToObject(EUIElements.PlayerMassText, this.gameObject);
     }
 
     protected override void UpdateMovePlanet()
@@ -43,6 +42,11 @@ public class PAMovement : PlanetMovementBase
         float tempMovement = GetVelocityFromAbility(planetVelocityBy);
         currentMovement = manager.activeMode.aSwipeMovement.swipeDirection* tempMovement;
         base.UpdateMovePlanet();
+    }
+
+    private void FixedUpdate()
+    {
+        canvas.AttachTextToObject(EUIElements.PlayerMassText, this.gameObject);
     }
 
     public float GetForceFromAbility(EPlayerAbilities ability)

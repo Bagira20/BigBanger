@@ -16,7 +16,7 @@ public class PlanetMovementBase : MonoBehaviour
 {
     public GameManager manager;
     protected float mass = 1f, velocity, acceleration, force;
-    CanvasManager canvas;
+    protected CanvasManager canvas;
 
     [Header("Level Configuration")]
     [Tooltip("Defined values which represent fixed context of current scene")]

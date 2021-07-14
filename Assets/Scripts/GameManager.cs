@@ -68,7 +68,7 @@ public class GameManager : GameplayStaticsManager
 
     void UpdateLessonUICanvas()
     {
-        timerText.text = "GameTime: " + (activeMode.bTimeLimit - Mathf.Round(GameTime.gameTime));
+        canvas.SetTimeCounter(activeMode.bTimeLimit - Mathf.Round(GameTime.gameTime));
         actionNeededText.text = activeMode.actionNeededText;
         if (activeMode.levelEnd)
         {

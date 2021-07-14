@@ -64,14 +64,19 @@ public class CanvasManager : MonoBehaviour
         TargetText.UIText.text = "m = " + mass + " kg\nv = " + velocity + " m/s";
     }
 
-    public void AttachTextToObject(EUIElements targetedUIElement, GameObject gameObject) 
+    public void AttachTextToObject(EUIElements targetedUIElement, GameObject attachGameObject) 
     {
-        UIElement uiElement = GetUIElement(targetedUIElement);
-        Vector2 screenPosition = Camera.main.WorldToScreenPoint(gameObject.transform.position);
-        
+        AttachTextToPosition(targetedUIElement, attachGameObject.transform.position);
+    }
+
+    public void AttachTextToPosition(EUIElements targetedUIElement, Vector3 worldPosition) 
+    {
+        Vector2 screenPosition = Camera.main.WorldToScreenPoint(worldPosition);
+
         Vector2 canvasPosition;
         RectTransformUtility.ScreenPointToLocalPointInRectangle(GetComponent<RectTransform>(), screenPosition, null, out canvasPosition);
-        
+
+        UIElement uiElement = GetUIElement(targetedUIElement);
         SetPositionOfTextObject(uiElement, canvasPosition + uiElement.UIOffset);
     }
 
