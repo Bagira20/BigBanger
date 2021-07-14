@@ -35,6 +35,7 @@ public class PAMovement : PlanetMovementBase
             UpdateMovePlanet();
             timer += Time.deltaTime;
         }
+        GameObject.Find("UICanvas").GetComponent<CanvasManager>().AttachTextToObject(EUIElements.PlayerMassText, this.gameObject);
     }
 
     protected override void UpdateMovePlanet()

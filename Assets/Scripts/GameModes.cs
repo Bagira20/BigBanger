@@ -54,7 +54,7 @@ namespace TheBigBanger.GameModeManager
             arCamera = gameManager.arCamera;
             gameModeType = gameManager.gameModeType;
             debugText = gameManager.DebugText;
-            gameManager.levelMissionCanvas.GetComponentInChildren<Text>().text = LevelIntroDisplays.LevelIntroText[1];
+            //gameManager.levelMissionCanvas.GetComponentInChildren<Text>().text = LevelIntroDisplays.LevelIntroText[1];
             SetPlanets(false);
         }
 

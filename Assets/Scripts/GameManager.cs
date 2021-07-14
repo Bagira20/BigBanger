@@ -30,18 +30,26 @@ public class GameManager : GameplayStaticsManager
     public int levelIntroNr = 0;
 
     public GameMode activeMode;
+    public CanvasManager canvas;
 
     void Awake()
     {
         ResetStatics();
         actionNeededText.text = "move device slowly until indicator appears";
         SetGameMode();
+        SetUI();
     }
 
     public void SetGameMode()
     {
         activeMode = new ModeLesson(this);
         activeMode.FreezeTime();
+    }
+
+    void SetUI() 
+    {
+        if (canvas == null)
+            canvas = GameObject.Find("UICanvas").GetComponent<CanvasManager>();
     }
 
     void Update()

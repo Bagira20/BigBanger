@@ -6,7 +6,7 @@ public static class LevelIntroDisplays
 {
     public static string[] LevelIntroText =
     {
-        "LEVEL 1\nF = 1/2mv^2",
-        "LEVEL 2\nF = ma",
+        "F = 1/2mv^2",
+        "F = ma",
     };
 }
