@@ -18,18 +18,47 @@ public class CanvasManager : MonoBehaviour
     [System.Serializable]
     public struct UIElement
     {
+        public GameObject CanvasElement;
+        [HideInInspector]
         public Text UIText;
-        public Vector2 UIOffset;
+        public Vector2 Offset;
     }
 
     [Header("Text Scene Objects")]
     GameManager manager;
     public UIElement LevelTitle, LevelDescription, TimeCounter, LineText, PlayerMassText, TargetText;
 
+    void SetUIElements()
+    {
+        LevelTitle.CanvasElement.GetComponent<Text>();
+        if (LevelTitle.UIText == null)
+            LevelTitle.UIText = LevelTitle.CanvasElement.GetComponentInChildren<Text>();
+
+        LevelDescription.CanvasElement.GetComponent<Text>();
+        if (LevelDescription.UIText == null)
+            LevelDescription.UIText = LevelDescription.CanvasElement.GetComponentInChildren<Text>();
+
+        TimeCounter.CanvasElement.GetComponent<Text>();
+        if (TimeCounter.UIText == null)
+            TimeCounter.UIText = TimeCounter.CanvasElement.GetComponentInChildren<Text>();
+
+        LineText.CanvasElement.GetComponent<Text>();
+        if (LineText.UIText == null)
+            LineText.UIText = LineText.CanvasElement.GetComponentInChildren<Text>();
+
+        PlayerMassText.CanvasElement.GetComponent<Text>();
+        if (PlayerMassText.UIText == null)
+            PlayerMassText.UIText = PlayerMassText.CanvasElement.GetComponentInChildren<Text>();
+
+        TargetText.CanvasElement.GetComponent<Text>();
+        if (TargetText.UIText == null)
+            TargetText.UIText = TargetText.CanvasElement.GetComponentInChildren<Text>();
+    }
 
     private void Start()
     {
         manager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        SetUIElements();
         SetLevelTitle((manager.levelIntroNr+1).ToString());
         SetLevelDescription(LevelIntroDisplays.LevelIntroText[manager.levelIntroNr]);
     }
@@ -77,12 +106,14 @@ public class CanvasManager : MonoBehaviour
         RectTransformUtility.ScreenPointToLocalPointInRectangle(GetComponent<RectTransform>(), screenPosition, null, out canvasPosition);
 
         UIElement uiElement = GetUIElement(targetedUIElement);
-        SetPositionOfTextObject(uiElement, canvasPosition + uiElement.UIOffset);
+        SetPositionOfTextObject(uiElement, canvasPosition + uiElement.Offset);
     }
 
-    public void SetPositionOfTextObject(UIElement gameObjectElement, Vector2 newPosition) 
+
+    public void SetPositionOfTextObject(UIElement canvasUIElement, Vector2 newPosition) 
     {
-        gameObjectElement.UIText.gameObject.GetComponent<RectTransform>().localPosition = newPosition;
+        RectTransform textTransform = canvasUIElement.UIText.gameObject.GetComponent<RectTransform>();
+        textTransform.localPosition = newPosition;
     }
 
     UIElement GetUIElement(EUIElements pendingElement) 
