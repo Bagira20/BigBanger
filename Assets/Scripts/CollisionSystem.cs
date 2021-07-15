@@ -24,6 +24,7 @@ public class CollisionSystem : MonoBehaviour
             {
                 //Game Over
                 gameManager.activeMode.gamePhase = EGamePhase.LevelEnd;
+                gameManager.activeMode.gamepass = 1;
                 gameManager.levelEndCanvas.GetComponentInChildren<Text>().text = "You've Completed the Level!\nFORCE: " + playerMovement.GetForceFromAbility(EPlayerAbilities.swipeMovement) + "\nVELOCITY: " + playerMovement.GetVelocityFromAbility(EPlayerAbilities.swipeMovement) + "\nMASS: " + playerMovement.GetMass() + "\n\nF = 1/2*m*(v²)";
                 //Debug.Log("collided with target planet");
                 playerMovement.DestroyPlanet();

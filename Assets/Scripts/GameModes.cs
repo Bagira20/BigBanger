@@ -37,6 +37,7 @@ namespace TheBigBanger.GameModeManager
         public string actionNeededText;
         public bool bLaunched = false, bTimeOver = false, levelEnd = false;
         public float bTimeLimit = 200f;
+        public int gamepass = 0;
         Text debugText;
 
         protected Camera arCamera;

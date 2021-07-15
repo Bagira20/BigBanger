@@ -48,6 +48,12 @@ public class GameManager : GameplayStaticsManager
         UpdateTime();
         UpdatePlayerTouchInput();
         UpdateGameMode();
+        if (activeMode.IsTimeOver())
+        {
+            activeMode.gamePhase = EGamePhase.LevelEnd;
+            activeMode.UpdateGameMode();
+            activeMode.gamepass = 0;
+        }
     }
 
     void FixedUpdate()
@@ -129,11 +135,9 @@ public class GameManager : GameplayStaticsManager
         float paForce, pbForce;
         paForce = playerGameObject.GetComponent<PAMovement>().GetForce();
         pbForce = targetGameObject.GetComponent<PBMovement>().GetForce();
-        int gamepass=0;
-        score = ((1000f - (paForce - pbForce) + GameTime.gameTime*3)*gamepass).ToString();
-            //"[1000 - {[P-AF]-[P-BF]} +{Remaining time[seconds] x 3} + 200 (if; bonus mission complete)] x 1(if; game complete) or x 0( if; game fail)";
         
-
+        score = ((1000f - (paForce - pbForce) + GameTime.gameTime*3)*activeMode.gamepass).ToString();
+        this.score.text = score;
         return score;
     }
 }
