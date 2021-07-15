@@ -66,10 +66,15 @@ public class AbilitySwipeMovement : AbilityBase
     public void UpdateSwipeUI() 
     {
         string lineText = "";
+        if (!bPredictionInstantiated)
+        {
+            gameManager.canvas.SetLineText(lineText);
+            return;
+        }
         if (playerMovement.planetVelocityBy == EPlayerAbilities.swipeMovement)
-            lineText = "v = " + playerMovement.GetVelocityFromAbility(EPlayerAbilities.swipeMovement) + "m/s";
+            lineText = "v = " + gameManager.GetTransformedValue(playerMovement.GetVelocityFromAbility(EPlayerAbilities.swipeMovement)) + "m/s";
         else if (playerMovement.planetVelocityBy == EPlayerAbilities.rocketMovement)
-            lineText = "v = " + playerMovement.GetVelocityFromAbility(EPlayerAbilities.swipeMovement) + "m/s";
+            lineText = "a = " + gameManager.GetTransformedValue(gameManager.activeMode.aRocketControl.rocketMagnitude) + "m/s";
         gameManager.canvas.SetLineText(lineText);
         Vector3 middleLineTextPosition = predictionLine.GetPosition(0) + 0.5f*(predictionLine.GetPosition(1)-predictionLine.GetPosition(0));
         gameManager.canvas.AttachTextToPosition(EUIElements.LineText, middleLineTextPosition);

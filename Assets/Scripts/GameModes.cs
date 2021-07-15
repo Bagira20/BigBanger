@@ -153,7 +153,6 @@ namespace TheBigBanger.GameModeManager
                         UpdateRotationInputForAbility(aSwipeMovement);
                     else if (TouchInput.IsPlayerHit() || TouchInput.IsInputCanvasHit())
                         UpdateSwipeInput();
-                    aSwipeMovement.UpdateSwipeUI();
                 }
                 // debugText.text = "PLAYER: \nVelocity: " + gameManager.GetTransformedValue(playerMovement.GetVelocityFromAbility(EPlayerAbilities.swipeMovement)) 
                 //   + "\nForce: " + gameManager.GetTransformedValue(playerMovement.GetForceFromAbility(EPlayerAbilities.swipeMovement)) 

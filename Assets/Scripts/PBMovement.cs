@@ -14,8 +14,7 @@ public class PBMovement : PlanetMovementBase
     public Vector3 linearDirection = Vector3.up, centerFromPlanet = Vector3.zero, radiantAxis = Vector3.right;
     public float yLerpOffset = 1f;
     protected Vector3 radiantCenter, lerpTarget, lerpStart;
-    //public Vector3 targetPos, centerRadiusPos;
-    //public float radiusSize;
+    protected float lerpTimeCounter, lerpTimeAtFirstLaunch;
     public bool bMoveAtStart = true;
 
     private void OnEnable()
@@ -33,7 +32,7 @@ public class PBMovement : PlanetMovementBase
             bIsMoving = true;
             bMoveAtStart = false;
         }
-        //if (bIsMoving)
+        if (bIsMoving)
             UpdateMovePlanet();
     }
 
@@ -48,16 +47,18 @@ public class PBMovement : PlanetMovementBase
                 transform.RotateAround(radiantCenter, radiantAxis, speed*GameTime.deltaTime);
                 break;
             case PBMovementTypes.lerp:
-                float theta = Time.time * velocity;
+                if (GameTime.bFreeze) return;
+                lerpTimeCounter += GameTime.deltaTime;
+                float theta = lerpTimeCounter * velocity;
                 float distance = (lerpTarget.y - lerpStart.y) * Mathf.Sin(theta);
-                transform.position = lerpStart + new Vector3(0, yLerpOffset, 0) * distance;
-                //transform.position = Vector3.Lerp(lerpStart, lerpTarget, Mathf.Abs(Mathf.Sin(Time.time)));
+                transform.position = lerpStart + new Vector3(0, yLerpOffset) * distance;
                 break;
         }
     }
 
     private void FixedUpdate()
     {
+        canvas.SetTargetText(manager.GetTransformedValue(mass), manager.GetTransformedValue(velocity));
         canvas.AttachTextToObject(EUIElements.TargetText, this.gameObject);
     }
 
@@ -68,11 +69,18 @@ public class PBMovement : PlanetMovementBase
         {
             manager.activeMode.bFirstLaunch = true;
             startPos = transform.position;
+            lerpTimeAtFirstLaunch = lerpTimeCounter;
         }
     }
 
     public float GetForce()
     {
         return acceleration != default ? mass * acceleration : 0.5f * mass * Mathf.Pow(velocity, 2); ;
+    }
+
+    public override void ResetPlanet()
+    {
+        base.ResetPlanet();
+        lerpTimeCounter = lerpTimeAtFirstLaunch;
     }
 }

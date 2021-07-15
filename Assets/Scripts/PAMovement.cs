@@ -46,6 +46,7 @@ public class PAMovement : PlanetMovementBase
 
     private void FixedUpdate()
     {
+        canvas.SetPlayerMassText(manager.GetTransformedValue(mass));
         canvas.AttachTextToObject(EUIElements.PlayerMassText, this.gameObject);
     }
 

@@ -76,6 +76,7 @@ public class GameManager : GameplayStaticsManager
     {
         canvas.SetTimeCounter(activeMode.bTimeLimit - Mathf.Round(GameTime.gameTime));
         actionNeededText.text = activeMode.actionNeededText;
+        activeMode.aSwipeMovement.UpdateSwipeUI();
         if (activeMode.levelEnd)
         {
             CalculateScore();

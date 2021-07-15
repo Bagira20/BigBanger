@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class AbilityRocketControl : AbilityBase
 {
-    public float rocketAcceleration = 0.2f;
+    public float rocketAcceleration = 0.1f;
     public float rocketMagnitude;
     public float rocketCount = 0;
     public GameObject playerGameObject;

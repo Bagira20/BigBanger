@@ -1227,6 +1227,11 @@ PrefabInstance:
       objectReference: {fileID: 1771451191}
     - target: {fileID: 4368435751383594493, guid: 21fb2a4051145b94f9ff014518d6374e,
         type: 3}
+      propertyPath: yLerpOffset
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4368435751383594493, guid: 21fb2a4051145b94f9ff014518d6374e,
+        type: 3}
       propertyPath: lerpOffset.y
       value: 10
       objectReference: {fileID: 0}
@@ -1248,7 +1253,7 @@ PrefabInstance:
     - target: {fileID: 4368435751383594493, guid: 21fb2a4051145b94f9ff014518d6374e,
         type: 3}
       propertyPath: MovementConfiguration.Array.data[1].value
-      value: 1
+      value: 0.1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 21fb2a4051145b94f9ff014518d6374e, type: 3}
