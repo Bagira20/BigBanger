@@ -1168,7 +1168,7 @@ PrefabInstance:
     - target: {fileID: 3686639376288518243, guid: 21fb2a4051145b94f9ff014518d6374e,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.1
+      value: 4.447
       objectReference: {fileID: 0}
     - target: {fileID: 3686639376288518243, guid: 21fb2a4051145b94f9ff014518d6374e,
         type: 3}
@@ -1227,6 +1227,16 @@ PrefabInstance:
       objectReference: {fileID: 1771451191}
     - target: {fileID: 4368435751383594493, guid: 21fb2a4051145b94f9ff014518d6374e,
         type: 3}
+      propertyPath: lerpOffset.y
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4368435751383594493, guid: 21fb2a4051145b94f9ff014518d6374e,
+        type: 3}
+      propertyPath: movementType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4368435751383594493, guid: 21fb2a4051145b94f9ff014518d6374e,
+        type: 3}
       propertyPath: linearDirection.y
       value: 0.5
       objectReference: {fileID: 0}
@@ -1238,7 +1248,7 @@ PrefabInstance:
     - target: {fileID: 4368435751383594493, guid: 21fb2a4051145b94f9ff014518d6374e,
         type: 3}
       propertyPath: MovementConfiguration.Array.data[1].value
-      value: 0.1
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 21fb2a4051145b94f9ff014518d6374e, type: 3}
@@ -2020,7 +2030,7 @@ MonoBehaviour:
   DebugText: {fileID: 417584333}
   gamePhase: 0
   levelIntroNr: 1
-  canvas: {fileID: 0}
+  canvas: {fileID: 2038791256}
 --- !u!4 &1771451192
 Transform:
   m_ObjectHideFlags: 0

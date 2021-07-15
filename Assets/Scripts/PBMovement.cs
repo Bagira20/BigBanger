@@ -11,10 +11,20 @@ public enum PBMovementTypes
 public class PBMovement : PlanetMovementBase
 {
     public PBMovementTypes movementType = PBMovementTypes.linear;
-    public Vector3 linearDirection = Vector3.up;
+    public Vector3 linearDirection = Vector3.up, centerFromPlanet = Vector3.zero, radiantAxis = Vector3.right;
+    public float yLerpOffset = 1f;
+    protected Vector3 radiantCenter, lerpTarget, lerpStart;
     //public Vector3 targetPos, centerRadiusPos;
     //public float radiusSize;
     public bool bMoveAtStart = true;
+
+    private void OnEnable()
+    {
+        radiantCenter = transform.position + centerFromPlanet;
+        lerpStart = transform.position;
+        //Only UP MOVEMENT so far
+        lerpTarget = new Vector3(lerpStart.x, lerpStart.y + yLerpOffset, lerpStart.z);
+    }
 
     private void Update()
     {
@@ -23,7 +33,7 @@ public class PBMovement : PlanetMovementBase
             bIsMoving = true;
             bMoveAtStart = false;
         }
-        if (bIsMoving)
+        //if (bIsMoving)
             UpdateMovePlanet();
     }
 
@@ -32,10 +42,16 @@ public class PBMovement : PlanetMovementBase
         float speed = acceleration != default ? acceleration : velocity;
         switch (movementType) {
             case PBMovementTypes.linear:
-                transform.position += (linearDirection * speed) * GameTime.deltaTime; break;
-            case PBMovementTypes.lerp:
+                transform.position += (linearDirection * speed) * GameTime.deltaTime; 
+                break;
             case PBMovementTypes.radiant:
-                //not yet implemented
+                transform.RotateAround(radiantCenter, radiantAxis, speed*GameTime.deltaTime);
+                break;
+            case PBMovementTypes.lerp:
+                float theta = Time.time * velocity;
+                float distance = (lerpTarget.y - lerpStart.y) * Mathf.Sin(theta);
+                transform.position = lerpStart + new Vector3(0, yLerpOffset, 0) * distance;
+                //transform.position = Vector3.Lerp(lerpStart, lerpTarget, Mathf.Abs(Mathf.Sin(Time.time)));
                 break;
         }
     }
