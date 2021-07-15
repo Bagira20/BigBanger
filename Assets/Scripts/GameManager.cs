@@ -21,7 +21,7 @@ public class GameManager : GameplayStaticsManager
     public Camera arCamera;
     public GameObject playerGameObject, targetGameObject, obstaclePrefab;
     public Text timerText, launchText;
-    public TMP_Text actionNeededText;
+    public TMP_Text actionNeededText, score;
     public GameObject levelMissionCanvas, levelActiveCanvas, levelEndCanvas;
 
     [Header("DEVELOPMENT Only")]
@@ -57,6 +57,12 @@ public class GameManager : GameplayStaticsManager
         UpdateTime();
         UpdatePlayerTouchInput();
         UpdateGameMode();
+        if (activeMode.IsTimeOver())
+        {
+            activeMode.gamePhase = EGamePhase.LevelEnd;
+            activeMode.UpdateGameMode();
+            activeMode.gamepass = 0;
+        }
     }
 
     void FixedUpdate()
@@ -72,6 +78,7 @@ public class GameManager : GameplayStaticsManager
         actionNeededText.text = activeMode.actionNeededText;
         if (activeMode.levelEnd)
         {
+            CalculateScore();
             levelActiveCanvas.SetActive(false);
             levelEndCanvas.SetActive(true);
         }
@@ -131,4 +138,16 @@ public class GameManager : GameplayStaticsManager
             DebugText.text = activeMode.aRocketControl.rocketCount.ToString() + " -- " + activeMode.aRocketControl.rocketMagnitude.ToString();
         }
     }    
+
+    public string CalculateScore()
+    {
+        string score;
+        float paForce, pbForce;
+        paForce = playerGameObject.GetComponent<PAMovement>().GetForce();
+        pbForce = targetGameObject.GetComponent<PBMovement>().GetForce();
+        
+        score = ((1000f - (paForce - pbForce) + GameTime.gameTime*3)*activeMode.gamepass).ToString();
+        this.score.text = score;
+        return score;
+    }
 }
