@@ -21,7 +21,7 @@ public class GameManager : GameplayStaticsManager
     public Camera arCamera;
     public GameObject playerGameObject, targetGameObject, obstaclePrefab;
     public Text timerText, launchText;
-    public TMP_Text actionNeededText;
+    public TMP_Text actionNeededText, score;
     public GameObject levelMissionCanvas, levelActiveCanvas, levelEndCanvas;
 
     [Header("DEVELOPMENT Only")]
@@ -63,6 +63,7 @@ public class GameManager : GameplayStaticsManager
         actionNeededText.text = activeMode.actionNeededText;
         if (activeMode.levelEnd)
         {
+            CalculateScore();
             levelActiveCanvas.SetActive(false);
             levelEndCanvas.SetActive(true);
         }
@@ -121,4 +122,18 @@ public class GameManager : GameplayStaticsManager
             DebugText.text = activeMode.aRocketControl.rocketCount.ToString() + " -- " + activeMode.aRocketControl.rocketMagnitude.ToString();
         }
     }    
+
+    public string CalculateScore()
+    {
+        string score;
+        float paForce, pbForce;
+        paForce = playerGameObject.GetComponent<PAMovement>().GetForce();
+        pbForce = targetGameObject.GetComponent<PBMovement>().GetForce();
+        int gamepass=0;
+        score = ((1000f - (paForce - pbForce) + GameTime.gameTime*3)*gamepass).ToString();
+            //"[1000 - {[P-AF]-[P-BF]} +{Remaining time[seconds] x 3} + 200 (if; bonus mission complete)] x 1(if; game complete) or x 0( if; game fail)";
+        
+
+        return score;
+    }
 }
