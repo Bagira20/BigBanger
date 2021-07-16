@@ -9,7 +9,7 @@ using UnityEngine.XR.ARSubsystems;
 public class TouchInput : MonoBehaviour
 {
     public static ARRaycastManager arRaycastManager = new ARRaycastManager();
-    public static Vector2 reservedUIArea, reservedHorizontalUIArea = new Vector2(0.3f, 0.3f), reservedVerticalUIArea = new Vector2(0.6f, 0.1f);
+    public static Vector2 reservedUIArea, reservedHorizontalUIArea = new Vector2(0.85f, 0.35f), reservedVerticalUIArea = new Vector2(0.5f, 0.1f);
     static RaycastHit[] raycastHits;
 
     public static void ResetInput() 
@@ -95,7 +95,7 @@ public class TouchInput : MonoBehaviour
 
     public static bool IsUIHit() 
     {
-        return GetRelativeViewportTouchPosition().x < reservedUIArea.x && GetRelativeViewportTouchPosition().y < reservedUIArea.y;
+        return GetRelativeViewportTouchPosition().x > reservedUIArea.x && GetRelativeViewportTouchPosition().y < reservedUIArea.y;
     }
 
     public static void SetUIAreaToDeviceOrientation(DeviceOrientation deviceOrientation) 

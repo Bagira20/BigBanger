@@ -75,7 +75,7 @@ public class PBMovement : PlanetMovementBase
 
     public float GetForce()
     {
-        return acceleration != default ? mass * acceleration : 0.5f * mass * Mathf.Pow(velocity, 2); ;
+        return acceleration != default ? mass * acceleration : 0.5f * mass * Mathf.Pow(velocity, 2);
     }
 
     public override void ResetPlanet()

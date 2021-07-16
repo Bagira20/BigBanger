@@ -30,7 +30,7 @@ namespace TheBigBanger.GameModeManager
         EGameModeType gameModeType;
         GameManager gameManager;
         GameObject playerPlanet, targetPlanet;
-        PAMovement playerMovement;
+        public PAMovement playerMovement;
         PBMovement targetMovement;
         GameObject placementIndicator, obstacle;
         public EGamePhase gamePhase = EGamePhase.SelectPlane, previousGamePhase;
@@ -116,7 +116,9 @@ namespace TheBigBanger.GameModeManager
             }
             else
             {
+                gameManager.actionText.SetActive(false);
                 SetGamePhase(EGamePhase.PlayPhase);
+                gameManager.SetPlayPhaseUI(true);
                 UnfreezeTime();
                 gameManager.StartTime();
             }
@@ -128,8 +130,10 @@ namespace TheBigBanger.GameModeManager
             {
                 if (placementIndicator.activeSelf)
                 {
+                    gameManager.actionText.SetActive(false);
                     GameObject.Instantiate(obstacle, placementIndicator.transform.position, Quaternion.identity);
                     SetGamePhase(EGamePhase.PlayPhase);
+                    gameManager.SetPlayPhaseUI(true);
                     UnfreezeTime();
                 }
             }
