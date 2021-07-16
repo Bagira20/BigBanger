@@ -31,6 +31,8 @@ public class GameManager : GameplayStaticsManager
 
     public GameMode activeMode;
     public CanvasManager canvas;
+    public ParticleSystem rocketLaunchCore;
+    public List<GameObject> rocketLaunchSides;
 
     void Awake()
     {
@@ -38,6 +40,18 @@ public class GameManager : GameplayStaticsManager
         actionNeededText.text = "move device slowly until indicator appears";
         SetGameMode();
         SetUI();
+        playerGameObject.SetActive(true);
+        rocketLaunchCore = playerGameObject.transform.Find("RocketFlames").gameObject.GetComponent<ParticleSystem>();
+        rocketLaunchSides = new List<GameObject>();
+        foreach (Transform child in rocketLaunchCore.gameObject.transform)
+        {
+            if (child.name.Contains("Flames "))
+            {
+                rocketLaunchSides.Add(child.gameObject);
+                child.gameObject.SetActive(false);
+            }
+        }
+        playerGameObject.SetActive(false);
     }
 
     public void SetGameMode()
@@ -117,6 +131,16 @@ public class GameManager : GameplayStaticsManager
             activeMode.UnfreezeTime();
             playerGameObject.GetComponent<PAMovement>().LaunchPlanet();
             targetGameObject.GetComponent<PBMovement>().LaunchPlanet();
+            if (playerGameObject.GetComponent<PAMovement>().planetVelocityBy == EPlayerAbilities.rocketMovement)
+            {
+                for (int i=0; i< activeMode.aRocketControl.rocketCount; i++)
+                {
+                    
+                        rocketLaunchSides[i].SetActive(true);
+                    rocketLaunchCore.Play(true);
+                }
+               
+            }
         }
     }
 
@@ -126,6 +150,7 @@ public class GameManager : GameplayStaticsManager
         levelActiveCanvas.SetActive(true);
         levelEndCanvas.SetActive(false);
         activeMode.Reset();
+        rocketLaunchCore.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
     }
 
     public void RocketButton()
