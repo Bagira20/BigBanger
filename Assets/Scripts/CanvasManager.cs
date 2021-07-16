@@ -96,7 +96,8 @@ public class CanvasManager : MonoBehaviour
 
     public void AttachTextToObject(EUIElements targetedUIElement, GameObject attachGameObject) 
     {
-        AttachTextToPosition(targetedUIElement, attachGameObject.transform.position);
+        Vector3 gameObjectPos = attachGameObject.transform.position;
+        AttachTextToPosition(targetedUIElement, gameObjectPos);
     }
 
     public void AttachTextToPosition(EUIElements targetedUIElement, Vector3 worldPosition) 
@@ -107,16 +108,16 @@ public class CanvasManager : MonoBehaviour
         RectTransformUtility.ScreenPointToLocalPointInRectangle(GetComponent<RectTransform>(), screenPosition, null, out canvasPosition);
 
         UIElement uiElement = GetUIElement(targetedUIElement);
+
         SetPositionOfTextObject(uiElement, canvasPosition + uiElement.Offset);
     }
 
 
     public void SetPositionOfTextObject(UIElement canvasUIElement, Vector2 newPosition) 
     {
-        RectTransform textTransform = canvasUIElement.UIText.gameObject.GetComponent<RectTransform>();
+        RectTransform textTransform = canvasUIElement.CanvasElement.GetComponent<RectTransform>();
         textTransform.localPosition = newPosition;
     }
-
     public void SetRocketCountUI(int rocketCount) 
     {
         for (int i = 0; i < 5; i++) 
@@ -145,5 +146,10 @@ public class CanvasManager : MonoBehaviour
             case EUIElements.TargetText:
                 return TargetText;
         }
+    }
+
+    bool IsTargetUIElementParentedByImage(EUIElements targetedUIElement) 
+    {
+        return targetedUIElement == EUIElements.PlayerMassText || targetedUIElement == EUIElements.TargetText;
     }
 }
