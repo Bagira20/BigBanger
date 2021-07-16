@@ -19,6 +19,7 @@ public class PAMovement : PlanetMovementBase
     public float rotationSensitivity = 1f;
     [Tooltip(FormulaSheets.tooltip)]
     public string ForceIs = FormulaSheets.ForceIs[0];
+    public GameObject rotationSocket;
 
 
     [Header("Prefab Objects")]

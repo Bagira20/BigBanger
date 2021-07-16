@@ -138,6 +138,7 @@ MonoBehaviour:
   PlayerInputFactor: 3
   rotationSensitivity: 1
   ForceIs: "1/2m(v\xB2)"
+  rotationSocket: {fileID: 6019581917548577161}
   lineRenderer: {fileID: 7670807112776463251, guid: 218c524f8e28afc45892650317ad26a6,
     type: 3}
   lineWidthCurve:

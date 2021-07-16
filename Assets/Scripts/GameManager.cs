@@ -31,7 +31,9 @@ public class GameManager : GameplayStaticsManager
     public int levelIntroNr = 0;
 
     public GameMode activeMode;
+    [HideInInspector]
     public CanvasManager canvas;
+    [Header("Rocket Mode")]
     public ParticleSystem rocketLaunchCore;
     public List<GameObject> rocketLaunchSides;
 
@@ -157,15 +159,14 @@ public class GameManager : GameplayStaticsManager
             activeMode.UnfreezeTime();
             playerGameObject.GetComponent<PAMovement>().LaunchPlanet();
             targetGameObject.GetComponent<PBMovement>().LaunchPlanet();
+            activeMode.aSwipeMovement.rotationSocket.SetActive(false);
             if (playerGameObject.GetComponent<PAMovement>().planetVelocityBy == EPlayerAbilities.rocketMovement)
             {
                 for (int i=0; i< activeMode.aRocketControl.rocketCount; i++)
                 {
-                    
-                        rocketLaunchSides[i].SetActive(true);
+                    rocketLaunchSides[i].SetActive(true);
                     rocketLaunchCore.Play(true);
                 }
-               
             }
         }
     }
@@ -176,6 +177,7 @@ public class GameManager : GameplayStaticsManager
         SetPlayPhaseUI(true);
         levelEndCanvas.SetActive(false);
         activeMode.Reset();
+        activeMode.aSwipeMovement.rotationSocket.SetActive(true);
         rocketLaunchCore.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
     }
 

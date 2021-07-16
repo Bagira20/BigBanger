@@ -17,7 +17,6 @@ public class AbilityRocketControl : AbilityBase
         rocketMagnitude = 0;
         playerGameObject = manager.playerGameObject;
         rocketsGameObject = playerGameObject.transform.Find("Rockets");
-
     }
 
     public void ResetRocket()
@@ -30,7 +29,6 @@ public class AbilityRocketControl : AbilityBase
         {
             child.gameObject.SetActive(false);
         }    
-
     }
 
     public void UpdateRocketMagnitude()
@@ -43,4 +41,10 @@ public class AbilityRocketControl : AbilityBase
         }
     }
 
+    public void UpdateRocketRotation(Vector3 swipeLineEndPosition) 
+    {
+        Vector3 oppositeTargetPosition = rocketsGameObject.transform.position - (swipeLineEndPosition - rocketsGameObject.transform.position);
+        rocketsGameObject.transform.LookAt(oppositeTargetPosition);
+        rocketsGameObject.transform.parent.LookAt(oppositeTargetPosition);
+    }
 }
