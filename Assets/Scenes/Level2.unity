@@ -1462,6 +1462,11 @@ PrefabInstance:
       propertyPath: m_CollisionDetection
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 479516942822200322, guid: a0d54f12fdb6edb4b80ffb5d7d0b9c5e,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 510013348521472384, guid: a0d54f12fdb6edb4b80ffb5d7d0b9c5e,
         type: 3}
       propertyPath: m_Name
@@ -1522,7 +1527,53 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 598989113032622876, guid: a0d54f12fdb6edb4b80ffb5d7d0b9c5e,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 0ce7ca15cd93341beb67396a494cef55, type: 2}
+    - target: {fileID: 1104040759425263263, guid: a0d54f12fdb6edb4b80ffb5d7d0b9c5e,
+        type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3138785752148660886, guid: a0d54f12fdb6edb4b80ffb5d7d0b9c5e,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3645726431957452546, guid: a0d54f12fdb6edb4b80ffb5d7d0b9c5e,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5604334413056723154, guid: a0d54f12fdb6edb4b80ffb5d7d0b9c5e,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6502599592967111051, guid: a0d54f12fdb6edb4b80ffb5d7d0b9c5e,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6620657991680485082, guid: a0d54f12fdb6edb4b80ffb5d7d0b9c5e,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8206262747940160812, guid: a0d54f12fdb6edb4b80ffb5d7d0b9c5e,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8932843849604254226, guid: a0d54f12fdb6edb4b80ffb5d7d0b9c5e,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 6905251953333901367, guid: a0d54f12fdb6edb4b80ffb5d7d0b9c5e, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: a0d54f12fdb6edb4b80ffb5d7d0b9c5e, type: 3}
 --- !u!1 &1051070493
 GameObject:
@@ -2638,7 +2689,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 2
+  m_HorizontalAlignment: 32
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -2667,7 +2718,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: -108.77832, y: 0, z: -88.79614, w: 0}
+  m_margin: {x: -69.08862, y: 0, z: -75.14441, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -2815,6 +2866,8 @@ MonoBehaviour:
   gamePhase: 0
   levelIntroNr: 1
   canvas: {fileID: 2038791256}
+  rocketLaunchCore: {fileID: 0}
+  rocketLaunchSides: []
 --- !u!4 &1771451192
 Transform:
   m_ObjectHideFlags: 0
