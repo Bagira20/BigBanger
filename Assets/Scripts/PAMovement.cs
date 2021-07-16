@@ -29,6 +29,8 @@ public class PAMovement : PlanetMovementBase
 
     public float timer = 0;
 
+    public AudioClip[] LaunchSounds, GrabSounds, ExplosionSounds, RocketBoostSounds;
+
     private void Update()
     {
         if (bIsMoving)
@@ -110,6 +112,13 @@ public class PAMovement : PlanetMovementBase
             base.LaunchPlanet();
             manager.DebugText.text = "Launched with " + GetForceFromAbility(EPlayerAbilities.swipeMovement).ToString();
             manager.activeMode.bLaunched = true;
+
+            if (GetComponent<AudioSource>() != null)
+            {
+                AudioSource launchSource = GetComponent<AudioSource>();
+                launchSource.pitch += Random.Range(-0.2f, 0.2f);
+                launchSource.Play();
+            }
         }
     }
 
