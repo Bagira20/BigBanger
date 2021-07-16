@@ -27,6 +27,7 @@ public class CanvasManager : MonoBehaviour
     [Header("Text Scene Objects")]
     GameManager manager;
     public UIElement LevelTitle, LevelDescription, TimeCounter, LineText, PlayerMassText, TargetText;
+    public Image[] rocketCounts = new Image[5];
 
     void SetUIElements()
     {
@@ -114,6 +115,17 @@ public class CanvasManager : MonoBehaviour
     {
         RectTransform textTransform = canvasUIElement.UIText.gameObject.GetComponent<RectTransform>();
         textTransform.localPosition = newPosition;
+    }
+
+    public void SetRocketCountUI(int rocketCount) 
+    {
+        for (int i = 0; i < 5; i++) 
+        {
+            if (i < rocketCount)
+                rocketCounts[i].enabled = true;
+            else
+                rocketCounts[i].enabled = false;
+        }
     }
 
     UIElement GetUIElement(EUIElements pendingElement) 

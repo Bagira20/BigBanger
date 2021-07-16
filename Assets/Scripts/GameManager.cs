@@ -22,7 +22,8 @@ public class GameManager : GameplayStaticsManager
     public GameObject playerGameObject, targetGameObject, obstaclePrefab;
     public Text timerText, launchText;
     public TMP_Text actionNeededText, score;
-    public GameObject levelMissionCanvas, levelActiveCanvas, levelEndCanvas;
+    public GameObject levelMissionCanvas, levelEndCanvas, actionText;
+    public GameObject[] playPhaseCanvasObjects;
 
     [Header("DEVELOPMENT Only")]
     public Text DebugText;
@@ -48,12 +49,16 @@ public class GameManager : GameplayStaticsManager
 
     void SetUI() 
     {
+        SetPlayPhaseUI(false);
+        if (activeMode.playerMovement.planetVelocityBy == EPlayerAbilities.rocketMovement)
+            canvas.SetRocketCountUI(0);
         if (canvas == null)
             canvas = GameObject.Find("UICanvas").GetComponent<CanvasManager>();
     }
 
     void Update()
     {
+        DebugText.text = TouchInput.GetRelativeViewportTouchPosition().ToString();
         UpdateTime();
         UpdatePlayerTouchInput();
         UpdateGameMode();
@@ -80,7 +85,7 @@ public class GameManager : GameplayStaticsManager
         if (activeMode.levelEnd)
         {
             CalculateScore();
-            levelActiveCanvas.SetActive(false);
+            SetPlayPhaseUI(false);
             levelEndCanvas.SetActive(true);
         }
     }
@@ -109,6 +114,26 @@ public class GameManager : GameplayStaticsManager
         activeMode.UpdateGameMode();
     }
 
+    public void SetPlayPhaseUI(bool bActive) 
+    {
+        foreach (GameObject playPhaseUIObject in playPhaseCanvasObjects)
+            playPhaseUIObject.SetActive(bActive);
+    }
+
+    public void LaunchResetButton() 
+    {
+        if (activeMode.bLaunched)
+        {
+            ResetButton();
+            launchText.text = "LAUNCH";
+        }
+        else
+        {
+            LaunchButton();
+            launchText.text = "RESET";
+        }
+    }
+
     public void LaunchButton()
     {
         if (gameModeType == EGameModeType.Lesson)
@@ -124,7 +149,7 @@ public class GameManager : GameplayStaticsManager
     public void ResetButton()
     {
         launchText.text = "LAUNCH!";
-        levelActiveCanvas.SetActive(true);
+        SetPlayPhaseUI(true);
         levelEndCanvas.SetActive(false);
         activeMode.Reset();
     }
@@ -135,8 +160,9 @@ public class GameManager : GameplayStaticsManager
         {
             activeMode.aRocketControl.rocketCount++;
             activeMode.aRocketControl.UpdateRocketMagnitude();
+            canvas.SetRocketCountUI(Mathf.FloorToInt(activeMode.aRocketControl.rocketCount));
 
-            DebugText.text = activeMode.aRocketControl.rocketCount.ToString() + " -- " + activeMode.aRocketControl.rocketMagnitude.ToString();
+            //DebugText.text = activeMode.aRocketControl.rocketCount.ToString() + " -- " + activeMode.aRocketControl.rocketMagnitude.ToString();
         }
     }    
 
