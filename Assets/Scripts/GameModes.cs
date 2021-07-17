@@ -119,6 +119,7 @@ namespace TheBigBanger.GameModeManager
                 gameManager.actionText.SetActive(false);
                 SetGamePhase(EGamePhase.PlayPhase);
                 gameManager.SetPlayPhaseUI(true);
+                AudioPlayer.Play2DAudioFromRange(gameManager.activeMode.playerMovement.audioSource, gameManager.canvas.SelectSounds, new Vector2(0.8f, 1.2f), new Vector2(0.95f, 1.1f));
                 UnfreezeTime();
                 gameManager.StartTime();
             }
@@ -134,6 +135,7 @@ namespace TheBigBanger.GameModeManager
                     GameObject.Instantiate(obstacle, placementIndicator.transform.position, Quaternion.identity);
                     SetGamePhase(EGamePhase.PlayPhase);
                     gameManager.SetPlayPhaseUI(true);
+                    AudioPlayer.Play2DAudioFromRange(gameManager.activeMode.playerMovement.audioSource, gameManager.canvas.SelectSounds, new Vector2(0.8f, 1.2f), new Vector2(0.95f, 1.1f));
                     UnfreezeTime();
                 }
             }
@@ -155,7 +157,7 @@ namespace TheBigBanger.GameModeManager
                 {
                     if (!TouchInput.IsPlayerHit() && (TouchInput.IsRotationSocketHit() || aRotation.bInputLocked))
                         UpdateRotationInputForAbility(aSwipeMovement);
-                    else if (TouchInput.IsPlayerHit() || TouchInput.IsInputCanvasHit())
+                    else if ((TouchInput.IsPlayerHit() || TouchInput.IsInputCanvasHit()) && !TouchInput.IsUIHit())
                         UpdateSwipeInput();
                 }
                 // debugText.text = "PLAYER: \nVelocity: " + gameManager.GetTransformedValue(playerMovement.GetVelocityFromAbility(EPlayerAbilities.swipeMovement)) 

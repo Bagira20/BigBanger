@@ -75,6 +75,8 @@ public class PlanetMovementBase : MonoBehaviour
     {
         bIsMoving = false;
         GetComponent<MeshRenderer>().enabled = false;
+        foreach (Transform child in transform)
+            child.gameObject.SetActive(false);
     }
 
     public virtual void ResetPlanet()
@@ -82,5 +84,7 @@ public class PlanetMovementBase : MonoBehaviour
         transform.position = startPos;
         bIsMoving = false;
         GetComponent<MeshRenderer>().enabled = true;
+        foreach (Transform child in transform)
+            child.gameObject.SetActive(true);
     }
 }

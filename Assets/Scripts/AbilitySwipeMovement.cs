@@ -24,6 +24,7 @@ public class AbilitySwipeMovement : AbilityBase
                 InitiateLineRenderer();
             else if (bPredictionInstantiated && (TouchInput.IsPlayerHit() || TouchInput.IsInputCanvasHit()))
                 UpdateSwipeLine();
+            AudioPlayer.Play2DAudioFromRange(playerMovement.audioSource, gameManager.canvas.TouchSounds, new Vector2(0.9f, 1.25f), new Vector2(0.4f, 0.5f));
         }
     }
 
@@ -90,7 +91,7 @@ public class AbilitySwipeMovement : AbilityBase
 
     public void EndSwipeLine()
     {
-
+        AudioPlayer.Play2DAudioFromRange(playerMovement.audioSource, gameManager.canvas.CancelSounds, new Vector2(0.9f, 1.25f), new Vector2(0.2f, 0.25f));
     }
 
     public void ResetSwipeLine() 

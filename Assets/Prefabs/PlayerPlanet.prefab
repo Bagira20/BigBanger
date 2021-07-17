@@ -168,6 +168,28 @@ MonoBehaviour:
     m_RotationOrder: 4
   lineWidthMultiplier: 0.1
   timer: 0
+  audioSource: {fileID: 6450028360331305883}
+  LaunchSounds:
+  - {fileID: 0}
+  GrabSounds: []
+  ExplosionSounds:
+  - {fileID: 8300000, guid: b7bd46e65da77d44eb60ab955edf18c0, type: 3}
+  - {fileID: 8300000, guid: aebf7930dbffb1040a94c8778f585fb5, type: 3}
+  - {fileID: 8300000, guid: f3b723bdde61e5249937dc72804bc396, type: 3}
+  - {fileID: 8300000, guid: 63c512b4a2726bc42b9b9940ef61e7b7, type: 3}
+  - {fileID: 8300000, guid: 4494d769a0b6c5f41b2315060383380c, type: 3}
+  - {fileID: 8300000, guid: 45b4e640c4f559a4ea753c388ed974c8, type: 3}
+  - {fileID: 8300000, guid: 791d01fa708751943a243cd71a0d6273, type: 3}
+  - {fileID: 8300000, guid: 76a7f49827690bc4f92a649c3ea75f16, type: 3}
+  - {fileID: 8300000, guid: db20369abb7924b4f83a07adc3980c3f, type: 3}
+  - {fileID: 8300000, guid: ee8550d2ee443b743bc7dc9a091cb012, type: 3}
+  - {fileID: 8300000, guid: ccf9b308705885b458995437fb34bb57, type: 3}
+  - {fileID: 8300000, guid: 4f430fc977b784c45b1c704f5eb44628, type: 3}
+  - {fileID: 8300000, guid: e776efde3e2999e4aa078a468616cb2a, type: 3}
+  - {fileID: 8300000, guid: 28cdc5909d80ff5419109bf21df7c61b, type: 3}
+  - {fileID: 8300000, guid: 75b37f340cf96ee42a199f9d5ad16176, type: 3}
+  RocketBoostSounds:
+  - {fileID: 8300000, guid: 7fb5318458321814682ecfa092dbfda1, type: 3}
 --- !u!54 &1966316350
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -205,9 +227,9 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 500
+  MaxDistance: 20
   Pan2D: 0
-  rolloffMode: 0
+  rolloffMode: 2
   BypassEffects: 0
   BypassListenerEffects: 0
   BypassReverbZones: 0
@@ -240,7 +262,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
