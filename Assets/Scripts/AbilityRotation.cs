@@ -21,6 +21,7 @@ public class AbilityRotation : AbilityBase
         _sensitivity = playerMovement.rotationSensitivity / _distanceToPlanet;
         _center = playerMovement.transform.position;
         _startTouchPos = _currentTouchPos = TouchInput.GetTouchPosition();
+        AudioPlayer.Play2DAudioFromRange(playerMovement.audioSource, gameManager.canvas.TouchSounds, new Vector2(0.7f, 0.9f), new Vector2(0.2f, 0.25f));
     }
 
     public void UpdateRotation(AbilityBase ability)
@@ -41,6 +42,7 @@ public class AbilityRotation : AbilityBase
 
     public void EndRotation(AbilityBase ability)
     {
+        AudioPlayer.Play2DAudioFromRange(playerMovement.audioSource, gameManager.canvas.CancelSounds, new Vector2(0.7f, 0.9f), new Vector2(0.2f, 0.25f));
         bInputLocked = false;
     }
 }

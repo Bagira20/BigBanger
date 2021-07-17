@@ -28,7 +28,7 @@ public class CanvasManager : MonoBehaviour
     GameManager manager;
     public UIElement LevelTitle, LevelDescription, TimeCounter, LineText, PlayerMassText, TargetText;
     public Image[] rocketCounts = new Image[5];
-    public AudioSource[] poofRocketSounds, attachRocketSounds, CancelSounds, SelectSounds;
+    public AudioClip[] poofRocketSounds, attachRocketSounds, CancelSounds, SelectSounds, TouchSounds;
 
     void SetUIElements()
     {
