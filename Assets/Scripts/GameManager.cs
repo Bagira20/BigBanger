@@ -199,7 +199,7 @@ public class GameManager : GameplayStaticsManager
             canvas.SetRocketCountUI(Mathf.FloorToInt(activeMode.aRocketControl.rocketCount));
         }
         else
-            AudioPlayer.Play2DAudioFromRange(activeMode.playerMovement.audioSource, canvas.poofRocketSounds, new Vector2(0.8f, 1.2f), new Vector2(0.95f, 1.1f));
+            AudioPlayer.Play2DAudioFromRange(activeMode.playerMovement.audioSource, canvas.poofRocketSounds, new Vector2(0.8f, 1.2f), new Vector2(0.55f, 0.7f));
     }
 
     public string CalculateScore()

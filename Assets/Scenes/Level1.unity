@@ -262,10 +262,22 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  poofRocketSounds: []
-  attachRocketSounds: []
-  CancelSounds: []
-  SelectSounds: []
+  poofRocketSounds:
+  - {fileID: 8300000, guid: 125c4323239bcfb49b72a1e3fa652d28, type: 3}
+  - {fileID: 8300000, guid: 59fe84dd093ca6648ab53854818302b5, type: 3}
+  - {fileID: 8300000, guid: 636b788cc88273d48b0514850d4ede72, type: 3}
+  attachRocketSounds:
+  - {fileID: 8300000, guid: fe1eff830a27fac47a38ae862cc3a6dd, type: 3}
+  - {fileID: 8300000, guid: 95bc36f11c6a51e46bbff5980e548176, type: 3}
+  - {fileID: 8300000, guid: f78886abd35d691459b7bac7a9d6610f, type: 3}
+  CancelSounds:
+  - {fileID: 8300000, guid: 70e3457dbe8b76047a9f80a4958a1710, type: 3}
+  SelectSounds:
+  - {fileID: 8300000, guid: df606c1e33f6cc5429d4e2153203c595, type: 3}
+  - {fileID: 8300000, guid: 2016c0c053abb5548b9cf89b1d4457a8, type: 3}
+  - {fileID: 8300000, guid: 5cfa276a01d041d4c8e7e72b67313f2f, type: 3}
+  TouchSounds:
+  - {fileID: 8300000, guid: 34c3fea78105a8f4b9d869f24357e383, type: 3}
 --- !u!114 &348135589
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1585,6 +1597,10 @@ PrefabInstance:
       propertyPath: rotationSensitivity
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 685832104, guid: a0d54f12fdb6edb4b80ffb5d7d0b9c5e, type: 3}
+      propertyPath: LaunchSounds.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: 8ba0ac1e63a04c04fa84f74c663a9791, type: 3}
     - target: {fileID: 510013348521472384, guid: a0d54f12fdb6edb4b80ffb5d7d0b9c5e,
         type: 3}
       propertyPath: m_Name
