@@ -26,11 +26,9 @@ public class CollisionSystem : MonoBehaviour
         {
             Debug.Log("HIT TARGET!");
 
-            StartCoroutine(StartGameOver());
-
             if (playerMovement.GetForceFromAbility(playerMovement.planetVelocityBy) > targetMovement.GetForce())
             {
-               
+                StartCoroutine(StartGameOver());
             }
         }
     }
