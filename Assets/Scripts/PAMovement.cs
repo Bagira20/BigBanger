@@ -19,6 +19,7 @@ public class PAMovement : PlanetMovementBase
     public float rotationSensitivity = 1f;
     [Tooltip(FormulaSheets.tooltip)]
     public string ForceIs = FormulaSheets.ForceIs[0];
+    public GameObject rotationSocket;
 
 
     [Header("Prefab Objects")]
@@ -27,6 +28,8 @@ public class PAMovement : PlanetMovementBase
     public float lineWidthMultiplier = 2f;
 
     public float timer = 0;
+
+    public AudioClip[] LaunchSounds, GrabSounds, ExplosionSounds, RocketBoostSounds;
 
     private void Update()
     {
@@ -109,6 +112,13 @@ public class PAMovement : PlanetMovementBase
             base.LaunchPlanet();
             manager.DebugText.text = "Launched with " + GetForceFromAbility(EPlayerAbilities.swipeMovement).ToString();
             manager.activeMode.bLaunched = true;
+
+            if (GetComponent<AudioSource>() != null)
+            {
+                AudioSource launchSource = GetComponent<AudioSource>();
+                launchSource.pitch += Random.Range(-0.2f, 0.2f);
+                launchSource.Play();
+            }
         }
     }
 

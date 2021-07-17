@@ -8,6 +8,8 @@ public class AbilitySwipeMovement : AbilityBase
     public bool bPredictionInstantiated = false;
     public Vector3 targetPosition, swipeDirection;
     public float swipeMagnitude;
+    public GameObject rotationSocket;
+    Vector3 rotationSocketDistance;
 
     public AbilitySwipeMovement(GameManager manager) : base(manager) 
     {
@@ -34,6 +36,8 @@ public class AbilitySwipeMovement : AbilityBase
         predictionLine.enabled = true;
         bPredictionInstantiated = true;
         SetLinePositions(TouchInput.GetHitWorldPositionAtLayer(3));
+        rotationSocket = gameManager.playerGameObject.GetComponent<PAMovement>().rotationSocket;
+        rotationSocketDistance = gameManager.playerGameObject.transform.position - rotationSocket.transform.position;
     }
 
     public void SetLinePositions(Vector3 newEndPosition) 
@@ -61,6 +65,10 @@ public class AbilitySwipeMovement : AbilityBase
         swipeMagnitude = delta.magnitude;
         swipeDirection = delta / swipeMagnitude;
         inputCursor.transform.position = targetPosition;
+        Quaternion tempRotation = rotationSocket.transform.rotation;
+        gameManager.activeMode.aRocketControl.UpdateRocketRotation(targetPosition);
+        rotationSocket.transform.rotation = tempRotation;
+        rotationSocket.transform.position = playerPlanet.transform.position - rotationSocketDistance;
     }
 
     public void UpdateSwipeUI() 
