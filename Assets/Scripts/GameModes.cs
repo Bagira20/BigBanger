@@ -111,7 +111,16 @@ namespace TheBigBanger.GameModeManager
             targetPlanet.transform.position = new Vector3(spawnPosition.x + 0.25f, spawnPosition.y, spawnPosition.z);
             foreach (GameObject obstacle in obstacles)
             {
-                obstacle.transform.position = new Vector3(spawnPosition.x + Random.Range(.05f, 0.20f), spawnPosition.y + Random.Range(0.00f, 0.10f), spawnPosition.z + Random.Range(-0.5f, 0.5f));
+                float blackHoleMargin;
+                bool isActive = (Random.Range(0, 2) == 0);
+                obstacle.SetActive(isActive);
+
+                if (obstacle.name.Contains("Black Hole"))
+                    blackHoleMargin = -0.5f;
+                else
+                    blackHoleMargin = 0f;
+
+                obstacle.transform.position = new Vector3(spawnPosition.x + Random.Range(.05f, 0.20f), spawnPosition.y + Random.Range(-0.05f, 0.10f), spawnPosition.z + Random.Range(-0.15f, 0.03f) + blackHoleMargin);
             }
             SetPlanets(true);
             if (gameManager.ObstacleCreationAtStart)
