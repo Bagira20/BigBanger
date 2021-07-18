@@ -111,16 +111,25 @@ namespace TheBigBanger.GameModeManager
             targetPlanet.transform.position = new Vector3(spawnPosition.x + 0.25f, spawnPosition.y, spawnPosition.z);
             foreach (GameObject obstacle in obstacles)
             {
-                float blackHoleMargin;
-                bool isActive = (Random.Range(0, 2) == 0);
-                obstacle.SetActive(isActive);
+                float blackHoleMargin = 0f;
+                int randInt = Random.Range(0, 101);
 
-                if (obstacle.name.Contains("Black Hole"))
-                    blackHoleMargin = -0.5f;
-                else
-                    blackHoleMargin = 0f;
+                if (randInt < 60)
+                {
+                    obstacle.SetActive(true);
 
-                obstacle.transform.position = new Vector3(spawnPosition.x + Random.Range(.05f, 0.20f), spawnPosition.y + Random.Range(-0.05f, 0.10f), spawnPosition.z + Random.Range(-0.15f, 0.03f) + blackHoleMargin);
+                    if (obstacle.name.Contains("Black Hole"))
+                        blackHoleMargin = -0.5f;
+                    else
+                        blackHoleMargin = 0f;
+
+                    float xPositionAdd = Random.Range(-.5f, 0.5f);
+
+                    if (Mathf.Abs(xPositionAdd) > 0.2f && Mathf.Abs(xPositionAdd) < 0.3f)
+                        xPositionAdd = Mathf.Sign(xPositionAdd)*0.1f;
+
+                    obstacle.transform.position = new Vector3(spawnPosition.x + xPositionAdd, spawnPosition.y + Random.Range(0.1f, 0.40f), spawnPosition.z + Random.Range(-0.3f, 0.5f) + blackHoleMargin);
+                }
             }
             SetPlanets(true);
             if (gameManager.ObstacleCreationAtStart)
