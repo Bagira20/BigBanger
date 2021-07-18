@@ -196,6 +196,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Engine_TL
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: ad36484d42875ea488a84d1436161582,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ad36484d42875ea488a84d1436161582, type: 3}
 --- !u!4 &39765411 stripped
@@ -1341,8 +1346,8 @@ ParticleSystem:
       countCurve:
         serializedVersion: 2
         minMaxState: 3
-        scalar: 150
-        minScalar: 70
+        scalar: 30
+        minScalar: 15
         maxCurve:
           serializedVersion: 2
           m_Curve:
@@ -5233,6 +5238,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Engine_BL
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: b5dccabb9aa8dd54aba0cfc8d07ade0e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b5dccabb9aa8dd54aba0cfc8d07ade0e, type: 3}
@@ -11226,7 +11236,7 @@ ParticleSystem:
       countCurve:
         serializedVersion: 2
         minMaxState: 0
-        scalar: 6
+        scalar: 3
         minScalar: 30
         maxCurve:
           serializedVersion: 2
@@ -15118,6 +15128,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Engine_TR
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 5ea3c2090ddb0ab41b1b3ced20187e7d,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5ea3c2090ddb0ab41b1b3ced20187e7d, type: 3}
@@ -21039,8 +21054,8 @@ ParticleSystem:
       countCurve:
         serializedVersion: 2
         minMaxState: 3
-        scalar: 150
-        minScalar: 70
+        scalar: 30
+        minScalar: 15
         maxCurve:
           serializedVersion: 2
           m_Curve:
@@ -30891,7 +30906,7 @@ ParticleSystem:
       countCurve:
         serializedVersion: 2
         minMaxState: 1
-        scalar: 12
+        scalar: 5
         minScalar: 30
         maxCurve:
           serializedVersion: 2
@@ -39702,6 +39717,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Engine_BR
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 01e7b9645bccf3e4d968b3d988b0645d,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 01e7b9645bccf3e4d968b3d988b0645d, type: 3}
 --- !u!4 &1007474223 stripped
@@ -45164,6 +45184,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: engine
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: bed469f8ad25d97448222f7bfa689936,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bed469f8ad25d97448222f7bfa689936, type: 3}
