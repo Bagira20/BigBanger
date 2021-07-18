@@ -15,7 +15,8 @@ public struct MovementConfigSet
 public class PlanetMovementBase : MonoBehaviour
 {
     public GameManager manager;
-    protected float mass = 1f, velocity, acceleration, force;
+    public float mass = 1f, velocity, acceleration, force;
+    protected CanvasManager canvas;
 
     [Header("Level Configuration")]
     [Tooltip("Defined values which represent fixed context of current scene")]
@@ -29,6 +30,7 @@ public class PlanetMovementBase : MonoBehaviour
     void Start()
     {
         manager = GameObject.Find("/GameManager").GetComponent<GameManager>();
+        canvas = manager.canvas;
         ConfigurateMovement();
     }
 
@@ -64,11 +66,17 @@ public class PlanetMovementBase : MonoBehaviour
         } return false;
     }
 
+    public virtual void LaunchPlanet() 
+    {
+        bIsMoving = true;
+    }
 
     public virtual void DestroyPlanet() 
     {
         bIsMoving = false;
         GetComponent<MeshRenderer>().enabled = false;
+        foreach (Transform child in transform)
+            child.gameObject.SetActive(false);
     }
 
     public virtual void ResetPlanet()
@@ -76,5 +84,7 @@ public class PlanetMovementBase : MonoBehaviour
         transform.position = startPos;
         bIsMoving = false;
         GetComponent<MeshRenderer>().enabled = true;
+        foreach (Transform child in transform)
+            child.gameObject.SetActive(true);
     }
 }

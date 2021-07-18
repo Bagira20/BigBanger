@@ -30,13 +30,15 @@ namespace TheBigBanger.GameModeManager
         EGameModeType gameModeType;
         GameManager gameManager;
         GameObject playerPlanet, targetPlanet;
-        PAMovement playerMovement;
-        PBMovement targetMovement;
-        GameObject placementIndicator, obstacle;
+        GameObject[] obstacles;
+        public PAMovement playerMovement;
+        public PBMovement targetMovement;
+        GameObject placementIndicator;
         public EGamePhase gamePhase = EGamePhase.SelectPlane, previousGamePhase;
         public string actionNeededText;
-        public bool bLaunched = false, bTimeOver = false, levelEnd = false;
-        public float bTimeLimit = 200f;
+        public bool bLaunched = false, bFirstLaunch = false, bTimeOver = false, levelEnd = false;
+        public float bTimeLimit = 120f;
+        public int gamepass = 0;
         Text debugText;
 
         protected Camera arCamera;
@@ -50,11 +52,11 @@ namespace TheBigBanger.GameModeManager
             playerMovement = playerPlanet.GetComponent<PAMovement>();
             targetPlanet = gameManager.targetGameObject;
             targetMovement = targetPlanet.GetComponent<PBMovement>();
-            obstacle = gameManager.obstaclePrefab;
             arCamera = gameManager.arCamera;
             gameModeType = gameManager.gameModeType;
             debugText = gameManager.DebugText;
-            gameManager.levelMissionCanvas.GetComponentInChildren<Text>().text = LevelIntroDisplays.LevelIntroText[1];
+            obstacles = gameManager.obstacles;
+            //gameManager.levelMissionCanvas.GetComponentInChildren<Text>().text = LevelIntroDisplays.LevelIntroText[1];
             SetPlanets(false);
         }
 
@@ -92,6 +94,7 @@ namespace TheBigBanger.GameModeManager
             {
                 if (placementIndicator.activeSelf)
                 {
+                    gameManager.StartTime();
                     SetGamePhase(EGamePhase.SpawnPhase);
                 }
                 else
@@ -106,6 +109,27 @@ namespace TheBigBanger.GameModeManager
             Vector3 spawnPosition = placementIndicator.transform.position;
             playerPlanet.transform.position = new Vector3(spawnPosition.x - 0.25f, spawnPosition.y, spawnPosition.z);
             targetPlanet.transform.position = new Vector3(spawnPosition.x + 0.25f, spawnPosition.y, spawnPosition.z);
+            foreach (GameObject obstacle in obstacles)
+            {
+                float blackHoleMargin = 0f;
+                int randInt = Random.Range(0, 101);
+                if (obstacle.name.Contains("Black Hole"))
+                {
+                    blackHoleMargin = -0.5f;
+                    obstacle.transform.position = placementIndicator.transform.position + new Vector3(0.9f, 0.25f, 0.8f);
+                }
+
+                else if (randInt < 60)
+                {
+                    obstacle.SetActive(true);
+                    float xPositionAdd = Random.Range(-.5f, 0.5f);
+
+                    if (Mathf.Abs(xPositionAdd) > 0.2f && Mathf.Abs(xPositionAdd) < 0.3f)
+                        xPositionAdd = Mathf.Sign(xPositionAdd) * 0.1f;
+
+                    obstacle.transform.position = new Vector3(spawnPosition.x + xPositionAdd, spawnPosition.y + Random.Range(0.1f, 0.40f), spawnPosition.z + Random.Range(-0.3f, 0.5f) + blackHoleMargin);
+                }
+            }
             SetPlanets(true);
             if (gameManager.ObstacleCreationAtStart)
             {
@@ -114,8 +138,12 @@ namespace TheBigBanger.GameModeManager
             }
             else
             {
+                gameManager.actionText.SetActive(false);
                 SetGamePhase(EGamePhase.PlayPhase);
+                gameManager.SetPlayPhaseUI(true);
+                AudioPlayer.Play2DAudioFromRange(gameManager.activeMode.playerMovement.audioSource, gameManager.canvas.SelectSounds, new Vector2(0.8f, 1.2f), new Vector2(0.95f, 1.1f));
                 UnfreezeTime();
+                gameManager.StartTime();
             }
         }
 
@@ -125,8 +153,10 @@ namespace TheBigBanger.GameModeManager
             {
                 if (placementIndicator.activeSelf)
                 {
-                    GameObject.Instantiate(obstacle, placementIndicator.transform.position, Quaternion.identity);
+                    gameManager.actionText.SetActive(false);
                     SetGamePhase(EGamePhase.PlayPhase);
+                    gameManager.SetPlayPhaseUI(true);
+                    AudioPlayer.Play2DAudioFromRange(gameManager.activeMode.playerMovement.audioSource, gameManager.canvas.SelectSounds, new Vector2(0.8f, 1.2f), new Vector2(0.95f, 1.1f));
                     UnfreezeTime();
                 }
             }
@@ -137,7 +167,6 @@ namespace TheBigBanger.GameModeManager
             //Check Time for else if = GAMEOVER
             if (IsTimeOver())
             {
-                gameManager.levelEndCanvas.GetComponentInChildren<Text>().text = "Time ran out!";
                 SetGamePhase(EGamePhase.LevelEnd);
             }
 
@@ -146,16 +175,15 @@ namespace TheBigBanger.GameModeManager
             {
                 if (TouchInput.IsTouching() && TouchInput.RaycastFromCamera(arCamera))
                 {
-                    if (playerMovement.planetVelocityBy == EPlayerAbilities.swipeMovement) 
-                    {
-                        if (TouchInput.IsRotationSocketHit() || aRotation.bInputLocked)
-                            UpdateRotationInputForAbility(aSwipeMovement);
-                        else if (TouchInput.IsPlayerHit() || TouchInput.IsInputCanvasHit())
-                            UpdateSwipeInput();
-                    }
-                    else if (playerMovement.planetVelocityBy == EPlayerAbilities.rocketMovement) { /*ROCKET STUFF*/}
+                    if (!TouchInput.IsPlayerHit() && (TouchInput.IsRotationSocketHit() || aRotation.bInputLocked))
+                        UpdateRotationInputForAbility(aSwipeMovement);
+                    else if ((TouchInput.IsPlayerHit() || TouchInput.IsInputCanvasHit()) && !TouchInput.IsUIHit())
+                        UpdateSwipeInput();
                 }
-                debugText.text = "PLAYER: \nVelocity: " + playerMovement.GetVelocityFromAbility(EPlayerAbilities.swipeMovement) + "\nForce: " + playerMovement.GetForceFromAbility(EPlayerAbilities.swipeMovement) + "\nMass: " + playerMovement.GetMass();
+                // debugText.text = "PLAYER: \nVelocity: " + gameManager.GetTransformedValue(playerMovement.GetVelocityFromAbility(EPlayerAbilities.swipeMovement)) 
+                //   + "\nForce: " + gameManager.GetTransformedValue(playerMovement.GetForceFromAbility(EPlayerAbilities.swipeMovement)) 
+                // + "\nMass: " + gameManager.GetTransformedValue(playerMovement.GetMass());
+                //target planet: define pos on first freeze as reset pos
             }
         }
 
@@ -197,6 +225,7 @@ namespace TheBigBanger.GameModeManager
         //called by collision between player and targetPlanet
         void UpdateLevelEnd() 
         {
+            gameManager.StopTime();
             levelEnd = true;
         }
 
@@ -235,20 +264,21 @@ namespace TheBigBanger.GameModeManager
         //only for lesson units, not free roam
         public bool IsTimeOver()
         {
-            return GameTime.gameTime > bTimeLimit;
+            return GameTime.unfrozenTime > bTimeLimit;
         }
 
         //spawn stuff
         public void Reset() 
         {
-            debugText.text = "RESET";
             playerPlanet.GetComponent<PAMovement>().ResetPlanet();
-            if (levelEnd)
-                targetPlanet.GetComponent<PBMovement>().ResetPlanet();
+            targetPlanet.GetComponent<PBMovement>().ResetPlanet();
             aSwipeMovement.ResetSwipeLine();
+            bFirstLaunch = false;
             bLaunched = false;
             levelEnd = false;
             gamePhase = EGamePhase.PlayPhase;
+            aRocketControl.ResetRocket();
+            bTimeLimit = 120f;
         }
     }
 }

@@ -7,28 +7,56 @@ using UnityEngine.UI;
 public class CollisionSystem : MonoBehaviour
 {
     GameManager gameManager;
+    ParticleSystem collisionExplosion;
+    PAMovement playerMovement;
+    PBMovement targetMovement;
 
     private void Start()
     {
+        collisionExplosion = GameObject.Find("ExplosionCore").GetComponent<ParticleSystem>();
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        playerMovement = gameManager.playerGameObject.GetComponent<PAMovement>();
+        targetMovement = gameManager.targetGameObject.GetComponent<PBMovement>();
     }
 
     private void OnTriggerEnter(Collider collidedGameObject)
     {
+        Debug.Log("HIT!");
         if (collidedGameObject.name == "TargetPlanet")
         {
-            //check for force
-            PAMovement playerMovement = gameManager.playerGameObject.GetComponent<PAMovement>();
-            PBMovement targetMovement = collidedGameObject.GetComponent<PBMovement>();
-            if (playerMovement.GetForceFromAbility(EPlayerAbilities.swipeMovement) > targetMovement.GetForce())
+            Debug.Log("HIT TARGET!");
+
+            if (playerMovement.GetForceFromAbility(playerMovement.planetVelocityBy) > targetMovement.GetForce())
             {
-                //Game Over
-                gameManager.activeMode.gamePhase = EGamePhase.LevelEnd;
-                gameManager.levelEndCanvas.GetComponentInChildren<Text>().text = "You've Completed the Level!\nFORCE: " + playerMovement.GetForceFromAbility(EPlayerAbilities.swipeMovement) + "\nVELOCITY: " + playerMovement.GetVelocityFromAbility(EPlayerAbilities.swipeMovement) + "\nMASS: " + playerMovement.GetMass() + "\n\nF = 1/2*m*(v²)";
-                //Debug.Log("collided with target planet");
-                playerMovement.DestroyPlanet();
-                targetMovement.DestroyPlanet();
+                playerMovement.audioSource.Stop();
+                gameManager.rocketLaunchCore.Stop();
+                foreach(Transform child in gameManager.rocketLaunchCore.transform) 
+                {
+                    ParticleSystem tempSystem = child.GetComponent<ParticleSystem>();
+                    if (tempSystem != null)
+                        tempSystem.Stop();
+                }
+                AudioSource.PlayClipAtPoint(playerMovement.ExplosionSounds[Random.Range(0, playerMovement.ExplosionSounds.Length - 1)], playerMovement.transform.position);
+                StartCoroutine(StartGameOver());
             }
         }
+    }
+
+    IEnumerator StartGameOver()
+    {
+        collisionExplosion.gameObject.transform.position = gameManager.targetGameObject.transform.position;
+        collisionExplosion.Play(true);
+        Debug.Log("explosion started");
+        playerMovement.DestroyPlanet();
+        targetMovement.DestroyPlanet();
+
+        yield return new WaitForSeconds(3.15f);
+
+        collisionExplosion.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+        gameManager.activeMode.gamePhase = EGamePhase.LevelEnd;
+        gameManager.activeMode.gamepass = 1;
+        gameManager.playerScoreStats.text = gameManager.GetPlayerStatsString();
+        gameManager.playerTargetStats.text = gameManager.GetTargetStatsString();
+        //gameManager.DebugText.text = "HIT with Force!";
     }
 }

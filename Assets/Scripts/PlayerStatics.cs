@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.XR.ARFoundation;
 
 namespace TheBigBanger.GameplayStatics
 {
@@ -9,19 +10,50 @@ namespace TheBigBanger.GameplayStatics
 
     public class GameplayStaticsManager : MonoBehaviour
     {
+        public void ResetStatics() 
+        {
+            GameTime.unfrozenTime = GameTime.gameTime = GameTime.deltaTime = 0.0f;
+            GameTime.bFreeze = false; 
+            GameTime.bTimeStarted = false;
+            PlayerInputPositions.startTouchPos = PlayerInputPositions.currentTouchPos = PlayerInputPositions.endTouchPos = Vector2.zero;
+            TouchInput.ResetInput();
+        }
+
+        public int MultiplyValueWith = 100;
+
         protected void UpdateTime()
         {
-            if (!GameTime.bFreeze)
+            if (GameTime.bTimeStarted)
             {
-                GameTime.deltaTime = Time.deltaTime;
                 GameTime.gameTime += Time.deltaTime;
+                if (!GameTime.bFreeze)
+                {
+                    GameTime.deltaTime = Time.deltaTime;
+                    GameTime.unfrozenTime += Time.deltaTime;
+                }
+                else
+                    GameTime.deltaTime = 0.0f;
             }
-            else
-                GameTime.deltaTime = 0.0f;
+        }
+
+        public void StartTime() 
+        {
+            GameTime.bTimeStarted = true;
+        }
+
+        public void StopTime() 
+        {
+            GameTime.bTimeStarted = false;
+        }
+
+        public int GetTransformedValue(float decimalNr) 
+        {
+            return Mathf.FloorToInt(decimalNr * MultiplyValueWith);
         }
 
         protected void UpdatePlayerTouchInput()
         {
+            TouchInput.TitleScreenIfBackButton();
             if (TouchInput.IsTouching())
             {
                 switch (TouchInput.GetTouch().phase) 
@@ -41,8 +73,8 @@ namespace TheBigBanger.GameplayStatics
 
     struct GameTime
     {
-        public static float gameTime = 0.0f, deltaTime = 0.0f;
-        public static bool bFreeze = true;
+        public static float unfrozenTime = 0.0f, gameTime = 0.0f, deltaTime = 0.0f;
+        public static bool bFreeze = true, bTimeStarted = false;
     }
 
     struct PlayerInputPositions

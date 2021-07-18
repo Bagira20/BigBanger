@@ -11,15 +11,27 @@ public enum PBMovementTypes
 public class PBMovement : PlanetMovementBase
 {
     public PBMovementTypes movementType = PBMovementTypes.linear;
-    public Vector3 linearDirection = Vector3.up;
-    //public Vector3 targetPos, centerRadiusPos;
-    //public float radiusSize;
+    public Vector3 linearDirection = Vector3.up, centerFromPlanet = Vector3.zero, radiantAxis = Vector3.right;
+    public float yLerpOffset = 1f;
+    protected Vector3 radiantCenter, lerpTarget, lerpStart;
+    protected float lerpTimeCounter, lerpTimeAtFirstLaunch;
     public bool bMoveAtStart = true;
+
+    private void OnEnable()
+    {
+        radiantCenter = transform.position + centerFromPlanet;
+        lerpStart = transform.position;
+        //Only UP MOVEMENT so far
+        lerpTarget = new Vector3(lerpStart.x, lerpStart.y + yLerpOffset, lerpStart.z);
+    }
 
     private void Update()
     {
         if (bMoveAtStart)
+        {
             bIsMoving = true;
+            bMoveAtStart = false;
+        }
         if (bIsMoving)
             UpdateMovePlanet();
     }
@@ -29,16 +41,53 @@ public class PBMovement : PlanetMovementBase
         float speed = acceleration != default ? acceleration : velocity;
         switch (movementType) {
             case PBMovementTypes.linear:
-                transform.position += (linearDirection * speed) * GameTime.deltaTime; break;
-            case PBMovementTypes.lerp:
+                transform.position += (linearDirection * speed) * GameTime.deltaTime; 
+                break;
             case PBMovementTypes.radiant:
-                //not yet implemented
+                transform.RotateAround(radiantCenter, radiantAxis, speed*GameTime.deltaTime);
+                break;
+            case PBMovementTypes.lerp:
+                if (GameTime.bFreeze) return;
+                lerpTimeCounter += GameTime.deltaTime;
+                float theta = lerpTimeCounter * velocity;
+                float distance = (lerpTarget.y - lerpStart.y) * Mathf.Sin(theta);
+                transform.position = lerpStart + new Vector3(0, yLerpOffset) * distance;
                 break;
         }
     }
 
+    private void FixedUpdate()
+    {
+        canvas.SetTargetText(manager.GetTransformedValue(mass), manager.GetTransformedValue(velocity));
+        canvas.AttachTextToObject(EUIElements.TargetText, this.gameObject);
+    }
+
+    public override void LaunchPlanet()
+    {
+        base.LaunchPlanet();
+        if (!manager.activeMode.bFirstLaunch)
+        {
+            manager.activeMode.bFirstLaunch = true;
+            startPos = transform.position;
+            lerpTimeAtFirstLaunch = lerpTimeCounter;
+        }
+    }
+
+    public override void DestroyPlanet()
+    {
+        manager.canvas.TargetText.CanvasElement.SetActive(false);
+        base.DestroyPlanet();
+    }
+
     public float GetForce()
     {
-        return acceleration != default ? mass * acceleration : 0.5f * mass * Mathf.Pow(velocity, 2); ;
+        return acceleration != default ? mass * acceleration : 0.5f * mass * Mathf.Pow(velocity, 2);
+    }
+
+    public override void ResetPlanet()
+    {
+        manager.canvas.TargetText.CanvasElement.SetActive(true);
+        base.ResetPlanet();
+        lerpTimeCounter = lerpTimeAtFirstLaunch;
     }
 }
