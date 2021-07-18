@@ -49,8 +49,7 @@ public class CollisionSystem : MonoBehaviour
         collisionExplosion.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
         gameManager.activeMode.gamePhase = EGamePhase.LevelEnd;
         gameManager.activeMode.gamepass = 1;
-        gameManager.levelEndCanvas.GetComponentInChildren<Text>().text = "You've Completed the Level!\nFORCE: "
-            + gameManager.GetTransformedValue(playerMovement.GetForceFromAbility(playerMovement.planetVelocityBy))
+        gameManager.playerScoreStats.text = "FORCE: "+ gameManager.GetTransformedValue(playerMovement.GetForceFromAbility(playerMovement.planetVelocityBy))
             + " N\nVELOCITY: " + gameManager.GetTransformedValue(playerMovement.GetVelocityFromAbility(playerMovement.planetVelocityBy))
             + " m/s\nMASS: " + gameManager.GetTransformedValue(playerMovement.GetMass()) + " kg\n\n" + LevelIntroDisplays.LevelIntroText[gameManager.levelIntroNr];
         //gameManager.DebugText.text = "HIT with Force!";

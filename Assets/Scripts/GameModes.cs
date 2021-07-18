@@ -146,7 +146,6 @@ namespace TheBigBanger.GameModeManager
             //Check Time for else if = GAMEOVER
             if (IsTimeOver())
             {
-                gameManager.levelEndCanvas.GetComponentInChildren<Text>().text = "Time ran out!";
                 SetGamePhase(EGamePhase.LevelEnd);
             }
 

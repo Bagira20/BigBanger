@@ -21,9 +21,9 @@ public class GameManager : GameplayStaticsManager
     public Camera arCamera;
     public GameObject playerGameObject, targetGameObject, obstaclePrefab;
     public Text timerText, launchText;
-    public TMP_Text actionNeededText, score;
-    public GameObject levelMissionCanvas, levelEndCanvas, actionText;
-    public GameObject[] playPhaseCanvasObjects;
+    public Text actionNeededText, score, playerScoreStats, playerTargetStats;
+    public GameObject levelMissionCanvas, timeOverCanvas, actionText;
+    public GameObject[] playPhaseCanvasObjects, scoreCanvas;
 
     [Header("DEVELOPMENT Only")]
     public Text DebugText;
@@ -100,9 +100,14 @@ public class GameManager : GameplayStaticsManager
         activeMode.aSwipeMovement.UpdateSwipeUI();
         if (activeMode.levelEnd)
         {
-            CalculateScore();
-            SetPlayPhaseUI(false);
-            levelEndCanvas.SetActive(true);
+            if (activeMode.IsTimeOver())
+                timeOverCanvas.SetActive(true);
+            else
+            {
+                CalculateScore();
+                SetPlayPhaseUI(false);
+                SetScoreUI(true);
+            }
         }
     }
 
@@ -134,6 +139,11 @@ public class GameManager : GameplayStaticsManager
     {
         foreach (GameObject playPhaseUIObject in playPhaseCanvasObjects)
             playPhaseUIObject.SetActive(bActive);
+    }
+    public void SetScoreUI(bool bActive)
+    {
+        foreach (GameObject scoreUIObject in scoreCanvas)
+            scoreUIObject.SetActive(bActive);
     }
 
     public void LaunchResetButton() 
@@ -182,7 +192,8 @@ public class GameManager : GameplayStaticsManager
     {
         launchText.text = "LAUNCH!";
         SetPlayPhaseUI(true);
-        levelEndCanvas.SetActive(false);
+        SetScoreUI(false);
+        timeOverCanvas.SetActive(false);
         activeMode.Reset();
         activeMode.aSwipeMovement.rotationSocket.SetActive(true);
         rocketLaunchCore.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
