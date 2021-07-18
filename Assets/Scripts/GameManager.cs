@@ -203,16 +203,17 @@ public class GameManager : GameplayStaticsManager
     }
 
     public void RocketButton()
-    { 
-        if (activeMode.aRocketControl.rocketCount <5 && !activeMode.bLaunched)
+    {
+        if (!activeMode.bLaunched)
         {
-            activeMode.aRocketControl.rocketCount++;
+            if (activeMode.aRocketControl.rocketCount < 5)
+                activeMode.aRocketControl.rocketCount++;
+            else
+                activeMode.aRocketControl.rocketCount = 1;
             activeMode.aRocketControl.UpdateRocketMagnitude();
-            AudioPlayer.Play2DAudioFromRange(activeMode.playerMovement.audioSource, canvas.attachRocketSounds, new Vector2(0.8f, 1.2f), new Vector2(0.95f, 1.1f));
             canvas.SetRocketCountUI(Mathf.FloorToInt(activeMode.aRocketControl.rocketCount), 1f);
+            AudioPlayer.Play2DAudioFromRange(activeMode.playerMovement.audioSource, canvas.attachRocketSounds, new Vector2(0.95f, 1.05f), new Vector2(0.95f, 1.1f));
         }
-        else
-            AudioPlayer.Play2DAudioFromRange(activeMode.playerMovement.audioSource, canvas.poofRocketSounds, new Vector2(0.8f, 1.2f), new Vector2(0.55f, 0.7f));
     }
 
     public string CalculateScore()
