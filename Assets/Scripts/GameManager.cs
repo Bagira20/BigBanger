@@ -19,7 +19,8 @@ public class GameManager : GameplayStaticsManager
 
     [Header("Scene Objects")]
     public Camera arCamera;
-    public GameObject playerGameObject, targetGameObject, obstaclePrefab;
+    public GameObject playerGameObject, targetGameObject;
+    public GameObject[] obstacles;
     public Text timerText, launchText;
     public Text actionNeededText, score, playerScoreStats, playerTargetStats;
     public GameObject levelMissionCanvas, timeOverCanvas, actionText;

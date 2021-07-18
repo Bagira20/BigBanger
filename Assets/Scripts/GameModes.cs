@@ -30,9 +30,10 @@ namespace TheBigBanger.GameModeManager
         EGameModeType gameModeType;
         GameManager gameManager;
         GameObject playerPlanet, targetPlanet;
+        GameObject[] obstacles;
         public PAMovement playerMovement;
         public PBMovement targetMovement;
-        GameObject placementIndicator, obstacle;
+        GameObject placementIndicator;
         public EGamePhase gamePhase = EGamePhase.SelectPlane, previousGamePhase;
         public string actionNeededText;
         public bool bLaunched = false, bFirstLaunch = false, bTimeOver = false, levelEnd = false;
@@ -51,10 +52,10 @@ namespace TheBigBanger.GameModeManager
             playerMovement = playerPlanet.GetComponent<PAMovement>();
             targetPlanet = gameManager.targetGameObject;
             targetMovement = targetPlanet.GetComponent<PBMovement>();
-            obstacle = gameManager.obstaclePrefab;
             arCamera = gameManager.arCamera;
             gameModeType = gameManager.gameModeType;
             debugText = gameManager.DebugText;
+            obstacles = gameManager.obstacles;
             //gameManager.levelMissionCanvas.GetComponentInChildren<Text>().text = LevelIntroDisplays.LevelIntroText[1];
             SetPlanets(false);
         }
@@ -108,6 +109,10 @@ namespace TheBigBanger.GameModeManager
             Vector3 spawnPosition = placementIndicator.transform.position;
             playerPlanet.transform.position = new Vector3(spawnPosition.x - 0.25f, spawnPosition.y, spawnPosition.z);
             targetPlanet.transform.position = new Vector3(spawnPosition.x + 0.25f, spawnPosition.y, spawnPosition.z);
+            foreach (GameObject obstacle in obstacles)
+            {
+                obstacle.transform.position = new Vector3(spawnPosition.x + Random.Range(.05f, 0.20f), spawnPosition.y + Random.Range(0.00f, 0.10f), spawnPosition.z + Random.Range(-0.5f, 0.5f));
+            }
             SetPlanets(true);
             if (gameManager.ObstacleCreationAtStart)
             {
@@ -132,7 +137,6 @@ namespace TheBigBanger.GameModeManager
                 if (placementIndicator.activeSelf)
                 {
                     gameManager.actionText.SetActive(false);
-                    GameObject.Instantiate(obstacle, placementIndicator.transform.position, Quaternion.identity);
                     SetGamePhase(EGamePhase.PlayPhase);
                     gameManager.SetPlayPhaseUI(true);
                     AudioPlayer.Play2DAudioFromRange(gameManager.activeMode.playerMovement.audioSource, gameManager.canvas.SelectSounds, new Vector2(0.8f, 1.2f), new Vector2(0.95f, 1.1f));
