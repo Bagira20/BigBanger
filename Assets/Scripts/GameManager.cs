@@ -211,6 +211,7 @@ public class GameManager : GameplayStaticsManager
         rocketLaunchCore.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
         AudioPlayer.Play2DAudioFromRange(activeMode.playerMovement.audioSource, canvas.CancelSounds, new Vector2(0.8f, 1.2f), new Vector2(0.95f, 1.1f));
         canvas.SetRocketCountUI(Mathf.FloorToInt(activeMode.aRocketControl.rocketCount), 1f);
+        activeMode.UnfreezeTime();
     }
 
     public void RocketButton()
@@ -252,14 +253,14 @@ public class GameManager : GameplayStaticsManager
             velocity = GetTransformedValue(activeMode.playerMovement.GetVelocityFromAbility(activeMode.playerMovement.planetVelocityBy));
             force = 0.5f * mass * Mathf.Pow(velocity, 2);
             acceleration = 0f;
-            return "FORCE: " + force + " N\nVELOCITY: " + velocity + "m/s\nMASS: " + mass + "kg\n\nF =" + activeMode.playerMovement.ForceIs; 
+            return "FORCE: " + force + " N\nVELOCITY: " + velocity + "m/s\nMASS: " + mass + "kg\n\nPLAYER PLANET"; 
         }
         else if (activeMode.playerMovement.planetVelocityBy == EPlayerAbilities.rocketMovement) 
         {
             acceleration = GetTransformedValue(activeMode.aRocketControl.rocketMagnitude);
             force = mass * acceleration;
             velocity = 0f;
-            return "FORCE: " + force + " N\nACCELERATION: " + acceleration + "m/s²\nMASS: " + mass + "kg";
+            return "FORCE: " + force + " N\nACCELERATION: " + acceleration + "m/s²\nMASS: " + mass + "kg\n\nPLAYER PLANET";
         }
 
         return returnString;
@@ -273,7 +274,7 @@ public class GameManager : GameplayStaticsManager
 
         velocity = GetTransformedValue(activeMode.targetMovement.velocity);
         force = 0.5f * mass * Mathf.Pow(velocity, 2);
-        return "FORCE: " + force + " N\nVELOCITY: " + velocity + "m/s\nMASS: " + mass + "kg";
+        return "FORCE: " + force + " N\nVELOCITY: " + velocity + "m/s\nMASS: " + mass + "kg\n\nTARGET PLANET";
     }
 
 }

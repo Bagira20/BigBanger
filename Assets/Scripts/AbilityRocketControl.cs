@@ -35,9 +35,12 @@ public class AbilityRocketControl : AbilityBase
     {
         //magnitude is the velocity
         rocketMagnitude = (rocketAcceleration * rocketCount);
-        for (int i=0; i<rocketCount; i++)
+        for (int i=0; i<5; i++)
         {
-            rocketsGameObject.GetChild(i).gameObject.SetActive(true);
+            if (i < rocketCount)
+                rocketsGameObject.GetChild(i).gameObject.SetActive(true);
+            else
+                rocketsGameObject.GetChild(i).gameObject.SetActive(false);
         }
     }
 

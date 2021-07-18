@@ -36,7 +36,7 @@ namespace TheBigBanger.GameModeManager
         public EGamePhase gamePhase = EGamePhase.SelectPlane, previousGamePhase;
         public string actionNeededText;
         public bool bLaunched = false, bFirstLaunch = false, bTimeOver = false, levelEnd = false;
-        public float bTimeLimit = 200f;
+        public float bTimeLimit = 120f;
         public int gamepass = 0;
         Text debugText;
 
@@ -257,6 +257,7 @@ namespace TheBigBanger.GameModeManager
             levelEnd = false;
             gamePhase = EGamePhase.PlayPhase;
             aRocketControl.ResetRocket();
+            bTimeLimit = 120f;
         }
     }
 }

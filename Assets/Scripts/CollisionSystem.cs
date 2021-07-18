@@ -45,7 +45,6 @@ public class CollisionSystem : MonoBehaviour
     IEnumerator StartGameOver()
     {
         collisionExplosion.gameObject.transform.position = gameManager.targetGameObject.transform.position;
-        collisionExplosion.gameObject.transform.position += new Vector3(0, 0, 0.2f);
         collisionExplosion.Play(true);
         Debug.Log("explosion started");
         playerMovement.DestroyPlanet();
