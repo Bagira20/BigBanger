@@ -239,7 +239,9 @@ public class GameManager : GameplayStaticsManager
         return score;
     }
 
-    public string GetLevelEndString() 
+
+    //time constraints, code below is not beautiful, we know
+    public string GetPlayerStatsString() 
     {
         float mass, velocity, acceleration, force;
         string returnString = "You've Completed LEVEL " + (levelIntroNr + 1) + "!\n\n";
@@ -250,16 +252,28 @@ public class GameManager : GameplayStaticsManager
             velocity = GetTransformedValue(activeMode.playerMovement.GetVelocityFromAbility(activeMode.playerMovement.planetVelocityBy));
             force = 0.5f * mass * Mathf.Pow(velocity, 2);
             acceleration = 0f;
-            returnString += "FORCE: " + force + " N\nVELOCITY: " + velocity + "m/s\nMASS: " + mass + "kg\n\nF =" + activeMode.playerMovement.ForceIs; 
+            return "FORCE: " + force + " N\nVELOCITY: " + velocity + "m/s\nMASS: " + mass + "kg\n\nF =" + activeMode.playerMovement.ForceIs; 
         }
         else if (activeMode.playerMovement.planetVelocityBy == EPlayerAbilities.rocketMovement) 
         {
             acceleration = GetTransformedValue(activeMode.aRocketControl.rocketMagnitude);
             force = mass * acceleration;
             velocity = 0f;
-            returnString += "FORCE: " + force + " N\nACCELERATION: " + acceleration + "m/s²\nMASS: " + mass + "kg\n\nF =" + activeMode.playerMovement.ForceIs;
+            return "FORCE: " + force + " N\nACCELERATION: " + acceleration + "m/s²\nMASS: " + mass + "kg";
         }
 
         return returnString;
     }
+
+    public string GetTargetStatsString()
+    {
+        float mass, velocity, force;
+
+        mass = GetTransformedValue(activeMode.targetMovement.mass);
+
+        velocity = GetTransformedValue(activeMode.targetMovement.velocity);
+        force = 0.5f * mass * Mathf.Pow(velocity, 2);
+        return "FORCE: " + force + " N\nVELOCITY: " + velocity + "m/s\nMASS: " + mass + "kg";
+    }
+
 }

@@ -15,7 +15,7 @@ public struct MovementConfigSet
 public class PlanetMovementBase : MonoBehaviour
 {
     public GameManager manager;
-    protected float mass = 1f, velocity, acceleration, force;
+    public float mass = 1f, velocity, acceleration, force;
     protected CanvasManager canvas;
 
     [Header("Level Configuration")]

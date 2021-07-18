@@ -31,7 +31,7 @@ namespace TheBigBanger.GameModeManager
         GameManager gameManager;
         GameObject playerPlanet, targetPlanet;
         public PAMovement playerMovement;
-        PBMovement targetMovement;
+        public PBMovement targetMovement;
         GameObject placementIndicator, obstacle;
         public EGamePhase gamePhase = EGamePhase.SelectPlane, previousGamePhase;
         public string actionNeededText;

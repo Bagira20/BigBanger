@@ -56,7 +56,8 @@ public class CollisionSystem : MonoBehaviour
         collisionExplosion.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
         gameManager.activeMode.gamePhase = EGamePhase.LevelEnd;
         gameManager.activeMode.gamepass = 1;
-        gameManager.levelEndCanvas.GetComponentInChildren<Text>().text = gameManager.GetLevelEndString();
+        gameManager.playerScoreStats.text = gameManager.GetPlayerStatsString();
+        gameManager.playerTargetStats.text = gameManager.GetTargetStatsString();
         //gameManager.DebugText.text = "HIT with Force!";
     }
 }
