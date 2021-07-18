@@ -115,6 +115,7 @@ namespace TheBigBanger.GameModeManager
                 int randInt = Random.Range(0, 101);
                 if (obstacle.name.Contains("Black Hole"))
                 {
+                    obstacle.SetActive(true);
                     blackHoleMargin = -0.5f;
                     obstacle.transform.position = placementIndicator.transform.position + new Vector3(0.9f, 0.25f, 0.8f);
                 }
