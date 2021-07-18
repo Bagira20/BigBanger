@@ -23,7 +23,7 @@ public class AbilityRocketControl : AbilityBase
     {
         rocketCount = 0;
         rocketMagnitude = 0;
-        gameManager.canvas.SetRocketCountUI(0);
+        gameManager.canvas.SetRocketCountUI(0, 1f);
 
         foreach (Transform child in rocketsGameObject)
         {

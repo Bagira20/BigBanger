@@ -29,6 +29,13 @@ public class CollisionSystem : MonoBehaviour
             if (playerMovement.GetForceFromAbility(playerMovement.planetVelocityBy) > targetMovement.GetForce())
             {
                 playerMovement.audioSource.Stop();
+                gameManager.rocketLaunchCore.Stop();
+                foreach(Transform child in gameManager.rocketLaunchCore.transform) 
+                {
+                    ParticleSystem tempSystem = child.GetComponent<ParticleSystem>();
+                    if (tempSystem != null)
+                        tempSystem.Stop();
+                }
                 AudioSource.PlayClipAtPoint(playerMovement.ExplosionSounds[Random.Range(0, playerMovement.ExplosionSounds.Length - 1)], playerMovement.transform.position);
                 StartCoroutine(StartGameOver());
             }
@@ -44,14 +51,12 @@ public class CollisionSystem : MonoBehaviour
         playerMovement.DestroyPlanet();
         targetMovement.DestroyPlanet();
 
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(3.15f);
 
         collisionExplosion.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
         gameManager.activeMode.gamePhase = EGamePhase.LevelEnd;
         gameManager.activeMode.gamepass = 1;
-        gameManager.playerScoreStats.text = "FORCE: "+ gameManager.GetTransformedValue(playerMovement.GetForceFromAbility(playerMovement.planetVelocityBy))
-            + " N\nVELOCITY: " + gameManager.GetTransformedValue(playerMovement.GetVelocityFromAbility(playerMovement.planetVelocityBy))
-            + " m/s\nMASS: " + gameManager.GetTransformedValue(playerMovement.GetMass()) + " kg\n\n" + LevelIntroDisplays.LevelIntroText[gameManager.levelIntroNr];
+        gameManager.levelEndCanvas.GetComponentInChildren<Text>().text = gameManager.GetLevelEndString();
         //gameManager.DebugText.text = "HIT with Force!";
     }
 }

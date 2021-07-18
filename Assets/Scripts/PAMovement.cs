@@ -113,22 +113,31 @@ public class PAMovement : PlanetMovementBase
             base.LaunchPlanet();
             manager.DebugText.text = "Launched with " + GetForceFromAbility(EPlayerAbilities.swipeMovement).ToString();
             manager.activeMode.bLaunched = true;
+        }
+    }
 
-            if (audioSource!= null)
-            {
-                AudioPlayer.Play3DAudioFromRange(audioSource, LaunchSounds);
-            }
+    public void PlayLaunchSound() 
+    {
+        if (audioSource != null)
+        {
+            AudioPlayer.Play3DAudioFromRange(audioSource, LaunchSounds);
         }
     }
 
     public override void DestroyPlanet()
     {
+        manager.canvas.PlayerMassText.CanvasElement.SetActive(false);
+        manager.canvas.LineText.CanvasElement.SetActive(false);
+        manager.activeMode.aSwipeMovement.predictionLine.enabled = false;
         base.DestroyPlanet();
         audioSource.Stop();
     }
 
     public override void ResetPlanet() 
     {
+        manager.canvas.PlayerMassText.CanvasElement.SetActive(true);
+        manager.canvas.LineText.CanvasElement.SetActive(true);
+        manager.activeMode.aSwipeMovement.predictionLine.enabled = true;
         base.ResetPlanet();
         timer = 0;
     }
