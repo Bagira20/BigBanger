@@ -157,10 +157,12 @@ public class GameManager : GameplayStaticsManager
             launchText.text = "launched!";
             activeMode.bLaunched = true;
             activeMode.UnfreezeTime();
-            StartCoroutine(StartPlanetMovement());
             activeMode.aSwipeMovement.rotationSocket.SetActive(false);
+            canvas.PlayerMassText.CanvasElement.SetActive(false);
+            canvas.LineText.CanvasElement.SetActive(false);
             if (playerGameObject.GetComponent<PAMovement>().planetVelocityBy == EPlayerAbilities.rocketMovement)
             {
+                StartCoroutine(StartPlanetMovement(1f));
                 for (int i=0; i< activeMode.aRocketControl.rocketCount; i++)
                 {
                     rocketLaunchSides[i].SetActive(true);
@@ -169,6 +171,8 @@ public class GameManager : GameplayStaticsManager
                 }
                 canvas.SetRocketCountUI(Mathf.FloorToInt(activeMode.aRocketControl.rocketCount), 0.6f);
             }
+            else
+                StartCoroutine(StartPlanetMovement(0.05f));
         }
     }
 
@@ -178,10 +182,10 @@ public class GameManager : GameplayStaticsManager
         AudioPlayer.Play3DAudioFromRange(activeMode.playerMovement.audioSource, activeMode.playerMovement.RocketBoostSounds, new Vector2(0.85f, 1.2f), new Vector2(0.85f, 1.05f));
     }
 
-    IEnumerator StartPlanetMovement() 
+    IEnumerator StartPlanetMovement(float waitingTime) 
     {
         playerGameObject.GetComponent<PAMovement>().PlayLaunchSound();
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(waitingTime);
         playerGameObject.GetComponent<PAMovement>().LaunchPlanet();
         targetGameObject.GetComponent<PBMovement>().LaunchPlanet();
     }

@@ -73,6 +73,12 @@ public class PBMovement : PlanetMovementBase
         }
     }
 
+    public override void DestroyPlanet()
+    {
+        manager.canvas.TargetText.CanvasElement.SetActive(false);
+        base.DestroyPlanet();
+    }
+
     public float GetForce()
     {
         return acceleration != default ? mass * acceleration : 0.5f * mass * Mathf.Pow(velocity, 2);
@@ -80,6 +86,7 @@ public class PBMovement : PlanetMovementBase
 
     public override void ResetPlanet()
     {
+        manager.canvas.TargetText.CanvasElement.SetActive(true);
         base.ResetPlanet();
         lerpTimeCounter = lerpTimeAtFirstLaunch;
     }

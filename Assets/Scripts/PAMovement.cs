@@ -126,12 +126,18 @@ public class PAMovement : PlanetMovementBase
 
     public override void DestroyPlanet()
     {
+        manager.canvas.PlayerMassText.CanvasElement.SetActive(false);
+        manager.canvas.LineText.CanvasElement.SetActive(false);
+        manager.activeMode.aSwipeMovement.predictionLine.enabled = false;
         base.DestroyPlanet();
         audioSource.Stop();
     }
 
     public override void ResetPlanet() 
     {
+        manager.canvas.PlayerMassText.CanvasElement.SetActive(true);
+        manager.canvas.LineText.CanvasElement.SetActive(true);
+        manager.activeMode.aSwipeMovement.predictionLine.enabled = true;
         base.ResetPlanet();
         timer = 0;
     }
