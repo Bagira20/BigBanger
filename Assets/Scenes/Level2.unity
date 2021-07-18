@@ -8691,6 +8691,8 @@ MonoBehaviour:
   obstacles:
   - {fileID: 1407468993}
   - {fileID: 1196490267}
+  - {fileID: 784558821}
+  - {fileID: 1630363671}
   timerText: {fileID: 383368270}
   launchText: {fileID: 461214816}
   actionNeededText: {fileID: 460869755}

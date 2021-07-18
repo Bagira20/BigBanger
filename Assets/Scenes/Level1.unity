@@ -2473,6 +2473,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cc65a1cf25985144f82653ec49a3e05b, type: 3}
+--- !u!1 &849491983 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6904671356555230563, guid: cc65a1cf25985144f82653ec49a3e05b,
+    type: 3}
+  m_PrefabInstance: {fileID: 849491982}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &886039222
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8699,7 +8705,12 @@ MonoBehaviour:
   arCamera: {fileID: 651431359}
   playerGameObject: {fileID: 1966316349}
   targetGameObject: {fileID: 1324339585}
-  obstacles: []
+  obstacles:
+  - {fileID: 849491983}
+  - {fileID: 1256624421}
+  - {fileID: 2121391829}
+  - {fileID: 94277117}
+  - {fileID: 1400086867}
   timerText: {fileID: 406241153}
   launchText: {fileID: 639139749}
   actionNeededText: {fileID: 1942161929}
