@@ -119,15 +119,20 @@ public class CanvasManager : MonoBehaviour
         RectTransform textTransform = canvasUIElement.CanvasElement.GetComponent<RectTransform>();
         textTransform.localPosition = newPosition;
     }
-    public void SetRocketCountUI(int rocketCount) 
+    public void SetRocketCountUI(int rocketCount, float alphaValue) 
     {
-        for (int i = 0; i < 5; i++) 
+        for (int i = 0; i < 5; i++)
         {
             if (i < rocketCount)
                 rocketCounts[i].enabled = true;
             else
                 rocketCounts[i].enabled = false;
+            rocketCounts[i].color = new Color(rocketCounts[i].color.r, rocketCounts[i].color.g, rocketCounts[i].color.b, alphaValue);
         }
+
+        Image rocketIcon = rocketCounts[0].rectTransform.parent.GetComponent<Image>();
+        if (rocketIcon != null)
+            rocketIcon.color = new Color(rocketIcon.color.r, rocketIcon.color.g, rocketIcon.color.b, alphaValue);
     }
 
     UIElement GetUIElement(EUIElements pendingElement) 

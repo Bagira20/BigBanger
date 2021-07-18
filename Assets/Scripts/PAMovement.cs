@@ -113,11 +113,14 @@ public class PAMovement : PlanetMovementBase
             base.LaunchPlanet();
             manager.DebugText.text = "Launched with " + GetForceFromAbility(EPlayerAbilities.swipeMovement).ToString();
             manager.activeMode.bLaunched = true;
+        }
+    }
 
-            if (audioSource!= null)
-            {
-                AudioPlayer.Play3DAudioFromRange(audioSource, LaunchSounds);
-            }
+    public void PlayLaunchSound() 
+    {
+        if (audioSource != null)
+        {
+            AudioPlayer.Play3DAudioFromRange(audioSource, LaunchSounds);
         }
     }
 

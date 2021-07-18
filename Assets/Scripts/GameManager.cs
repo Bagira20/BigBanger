@@ -67,7 +67,7 @@ public class GameManager : GameplayStaticsManager
     {
         SetPlayPhaseUI(false);
         if (activeMode.playerMovement.planetVelocityBy == EPlayerAbilities.rocketMovement)
-            canvas.SetRocketCountUI(0);
+            canvas.SetRocketCountUI(0, 1f);
         if (canvas == null)
             canvas = GameObject.Find("UICanvas").GetComponent<CanvasManager>();
     }
@@ -157,8 +157,7 @@ public class GameManager : GameplayStaticsManager
             launchText.text = "launched!";
             activeMode.bLaunched = true;
             activeMode.UnfreezeTime();
-            playerGameObject.GetComponent<PAMovement>().LaunchPlanet();
-            targetGameObject.GetComponent<PBMovement>().LaunchPlanet();
+            StartCoroutine(StartPlanetMovement());
             activeMode.aSwipeMovement.rotationSocket.SetActive(false);
             if (playerGameObject.GetComponent<PAMovement>().planetVelocityBy == EPlayerAbilities.rocketMovement)
             {
@@ -168,6 +167,7 @@ public class GameManager : GameplayStaticsManager
                     rocketLaunchCore.Play(true);
                     StartCoroutine(StartRocketSounds());
                 }
+                canvas.SetRocketCountUI(Mathf.FloorToInt(activeMode.aRocketControl.rocketCount), 0.6f);
             }
         }
     }
@@ -176,6 +176,14 @@ public class GameManager : GameplayStaticsManager
     {
         yield return new WaitForSeconds(0.75f);
         AudioPlayer.Play3DAudioFromRange(activeMode.playerMovement.audioSource, activeMode.playerMovement.RocketBoostSounds, new Vector2(0.85f, 1.2f), new Vector2(0.85f, 1.05f));
+    }
+
+    IEnumerator StartPlanetMovement() 
+    {
+        playerGameObject.GetComponent<PAMovement>().PlayLaunchSound();
+        yield return new WaitForSeconds(1f);
+        playerGameObject.GetComponent<PAMovement>().LaunchPlanet();
+        targetGameObject.GetComponent<PBMovement>().LaunchPlanet();
     }
 
     public void ResetButton()
@@ -187,6 +195,7 @@ public class GameManager : GameplayStaticsManager
         activeMode.aSwipeMovement.rotationSocket.SetActive(true);
         rocketLaunchCore.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
         AudioPlayer.Play2DAudioFromRange(activeMode.playerMovement.audioSource, canvas.CancelSounds, new Vector2(0.8f, 1.2f), new Vector2(0.95f, 1.1f));
+        canvas.SetRocketCountUI(Mathf.FloorToInt(activeMode.aRocketControl.rocketCount), 1f);
     }
 
     public void RocketButton()
@@ -196,7 +205,7 @@ public class GameManager : GameplayStaticsManager
             activeMode.aRocketControl.rocketCount++;
             activeMode.aRocketControl.UpdateRocketMagnitude();
             AudioPlayer.Play2DAudioFromRange(activeMode.playerMovement.audioSource, canvas.attachRocketSounds, new Vector2(0.8f, 1.2f), new Vector2(0.95f, 1.1f));
-            canvas.SetRocketCountUI(Mathf.FloorToInt(activeMode.aRocketControl.rocketCount));
+            canvas.SetRocketCountUI(Mathf.FloorToInt(activeMode.aRocketControl.rocketCount), 1f);
         }
         else
             AudioPlayer.Play2DAudioFromRange(activeMode.playerMovement.audioSource, canvas.poofRocketSounds, new Vector2(0.8f, 1.2f), new Vector2(0.55f, 0.7f));
