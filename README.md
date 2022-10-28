@@ -6,15 +6,6 @@ A collaborative Unity project that was made with AR Foundation back in my 6th se
 
 The player's mission is to launch planets through space by setting the right velocity or acceleration based on the defined planet mass. The mission is completed by fulfilling the motion laws, i.e., on their successful calculations. This is visualized with a more playful approach where the player's planets need to not only target other planets, but also exceed their force values in order to destroy them.
 
-### My Responsibilities
-
-<ul>
-<li>Implementing major systems for game logics, movement, audio and UI.</li>
-<li>Setting up input systems, i.e., translating 2D touch input to a 3D game space.</li>
-</ul>
-
-More information on my <a href="https://michael-gebhart.com/projects/The_Big_Banger.html">portfolio website</a>.
-
 ## Media
 
 Gameplay video on <a href="https://www.youtube.com/watch?v=VYo-Qs806A0">YouTube</a>.
