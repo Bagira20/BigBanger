@@ -2,7 +2,7 @@
 
 ## Description
 
-A collaborative Unity project that was made with AR Foundation back in my 6th semester. The Big Banger is an educational augmented reality game that should teach students the rules of physics and, primarily, the laws of motion.
+A collaborative Unity project that was made with AR Foundation back in our 6th semester. The Big Banger is an educational augmented reality game that should teach students the rules of physics and, primarily, the laws of motion.
 
 The player's mission is to launch planets through space by setting the right velocity or acceleration based on the defined planet mass. The mission is completed by fulfilling the motion laws, i.e., on their successful calculations. This is visualized with a more playful approach where the player's planets need to not only target other planets, but also exceed their force values in order to destroy them.
 
