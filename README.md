@@ -13,7 +13,7 @@ The player's mission is to launch planets through space by setting the right vel
 <li>Setting up input systems, i.e., translating 2D touch input to a 3D game space.</li>
 </ul>
 
-More information on my <a href="https://michael-gebhart.com/projects/The_Big_Banger.html">portfolo website</a>.
+More information on my <a href="https://michael-gebhart.com/projects/The_Big_Banger.html">portfolio website</a>.
 
 ## Media
 
