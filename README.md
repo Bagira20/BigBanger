@@ -9,7 +9,7 @@ The player's mission is to launch planets through space by setting the right vel
 ## Team
 
 <ul>
-  <li>Daniel Baracottie <Game Design, Sound Design)</li>
+  <li>Daniel Baracotti (Game Design, Sound Design)</li>
   <li>Jihoon Kim (Game Design, Project Management)</li>
   <li>Michael Gebhart (Game Programming)</li>
   <li>Robert Pavic (Game Arts)</li>
