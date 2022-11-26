@@ -6,6 +6,17 @@ A collaborative Unity project that was made with AR Foundation back in our 6th s
 
 The player's mission is to launch planets through space by setting the right velocity or acceleration based on the defined planet mass. The mission is completed by fulfilling the motion laws, i.e., on their successful calculations. This is visualized with a more playful approach where the player's planets need to not only target other planets, but also exceed their force values in order to destroy them.
 
+## Team
+
+<ul>
+  <li>Daniel Baracottie <Game Design, Sound Design)</li>
+  <li>Jihoon Kim (Game Design, Project Management)</li>
+  <li>Michael Gebhart (Game Programming)</li>
+  <li>Robert Pavic (Game Arts)</li>
+  <li>Salma Mouselhy (Game Programming)</li>
+  <li>Sebastian Gerena (Game Arts)</li>
+</ul>
+
 ## Media
 
 #### GIFs
